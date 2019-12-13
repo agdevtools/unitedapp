@@ -18,14 +18,14 @@ TeamRepository teamRepository;
         return result;
     }
 
-    @RequestMapping(value = "/team/add", method = RequestMethod.GET)
+    @GetMapping("/team/add")
     public void createPlayer()
     {
         TeamEntity teamEntity = new TeamEntity(2,"Victor Lindelof");
         teamRepository.save(teamEntity);
     }
 
-    @RequestMapping(path = "/team/{playerId}", method = RequestMethod.GET)
+    @GetMapping("/team/{playerId}")
     public List<TeamEntity> getPlayer(@PathVariable(value="playerId") int playerId)
     {
         List<TeamEntity> result = teamRepository.findByPlayerId(playerId);

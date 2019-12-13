@@ -16,7 +16,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
     @Value("${port}")
     private int port;
     @Value("${keySpace}")
-    private String keySpace = "united";
+    private String keySpace;
 
     @Override
     protected String getKeyspaceName() {

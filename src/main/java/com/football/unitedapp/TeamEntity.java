@@ -1,6 +1,7 @@
 package com.football.unitedapp;
 
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
@@ -9,11 +10,13 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table(value="team")
 public class TeamEntity {
     private static final String insertQuery = "INSERT into team(" +
-            "player_id, " +
+            "playerid, " +
             "player_name) " +
             "values(";
 
-    @PrimaryKeyColumn(value = "player_id", type = PrimaryKeyType.PARTITIONED, name = "player_id")
+
+    @PrimaryKeyColumn(value = "playerid", type = PrimaryKeyType.PARTITIONED, name = "playerid")
+    @Id
     public int playerId;
     @Column(value = "player_name")
     public String playerName;

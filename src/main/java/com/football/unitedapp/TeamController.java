@@ -27,9 +27,9 @@ class TeamController {
     }
 
     @GetMapping("/team/{playerId}")
-    public List<TeamEntity> getPlayer(@PathVariable(value="playerId") int playerId)
+    public TeamEntity getPlayer(@PathVariable(value="playerId") int playerId)
     {
-        List<TeamEntity> result = teamServiceImpl.getPlayer(playerId);
+        TeamEntity result = teamServiceImpl.getPlayer(playerId);
         return result;
     }
 

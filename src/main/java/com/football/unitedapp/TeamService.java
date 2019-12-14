@@ -6,7 +6,7 @@ public interface TeamService {
 
     List<TeamEntity> getTeam();
 
-    List<TeamEntity> getPlayer(int playerId);
+    TeamEntity getPlayer(int playerId);
 
-    void createPlayer();
+    void createPlayer(int playerId, String playerName);
 }

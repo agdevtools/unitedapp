@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TeamRepository extends CrudRepository<TeamEntity, String> {
     List<TeamEntity> findAll();
-    List<TeamEntity> findByPlayerId(int playerId);
+    TeamEntity findByPlayerId(int playerId);
+    TeamEntity save(TeamEntity teamEntity);
 }
 

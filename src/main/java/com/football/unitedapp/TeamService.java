@@ -8,5 +8,5 @@ public interface TeamService {
 
     TeamEntity getPlayer(int playerId);
 
-    void createPlayer(int playerId, String playerName);
+    TeamEntity createPlayer(TeamEntity teamEntity);
 }

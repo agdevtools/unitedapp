@@ -20,11 +20,14 @@ class TeamController {
         return result;
     }
 
-    @GetMapping("/team/add")
-    public void createPlayer()
+    @GetMapping("/team/id/{playerId}/name/{playerName}")
+    public TeamEntity createPlayer(@PathVariable(value="playerId") int playerId, @PathVariable(value="playerName") String playerName)
     {
-        teamServiceImpl.createPlayer();
+       TeamEntity teamEntity = new TeamEntity(playerId,playerName);
+       teamServiceImpl.createPlayer(teamEntity);
+       return teamEntity;
     }
+
 
     @GetMapping("/team/{playerId}")
     public TeamEntity getPlayer(@PathVariable(value="playerId") int playerId)

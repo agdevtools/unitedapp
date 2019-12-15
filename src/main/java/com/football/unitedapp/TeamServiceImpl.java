@@ -22,12 +22,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void createPlayer(int playerId, String playerName) {
-        TeamEntity teamEntity = new TeamEntity(playerId,playerName);
-        teamRepository.save(teamEntity);
+    public TeamEntity createPlayer(TeamEntity teamEntity) {
+      teamRepository.save(teamEntity);
+      return teamEntity;
     }
-    public void createPlayer() {
+
+    public TeamEntity createPlayer() {
             TeamEntity teamEntity = new TeamEntity(3,"Luke Shaw");
-            teamRepository.save(teamEntity);
+            return teamRepository.save(teamEntity);
         }
 }

@@ -1,6 +1,5 @@
 package com.football.unitedapp;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +9,11 @@ import java.util.List;
 @RestController
 class TeamController {
 
-    @Autowired
-    TeamServiceImpl teamServiceImpl;
+    private TeamServiceImpl teamServiceImpl;
+
+    public TeamController(TeamServiceImpl teamServiceImpl) {
+        this.teamServiceImpl = teamServiceImpl;
+    }
 
     @GetMapping("/team")
     public List<TeamEntity> getTeam()

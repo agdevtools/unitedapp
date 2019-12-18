@@ -1,15 +1,17 @@
 package com.football.unitedapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
-    TeamRepository teamRepository;
+    private TeamRepository teamRepository;
+
+    public TeamServiceImpl(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
     @Override
     public List<TeamEntity> getTeam() {

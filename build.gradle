@@ -15,13 +15,26 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	compile 'io.netty:netty-all:4.0.36.Final'
 	compile 'com.datastax.cassandra:cassandra-driver-core:3.5.1'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		compile 'io.springfox:springfox-swagger2:2.9.2'
 		compile 'io.springfox:springfox-swagger-ui:2.9.2'
+	}
+}
+
+
+
+jar {
+	manifest {
+		attributes ('Implementation-Title': 'Gradle Jar File Example',
+				'Implementation-Version': version,
+				'Main-Class': 'com.football.UnitedappApplication'
+		)
+	}
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 }
 

@@ -7,7 +7,6 @@ import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
 import org.springframework.data.cassandra.config.SchemaAction;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
-
 @Configuration
 @EnableCassandraRepositories
 public class CassandraConfig extends AbstractCassandraConfiguration {

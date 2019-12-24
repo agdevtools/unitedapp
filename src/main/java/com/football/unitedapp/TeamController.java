@@ -1,5 +1,8 @@
 package com.football.unitedapp;
 
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +14,11 @@ class TeamController {
 
     private TeamServiceImpl teamServiceImpl;
 
-    public TeamController(TeamServiceImpl teamServiceImpl) {
+    @Autowired
+    private MeterRegistry meterRegistry;
+
+
+    public TeamController(TeamServiceImpl teamServiceImpl, MeterRegistry meter) {
         this.teamServiceImpl = teamServiceImpl;
     }
 
@@ -32,10 +39,21 @@ class TeamController {
 
 
     @GetMapping("/team/{playerId}")
-    public TeamEntity getPlayer(@PathVariable(value="playerId") int playerId)
+    public TeamEntity getPlayer(@PathVariable(value="playerId") Integer playerId)
     {
+
+        meterRegistry.counter("players.searched.on",
+                "playerId", Integer.toString(playerId))
+                        .increment();
+
+        DistributionSummary summary;
+        summary = DistributionSummary.builder("players.name.summary").register(meterRegistry);
+        summary.record(playerId);
+
         TeamEntity result = teamServiceImpl.getPlayer(playerId);
+
         return result;
+
     }
 
 

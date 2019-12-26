@@ -3,9 +3,7 @@ package com.football.unitedapp;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,12 +27,11 @@ class TeamController {
         return result;
     }
 
-    @GetMapping("/team/id/{playerId}/name/{playerName}")
-    public TeamEntity createPlayer(@PathVariable(value="playerId") int playerId, @PathVariable(value="playerName") String playerName)
+    @PostMapping("/newplayer")
+    public TeamEntity createPlayer(@RequestBody TeamEntity player)
     {
-       TeamEntity teamEntity = new TeamEntity(playerId,playerName);
-       teamServiceImpl.createPlayer(teamEntity);
-       return teamEntity;
+       teamServiceImpl.createPlayer(player);
+       return player;
     }
 
 

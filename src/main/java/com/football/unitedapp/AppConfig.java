@@ -15,6 +15,5 @@ public class AppConfig {
         return new TeamController(teamServiceImpl);
     }
 
-
 }
 

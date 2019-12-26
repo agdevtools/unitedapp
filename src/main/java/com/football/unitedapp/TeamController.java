@@ -18,7 +18,7 @@ class TeamController {
     private MeterRegistry meterRegistry;
 
 
-    public TeamController(TeamServiceImpl teamServiceImpl, MeterRegistry meter) {
+    public TeamController(TeamServiceImpl teamServiceImpl) {
         this.teamServiceImpl = teamServiceImpl;
     }
 
@@ -43,7 +43,8 @@ class TeamController {
     {
 
         meterRegistry.counter("players.searched.on",
-                "playerId", Integer.toString(playerId))
+                "playerId", Integer.toString(playerId),
+                        "Team", "Manchester United")
                         .increment();
 
         DistributionSummary summary;

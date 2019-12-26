@@ -1,6 +1,5 @@
 package com.football.unitedapp;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,9 +11,10 @@ public class AppConfig {
         return new TeamServiceImpl(teamRepository);
     }
 
-    public TeamController teamController(TeamServiceImpl teamServiceImpl, MeterRegistry meter) {
-        return new TeamController(teamServiceImpl, meter);
+    public TeamController teamController(TeamServiceImpl teamServiceImpl) {
+        return new TeamController(teamServiceImpl);
     }
+
 
 }
 

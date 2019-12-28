@@ -54,4 +54,8 @@ public class TeamServiceImpl implements TeamService {
             TeamEntity teamEntity = new TeamEntity(3,"Luke Shaw");
             return teamRepository.save(teamEntity);
         }
+
+    public void deleteByPlayerId(int playerId) {
+        teamRepository.deleteByPlayerId(playerId);
+    }
 }

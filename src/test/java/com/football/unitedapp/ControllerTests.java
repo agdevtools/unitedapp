@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +66,17 @@ public class ControllerTests {
         assertEquals(7, actualteamEntity.getPlayerId());
     }
 
+    @Test
+    public void test_deletePlayer_thenreturnsNullEntity() {
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
+        when(teamServiceImpl.createPlayer(expectedTeamEntity)).thenReturn(expectedTeamEntity);
+        TeamEntity actualteamEntity = teamController.createPlayer(expectedTeamEntity);
+        assertEquals("Test", actualteamEntity.getPlayerName());
+        assertEquals(7, actualteamEntity.getPlayerId());
+
+        teamController.deletePlayer(actualteamEntity.playerId);
+        TeamEntity deletedTeamEntity = teamServiceImpl.getPlayer(7);
+        Assert.isNull(deletedTeamEntity);
+    }
 
 }

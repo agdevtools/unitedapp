@@ -8,5 +8,6 @@ public interface TeamRepository extends CrudRepository<TeamEntity, String> {
     List<TeamEntity> findAll();
     TeamEntity findByPlayerId(int playerId);
     TeamEntity save(TeamEntity teamEntity);
+    void deleteByPlayerId(int playerId);
 }
 

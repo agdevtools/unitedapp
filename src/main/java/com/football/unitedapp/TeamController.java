@@ -64,5 +64,8 @@ class TeamController {
         return response;
     }
 
-
+    @DeleteMapping(value = "/delete/{playerId}")
+    public void deletePlayer(int playerId) {
+        teamServiceImpl.deleteByPlayerId(playerId);
+    }
 }

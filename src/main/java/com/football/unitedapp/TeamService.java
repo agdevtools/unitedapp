@@ -13,4 +13,6 @@ public interface TeamService {
     TeamEntity createPlayer(TeamEntity teamEntity);
 
     ResponseEntity getLeagueTable();
+
+    void deleteByPlayerId(int playerId);
 }

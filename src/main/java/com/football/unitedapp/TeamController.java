@@ -3,6 +3,8 @@ package com.football.unitedapp;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +54,14 @@ class TeamController {
 
         return result;
 
+    }
+
+    @RequestMapping(value = "/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
+    public String getLeagueTable()
+    {
+        ResponseEntity responseEntity =  teamServiceImpl.getLeagueTable();
+        String response = responseEntity.getBody().toString();
+        return response;
     }
 
 

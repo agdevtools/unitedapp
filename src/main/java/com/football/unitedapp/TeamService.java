@@ -1,5 +1,7 @@
 package com.football.unitedapp;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface TeamService {
@@ -9,4 +11,6 @@ public interface TeamService {
     TeamEntity getPlayer(int playerId);
 
     TeamEntity createPlayer(TeamEntity teamEntity);
+
+    ResponseEntity getLeagueTable();
 }

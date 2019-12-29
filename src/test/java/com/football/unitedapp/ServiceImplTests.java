@@ -63,7 +63,6 @@ public class ServiceImplTests {
     public void test_deletePlayer_thenpPlayerNoLongerExists() {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
         teamServiceImpl.createPlayer(expectedTeamEntity);
-        // TeamEntity actualteamEntity = teamController.createPlayer(expectedTeamEntity);
 
         assertEquals("Test", expectedTeamEntity.getPlayerName());
         assertEquals(7, expectedTeamEntity.getPlayerId());

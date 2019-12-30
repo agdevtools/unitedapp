@@ -2,7 +2,6 @@ package com.football.unitedapp;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,7 +32,6 @@ public class ControllerTests {
     }
 
     @Test
-    @Disabled
     public void test_whenGetPlayerById_thenreturnsPlayerEntity() {
         TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamServiceImpl.getPlayer(anyInt())).thenReturn(expectedTeamEntity);

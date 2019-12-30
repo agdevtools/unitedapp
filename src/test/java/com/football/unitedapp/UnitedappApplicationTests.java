@@ -20,7 +20,7 @@ class UnitedappApplicationTests {
 	private ArgumentCaptor<TeamEntity> captor;
 
 	@Test
-	public void shouldCapture() {
+	public void test_whenCreatePlayer_thenWriteToRepository() {
 		TeamEntity expectedPlayer = new TeamEntity(11,"Ryan Giggs");
 		teamService.createPlayer(expectedPlayer);
 		Mockito.verify(teamRepository).save(captor.capture());

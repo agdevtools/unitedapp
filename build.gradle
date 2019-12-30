@@ -17,6 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compile 'io.netty:netty-all:4.0.36.Final'
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework:spring-aspects'
 	compile 'io.micrometer:micrometer-core'
 	compile 'io.micrometer:micrometer-registry-prometheus'
 	compile 'com.datastax.cassandra:cassandra-driver-core:3.5.1'

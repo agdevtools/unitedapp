@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "com.football.unitedapp")
@@ -18,6 +20,8 @@ public class AspectConfig {
     @Autowired
     private MeterRegistry meterRegistry;
 
+    private static final Logger logger = Logger.getLogger(AspectConfig.class.getName());
+
     @Aspect
     @Component
     public class ControllerLoggingAdvice {
@@ -25,7 +29,8 @@ public class AspectConfig {
         public void logController(JoinPoint joinPoint) {
             Object[] args = joinPoint.getArgs();
             Object arg = args[0];
-            System.out.println("Logging controller  " + joinPoint.toString() + "  with arg " + arg);
+
+            logger.info("Logging controller  " + joinPoint.toString() + "  with arg " + arg);
 
         }
     }
@@ -38,8 +43,8 @@ public class AspectConfig {
             meterRegistry.counter("Aspect-Metric-Searches-Count",
                     "Controller Function", joinPoint.toString())
                     .increment();
-            System.out.println("Calling controller metrics for " + joinPoint.toShortString());
 
+            logger.info("Calling controller metrics for " + joinPoint.toShortString());
         }
 
     }

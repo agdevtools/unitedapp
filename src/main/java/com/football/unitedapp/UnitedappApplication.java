@@ -20,12 +20,12 @@ public class UnitedappApplication {
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 
-		System.out.println(" ---	---	  ----	   -- ---  -----	----	--");
-		System.out.println("|   |  |   | |	  \\   | | ---	------	----	--");
-		System.out.println("|   |  |   | |	   \\  | | ---	--	------	----	--");
-		System.out.println("|   |  |   | |	|\\  \\ | | ---  ----	----	--");
-		System.out.println("|   |__|   | |	| \\  \\| | ---	------	----	--");
-		System.out.println("\\__________/ |__| \\__|_/  ---	--	--	--	------	----	--");
+		System.out.println(" ___	___	  ____	  ___  ___  __________	 ______   _____            ");
+		System.out.println("|   |  |   | |	  \\   |  | ___	|___  ____| |  ____| |     \\            ");
+		System.out.println("|   |  |   | |	   \\  |  | ___	   |  |	    |  |__   |   _  \\          ");
+		System.out.println("|   |  |   | |	|\\  \\ |  | ___     |  |	    |   __|  |  |_|  |      ");
+		System.out.println("|   |__|   | |	| \\  \\|  | ___     |  |	    |  |___  |       /    -	--");
+		System.out.println("\\__________/ |__|  \\__ _/  ___     |__|	    |______| |______/  --	--	------	----	--");
 
 		try {
 			while (true) {

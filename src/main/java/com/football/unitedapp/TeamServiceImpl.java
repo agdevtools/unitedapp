@@ -33,6 +33,11 @@ public class TeamServiceImpl implements TeamService {
       return teamEntity;
     }
 
+    public TeamEntity createPlayer() {
+        TeamEntity teamEntity = new TeamEntity(23,"Luke Shaw");
+        return teamRepository.save(teamEntity);
+    }
+
     @Override
     public ResponseEntity<String> getLeagueTable() {
             final String uri = "https://api.football-data.org/v2/competitions/PL/standings";
@@ -50,10 +55,7 @@ public class TeamServiceImpl implements TeamService {
 
     }
 
-    public TeamEntity createPlayer() {
-            TeamEntity teamEntity = new TeamEntity(3,"Luke Shaw");
-            return teamRepository.save(teamEntity);
-        }
+
 
     public void deleteByPlayerId(int playerId) {
         teamRepository.deleteByPlayerId(playerId);

@@ -19,6 +19,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework:spring-aspects'
+	compile 'org.projectlombok:lombok:1.16.+'
 	compile 'io.micrometer:micrometer-core'
 	compile 'io.micrometer:micrometer-registry-prometheus'
 	compile 'com.datastax.cassandra:cassandra-driver-core:3.5.1'

@@ -5,6 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 @Import(AspectConfig.class)
@@ -53,4 +55,12 @@ class TeamController {
     public void deletePlayer(int playerId) {
         teamServiceImpl.deleteByPlayerId(playerId);
     }
+
+    @PostConstruct
+    public void writePostConstruct()
+    { System.out.println("****** Post Construct on Controller Bean ******"); }
+
+    @PreDestroy
+    public void writePreDestroyMessage()
+    { System.out.println("****** Pre Destroy on Controller Bean ******"); }
 }

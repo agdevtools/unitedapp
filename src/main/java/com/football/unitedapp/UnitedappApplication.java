@@ -16,7 +16,7 @@ public class UnitedappApplication {
 
 
 	public static void main(String[] args) {
-
+		System.setProperty("spring.profiles.active", "local");
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 

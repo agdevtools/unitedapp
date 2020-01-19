@@ -1,6 +1,7 @@
 package com.football.unitedapp;
 
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import javax.annotation.PreDestroy;
 import java.util.List;
 
 @Import(AspectConfig.class)
+@Lazy
 @RestController
 class TeamController {
 

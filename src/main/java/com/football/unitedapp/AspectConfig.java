@@ -26,7 +26,7 @@ public class AspectConfig {
     @Component
     public class ControllerLoggingAdvice {
         @Before("execution(* com.football.unitedapp.*Controller.*Player(*))")
-        public void logController(JoinPoint joinPoint) {
+        public void logController4(JoinPoint joinPoint) {
             Object[] args = joinPoint.getArgs();
             Object arg = args[0];
 
@@ -39,7 +39,7 @@ public class AspectConfig {
     @Component
     public class ControllerMetricAdvice {
         @Before("execution(* com.football.unitedapp.*Controller.*(*))")
-        public void logController(JoinPoint joinPoint) {
+        public void logController3(JoinPoint joinPoint) {
             meterRegistry.counter("Aspect-Metric-Searches-Count",
                     "Controller Function", joinPoint.toString())
                     .increment();
@@ -61,6 +61,20 @@ public class AspectConfig {
                     "Team", "Manchester United")
                     .increment();
 
+        }
+
+        @Aspect
+        @Component
+        public class ControllerLoggingAllAdvice {
+           // @Before("execution(* com.football.unitedapp.*Controller.*(..))")
+            @Before("execution(public * com.football.unitedapp.*Controller.get*(..))")
+            public void logController2(JoinPoint joinPoint) {
+              //  Object[] args = joinPoint.getArgs();
+              //  Object arg = args[0];
+
+                logger.info("Logging controller  " + joinPoint.toString() + "  with no arg ");
+
+            }
         }
     }
 

@@ -5,12 +5,14 @@ import io.micrometer.core.instrument.Tag;
 import org.springframework.boot.actuate.metrics.web.servlet.WebMvcTagsProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 @Configuration
+@Import(AspectConfig.class)
 public class AppConfig {
 
     @Bean

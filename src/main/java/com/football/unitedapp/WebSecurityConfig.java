@@ -1,6 +1,7 @@
 package com.football.unitedapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,8 @@ public class WebSecurityConfig
     @Autowired
     private Environment env;
 
+    @Value("${unitedPassword}") String password;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -38,7 +41,7 @@ public class WebSecurityConfig
         UserDetails user =
                 User.withDefaultPasswordEncoder()
                         .username(env.getProperty("unitedUser"))
-                        .password(env.getProperty("unitedPassword"))
+                        .password(password)
                         .roles("USER")
                         .build();
 

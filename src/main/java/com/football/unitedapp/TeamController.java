@@ -30,9 +30,11 @@ class TeamController {
         return result;
     }
 
-    @PostMapping("/newplayer")
-    public TeamEntity createPlayer(@RequestBody TeamEntity player)
-    {
+    @PostMapping("/newplayer/{playerName}/player/{playerId}")
+    public TeamEntity createPlayer(@PathVariable(value="playerName") String playerName,
+                                   @PathVariable(value="playerId") Integer playerId)
+
+    {  TeamEntity player = new TeamEntity(playerId,playerName);
        teamServiceImpl.createPlayer(player);
        return player;
     }

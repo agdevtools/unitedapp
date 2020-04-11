@@ -2,6 +2,7 @@ package com.football.unitedapp;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,15 @@ class TeamController {
        return player;
     }
 
+    @PutMapping("/team/{playerName}/player/{playerId}")
+    public ResponseEntity<TeamEntity> updatePlayer(@PathVariable(value="playerName") String playerName,
+                                                   @PathVariable(value="playerId") Integer playerId
+                                                   )
+
+    {
+        TeamEntity playerUpdated = teamServiceImpl.savePlayer(playerId, playerName);
+        return new ResponseEntity<TeamEntity>(playerUpdated, HttpStatus.OK);
+    }
 
     @GetMapping("/team/{playerId}")
     public TeamEntity getPlayer(@PathVariable(value="playerId") Integer playerId)

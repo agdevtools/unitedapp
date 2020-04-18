@@ -13,20 +13,17 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class UnitedappApplication {
 	private static final Logger logger = Logger.getLogger(UnitedappApplication.class.getName());
-
-
 	public static void main(String[] args) {
 		System.setProperty("spring.profiles.active", "local");
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 
-		System.out.println(" ___	___	  ____	  ___  ___  __________	 ______   _____            ");
-		System.out.println("|   |  |   | |	  \\   |  | ___	|___  ____| |  ____| |     \\            ");
-		System.out.println("|   |  |   | |	   \\  |  | ___	   |  |	    |  |__   |   _  \\          ");
-		System.out.println("|   |  |   | |	|\\  \\ |  | ___     |  |	    |   __|  |  |_|  |      ");
-		System.out.println("|   |__|   | |	| \\  \\|  | ___     |  |	    |  |___  |       /    -	--");
-		System.out.println("\\__________/ |__|  \\__ _/  ___     |__|	    |______| |______/  --	--	------	----	--");
-
+		logger.info(" ____ ___      .__  __             .___ _____                 \n" +
+				"|    |   \\____ |__|/  |_  ____   __| _//  _  \\ ______ ______  \n" +
+				"|    |   /    \\|  \\   __\\/ __ \\ / __ |/  /_\\  \\\\____ \\\\____ \\ \n" +
+				"|    |  /   |  \\  ||  | \\  ___// /_/ /    |    \\  |_> >  |_> >\n" +
+				"|______/|___|  /__||__|  \\___  >____ \\____|__  /   __/|   __/ \n" +
+				"             \\/              \\/     \\/       \\/|__|   |__|    ");
 		try {
 			while (true) {
 				System.out.println("********  Still Up at " + new Date() + "  **********");

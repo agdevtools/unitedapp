@@ -1,4 +1,4 @@
-CREATE KEYSPACE IF NOT EXISTS united
+CREATE KEYSPACE IF NOT EXISTS united_test
 WITH replication = {'class': 'NetworkTopologyStrategy', 'datacenter1': '2'}
 AND durable_writes = true;
 

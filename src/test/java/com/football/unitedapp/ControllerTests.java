@@ -1,5 +1,6 @@
 package com.football.unitedapp;
 
+
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -20,14 +22,13 @@ import static org.mockito.Mockito.when;
 public class ControllerTests {
 
     @Mock
-    private TeamServiceImpl teamServiceImpl;
+    private com.football.unitedapp.TeamServiceImpl teamServiceImpl;
 
     @Mock
     private MeterRegistry meterRegistry;
 
     @InjectMocks
     private TeamController teamController;
-
 
     @BeforeEach
     public void initMocks() {
@@ -63,7 +64,7 @@ public class ControllerTests {
     public void test_createPlayer_thenreturnsPlayerEntity() {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
         when(teamServiceImpl.createPlayer(expectedTeamEntity)).thenReturn(expectedTeamEntity);
-        TeamEntity actualteamEntity = teamController.createPlayer(expectedTeamEntity);
+        TeamEntity actualteamEntity = teamController.createPlayer("Test",7);
         assertEquals("Test", actualteamEntity.getPlayerName());
         assertEquals(7, actualteamEntity.getPlayerId());
     }
@@ -71,8 +72,8 @@ public class ControllerTests {
     @Test
     public void test_deletePlayer_thenreturnsNullEntity() {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
-        when(teamServiceImpl.createPlayer(expectedTeamEntity)).thenReturn(expectedTeamEntity);
-        TeamEntity actualteamEntity = teamController.createPlayer(expectedTeamEntity);
+        when(teamServiceImpl.createPlayer(any())).thenReturn(expectedTeamEntity);
+        TeamEntity actualteamEntity = teamController.createPlayer("Test",7);
         assertEquals("Test", actualteamEntity.getPlayerName());
         assertEquals(7, actualteamEntity.getPlayerId());
 

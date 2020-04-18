@@ -22,7 +22,8 @@ public class WebSecurityConfig
     @Autowired
     private Environment env;
 
-    @Value("${unitedPassword}") String password;
+    @Value("${unitedPassword}")
+    String password;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

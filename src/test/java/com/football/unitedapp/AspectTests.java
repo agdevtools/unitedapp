@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(OutputCaptureExtension.class)
 @Configuration
-@Import({AppConfig.class,AspectConfig.class})
+@Import({AspectConfig.class})
 @SpringBootTest
 public class AspectTests {
 

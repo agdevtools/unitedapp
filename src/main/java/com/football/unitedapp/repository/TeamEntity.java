@@ -1,4 +1,4 @@
-package com.football.unitedapp;
+package com.football.unitedapp.repository;
 
 
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;

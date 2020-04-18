@@ -1,5 +1,7 @@
-package com.football.unitedapp;
+package com.football.unitedapp.team;
 
+import com.football.unitedapp.util.AspectConfig;
+import com.football.unitedapp.repository.TeamEntity;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ import java.util.List;
 @Import(AspectConfig.class)
 @Lazy
 @RestController
-class TeamController {
+public class TeamController {
 
     private TeamServiceImpl teamServiceImpl;
 

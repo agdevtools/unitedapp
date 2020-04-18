@@ -1,5 +1,8 @@
-package com.football.unitedapp;
+package com.football.unitedapp.team;
 
+import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.team.TeamServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

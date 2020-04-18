@@ -1,4 +1,4 @@
-package com.football.unitedapp;
+package com.football.unitedapp.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

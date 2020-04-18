@@ -1,5 +1,8 @@
-package com.football.unitedapp;
+package com.football.unitedapp.team;
 
+import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;

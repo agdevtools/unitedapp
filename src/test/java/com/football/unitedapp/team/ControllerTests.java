@@ -1,6 +1,9 @@
-package com.football.unitedapp;
+package com.football.unitedapp.team;
 
 
+import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.team.TeamController;
+import com.football.unitedapp.team.TeamServiceImpl;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class ControllerTests {
 
     @Mock
-    private com.football.unitedapp.TeamServiceImpl teamServiceImpl;
+    private TeamServiceImpl teamServiceImpl;
 
     @Mock
     private MeterRegistry meterRegistry;

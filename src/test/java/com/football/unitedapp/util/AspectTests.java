@@ -1,6 +1,8 @@
-package com.football.unitedapp;
+package com.football.unitedapp.util;
 
 
+import com.football.unitedapp.team.ControllerTests;
+import com.football.unitedapp.team.TeamController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class AspectTests {
         String consoleOutput = capture.toString();
 
         assertTrue(consoleOutput.contains("INFO"));
-        assertTrue(consoleOutput.contains("com.football.unitedapp.TeamController.getTeam()"));
+        assertTrue(consoleOutput.contains("com.football.unitedapp.team.TeamController.getTeam()"));
     }
 
 }

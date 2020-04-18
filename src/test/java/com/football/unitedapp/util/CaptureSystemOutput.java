@@ -1,4 +1,4 @@
-package com.football.unitedapp;
+package com.football.unitedapp.util;
 
 /*
  * Copyright 2012-2017 the original author or authors.

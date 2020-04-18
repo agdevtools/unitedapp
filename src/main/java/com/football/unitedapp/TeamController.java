@@ -30,7 +30,7 @@ class TeamController {
         return result;
     }
 
-    @PostMapping("/newplayer/{playerName}/player/{playerId}")
+    @PostMapping("/team/{playerName}/player/{playerId}")
     public TeamEntity createPlayer(@PathVariable(value="playerName") String playerName,
                                    @PathVariable(value="playerId") Integer playerId)
 
@@ -65,7 +65,7 @@ class TeamController {
         return response;
     }
 
-    @DeleteMapping(value = "/delete/{playerId}")
+    @DeleteMapping(value = "/team/{playerId}")
     public void deletePlayer(int playerId) {
         teamServiceImpl.deleteByPlayerId(playerId);
     }

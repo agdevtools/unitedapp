@@ -39,7 +39,7 @@ public class AppConfig {
             public Iterable<Tag> getTags(HttpServletRequest request, HttpServletResponse response, Object handler, Throwable exception) {
                 ArrayList<Tag> tags = new ArrayList<>();
 
-                tags.add(new ImmutableTag("orgId", "monitoring"));
+                tags.add(new ImmutableTag("club", "man united"));
                 tags.add(new ImmutableTag("method", request.getMethod()));
                 tags.add(new ImmutableTag("endpoint", getRequest_mapping(request)));
                 tags.add(new ImmutableTag("status", String.valueOf(response.getStatus())));
@@ -70,6 +70,8 @@ public class AppConfig {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowCredentials(true);
             config.addAllowedOrigin("http://localhost:7777");
+            config.addAllowedOrigin("http://localhost:3000");
+            config.addAllowedOrigin("http://www.unitedapp.com:7777");
             config.addAllowedHeader("*");
             config.addAllowedMethod("*");
             source.registerCorsConfiguration("/**", config);

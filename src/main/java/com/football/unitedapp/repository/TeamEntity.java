@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 @Table(value="team")
 public class TeamEntity {
-    @PrimaryKeyColumn(value = "playerid", type = PrimaryKeyType.PARTITIONED, name = "playerid")
+    @PrimaryKeyColumn(value = "player_id", type = PrimaryKeyType.PARTITIONED, name = "player_id")
     public int playerId;
     @Column(value = "player_name")
     public String playerName;

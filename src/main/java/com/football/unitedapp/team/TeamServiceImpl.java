@@ -2,7 +2,6 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
-import com.football.unitedapp.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +36,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public TeamEntity createPlayer() {
+        //default constructor generates Luke Shaw
         TeamEntity teamEntity = new TeamEntity(23,"Luke Shaw");
         return teamRepository.save(teamEntity);
     }

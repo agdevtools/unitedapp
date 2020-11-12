@@ -1,16 +1,15 @@
 package com.football.unitedapp.repository;
 
+import javax.persistence.*;
 
-import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
-import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table(value="team")
+@Entity
+@Table(name ="team")
 public class TeamEntity {
-    @PrimaryKeyColumn(value = "player_id", type = PrimaryKeyType.PARTITIONED, name = "player_id")
+    @Id
+    @Column(name="player_id")
     public int playerId;
-    @Column(value = "player_name")
+    @Column(name = "player_name")
     public String playerName;
 
     public TeamEntity(int playerId, String playerName) {

@@ -71,6 +71,7 @@ public class AppConfig {
             config.setAllowCredentials(true);
             config.addAllowedOrigin("http://localhost:7777");
             config.addAllowedOrigin("http://localhost:3000");
+            config.addAllowedOrigin("https://unitedappfrontend.herokuapp.com");
             config.addAllowedOrigin("http://www.unitedapp.com:7777");
             config.addAllowedHeader("*");
             config.addAllowedMethod("*");

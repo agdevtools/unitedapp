@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class UnitedappApplication {
 	private static final Logger logger = Logger.getLogger(UnitedappApplication.class.getName());
 	public static void main(String[] args) {
-		System.setProperty("spring.profiles.active", "local");
+		System.setProperty("spring.profiles.active", "prod");
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 

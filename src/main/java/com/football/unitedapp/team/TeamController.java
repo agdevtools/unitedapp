@@ -1,7 +1,7 @@
 package com.football.unitedapp.team;
 
-import com.football.unitedapp.util.AspectConfig;
 import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.util.AspectConfig;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,7 @@ import java.util.List;
 @RestController
 public class TeamController {
 
-    private TeamServiceImpl teamServiceImpl;
-
+    final TeamServiceImpl teamServiceImpl;
 
     public TeamController(TeamServiceImpl teamServiceImpl) {
         this.teamServiceImpl = teamServiceImpl;
@@ -32,13 +31,12 @@ public class TeamController {
         return result;
     }
 
-    @PostMapping("/team/{playerName}/player/{playerId}")
-    public TeamEntity createPlayer(@PathVariable(value="playerName") String playerName,
-                                   @PathVariable(value="playerId") Integer playerId)
-
-    {  TeamEntity player = new TeamEntity(playerId,playerName);
-       teamServiceImpl.createPlayer(player);
-       return player;
+    @PostMapping("/team")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TeamEntity createPlayer(@RequestBody TeamRequest teamRequest)
+    {
+       TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName());
+       return teamServiceImpl.createPlayer(teamEntity);
     }
 
     @PutMapping("/team/{playerName}/player/{playerId}")
@@ -68,7 +66,7 @@ public class TeamController {
     }
 
     @DeleteMapping(value = "/team/{playerId}")
-    public void deletePlayer(int playerId) {
+    public void deletePlayer(Integer playerId) {
         teamServiceImpl.deleteByPlayerId(playerId);
     }
 

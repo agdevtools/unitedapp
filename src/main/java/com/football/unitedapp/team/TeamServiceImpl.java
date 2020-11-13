@@ -37,7 +37,10 @@ public class TeamServiceImpl implements TeamService {
 
     public TeamEntity createPlayer() {
         //default constructor generates Luke Shaw
-        TeamEntity teamEntity = new TeamEntity(23,"Luke Shaw");
+        TeamEntity teamEntity = TeamEntity.builder()
+                .playerId(3)
+                .playerName("Luke Shaw")
+                .build();
         return teamRepository.save(teamEntity);
     }
 
@@ -63,7 +66,10 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public TeamEntity savePlayer (Integer playerId, String playerName) {
-        TeamEntity teamEntity = new TeamEntity(playerId, playerName);
+        TeamEntity teamEntity = TeamEntity.builder()
+                .playerId(playerId)
+                .playerName(playerName)
+                .build();
         return  teamRepository.save(teamEntity);
     }
 }

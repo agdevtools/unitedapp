@@ -24,14 +24,15 @@ class UnitedappApplicationTests {
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
-		TeamEntity expectedPlayer = new TeamEntity(11,"Ryan Giggs");
+		TeamEntity expectedPlayer = TeamEntity.builder()
+				.playerId(11)
+				.playerName("Ryan Giggs")
+				.build();
+
 		teamService.createPlayer(expectedPlayer);
 		Mockito.verify(teamRepository).save(captor.capture());
 		TeamEntity actualPlayer = captor.getValue();
 		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedPlayer.getPlayerName());
 		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedPlayer.getPlayerId());
 	}
-
-
-
 }

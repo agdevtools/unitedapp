@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.List;
+import java.util.Objects;
 
 @Import(AspectConfig.class)
 @Lazy
@@ -27,8 +28,7 @@ public class TeamController {
     @GetMapping("/team")
     public List<TeamEntity> getTeam()
     {
-        List<TeamEntity> result = teamServiceImpl.getTeam();
-        return result;
+        return  teamServiceImpl.getTeam();
     }
 
     @PostMapping("/team")
@@ -56,17 +56,13 @@ public class TeamController {
     @GetMapping("/team/{playerId}")
     public TeamEntity getPlayer(@PathVariable(value="playerId") Integer playerId)
     {
-        TeamEntity result = teamServiceImpl.getPlayer(playerId);
-        return result;
-
+        return teamServiceImpl.getPlayer(playerId);
     }
 
     @RequestMapping(value = "/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
-    public String getLeagueTable()
-    {
-        ResponseEntity responseEntity =  teamServiceImpl.getLeagueTable();
-        String response = responseEntity.getBody().toString();
-        return response;
+    public String getLeagueTable() {
+        ResponseEntity<String> responseEntity =  teamServiceImpl.getLeagueTable();
+        return Objects.requireNonNull(responseEntity.getBody());
     }
 
     @DeleteMapping(value = "/team/{playerId}")
@@ -75,10 +71,12 @@ public class TeamController {
     }
 
     @PostConstruct
-    public void writePostConstruct()
-    { System.out.println("****** Post Construct on Controller Bean ******"); }
+    public void writePostConstruct() {
+        System.out.println("****** Post Construct on Controller Bean ******");
+    }
 
     @PreDestroy
-    public void writePreDestroyMessage()
-    { System.out.println("****** Pre Destroy on Controller Bean ******"); }
+    public void writePreDestroyMessage() {
+        System.out.println("****** Pre Destroy on Controller Bean ******");
+    }
 }

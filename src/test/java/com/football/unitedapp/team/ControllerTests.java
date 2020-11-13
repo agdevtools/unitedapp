@@ -108,7 +108,7 @@ public class ControllerTests {
                 .build();
         TeamRequest teamRequest = new TeamRequest(7,"Test");
 
-        when(teamServiceImpl.createPlayer())
+        when(teamServiceImpl.createPlayer(any()))
                 .thenReturn(expectedTeamEntity);
 
         mockMvc.perform(post("/team")

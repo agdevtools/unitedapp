@@ -35,15 +35,6 @@ public class TeamServiceImpl implements TeamService {
       return teamEntity;
     }
 
-    public TeamEntity createPlayer() {
-        //default constructor generates Luke Shaw
-        TeamEntity teamEntity = TeamEntity.builder()
-                .playerId(3)
-                .playerName("Luke Shaw")
-                .build();
-        return teamRepository.save(teamEntity);
-    }
-
     @Override
     public ResponseEntity<String> getLeagueTable() {
             final String uri = "https://api.football-data.org/v2/competitions/PL/standings";
@@ -55,9 +46,7 @@ public class TeamServiceImpl implements TeamService {
             headers.add("X-Auth-Token","2a88122678894952829ef98dd6e898f6");
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-
-            return result;
+            return restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 
     }
 

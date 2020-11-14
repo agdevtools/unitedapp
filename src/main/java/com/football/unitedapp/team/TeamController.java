@@ -39,12 +39,12 @@ public class TeamController {
        return teamServiceImpl.createPlayer(teamEntity);
     }
 
-    @PutMapping("/team/{playerName}/player/{playerId}")
-    public ResponseEntity<TeamEntity> updatePlayer(@RequestBody TeamRequest teamRequest) {
+    @PutMapping("/team")
+    @ResponseStatus(HttpStatus.OK)
+    public TeamResponse updatePlayer(@RequestBody TeamRequest teamRequest) {
         TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
 
-        TeamEntity playerUpdated = teamServiceImpl.savePlayer(teamEntity);
-        return new ResponseEntity<TeamEntity>(playerUpdated, HttpStatus.OK);
+        return teamServiceImpl.savePlayer(teamEntity);
     }
 
     @GetMapping("/team/{playerId}")
@@ -60,8 +60,9 @@ public class TeamController {
     }
 
     @DeleteMapping(value = "/team/{playerId}")
-    public void deletePlayer(Integer playerId) {
-        teamServiceImpl.deleteByPlayerId(playerId);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public HttpStatus deletePlayer(Integer playerId) {
+        return teamServiceImpl.deleteByPlayerId(playerId);
     }
 
     @PostConstruct

@@ -1,6 +1,7 @@
 package com.football.unitedapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,6 @@ public interface TeamRepository extends JpaRepository<TeamEntity, String> {
     TeamEntity save(TeamEntity teamEntity);
 
     @Transactional
-    void deleteByPlayerId(int playerId);
+    HttpStatus deleteByPlayerId(int playerId);
 }
 

@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -77,25 +77,53 @@ public class ControllerTests {
 
          ResultActions resultActions = mockMvc.perform(post("/team")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"playerId\":\"7\",\"playerName\":\"Test\"}"))
+        .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.playerName", is("Cantona")))
         .andExpect(jsonPath("$.playerId", is(7)))
         .andExpect(jsonPath("$.status", is("CREATED")));
     }
 
+    @Test
+    public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.OK,7,"Cantona7");
+
+        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
+                .thenReturn(expectedTeamResponse);
+
+        ResultActions resultActions = mockMvc.perform(put("/team")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.playerName", is("Cantona7")))
+                .andExpect(jsonPath("$.playerId", is(7)))
+                .andExpect(jsonPath("$.status", is("OK")));
+    }
 
     @Test
-    public void test_deletePlayer_thenreturnsNullEntity() {
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Test");
-        TeamRequest teamRequest = new TeamRequest(7,"Test");
-        when(teamServiceImpl.createPlayer(any())).thenReturn(expectedTeamResponse);
-        TeamResponse actualTeamResponse = teamController.createPlayer(teamRequest);
-        assertEquals("Test", actualTeamResponse.getPlayerName());
-        assertEquals(7, actualTeamResponse.getPlayerId());
+    public void test_whenUpdatePlayerWithInvalidBody_thenreturns405() throws Exception {
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Cantona7");
 
-        teamController.deletePlayer(actualTeamResponse.getPlayerId());
-        TeamEntity deletedTeamEntity = teamServiceImpl.getPlayer(7);
-        Assert.isNull(deletedTeamEntity);
+        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
+                .thenReturn(expectedTeamResponse);
+
+        ResultActions resultActions = mockMvc.perform(put("/team")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
+                .andExpect(status().isMethodNotAllowed());
     }
+
+
+    @Test
+    public void test_deletePlayer_thenreturnsNoContent() {
+        TeamRequest teamRequest = new TeamRequest(7,"Test");
+        HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
+        when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(HttpStatus.NO_CONTENT);
+        HttpStatus actualResponse = teamController.deletePlayer(7);
+        assertEquals(expectedResponse, actualResponse);
+
+    }
+
+
+
 }

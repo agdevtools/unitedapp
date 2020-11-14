@@ -12,7 +12,7 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
-    private TeamRepository teamRepository;
+    final TeamRepository teamRepository;
 
 
     public TeamServiceImpl(TeamRepository teamRepository) {
@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             headers.add("X-Auth-Token","2a88122678894952829ef98dd6e898f6");
-            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+            HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
             return restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 

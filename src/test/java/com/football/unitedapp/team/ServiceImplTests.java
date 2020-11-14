@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -53,12 +55,20 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_createPlayer_thenreturnsPlayerEntity() {
-        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
-        when(teamRepository.save(expectedTeamEntity)).thenReturn(expectedTeamEntity);
-        TeamEntity actualteamEntity = teamServiceImpl.createPlayer(expectedTeamEntity);
-        assertEquals("Test", actualteamEntity.getPlayerName());
-        assertEquals(7, actualteamEntity.getPlayerId());
+    public void test_createPlayer_thenreturnsTeamResponse() {
+        TeamResponse expectedTeamResponse = TeamResponse.builder()
+                .status(HttpStatus.CREATED.toString())
+                .playerId(6)
+                .playerName("Paul Pogba")
+                .build();
+
+        TeamEntity teamEntity = new TeamEntity(6, "Paul Pogba");
+        when(teamRepository.save(any(TeamEntity.class))).thenReturn(teamEntity);
+
+        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(teamEntity);
+
+        assertEquals(expectedTeamResponse.getPlayerName(), actualTeamResponse.getPlayerName());
+        assertEquals(expectedTeamResponse.getPlayerId(), actualTeamResponse.getPlayerId());
     }
 
     @Test

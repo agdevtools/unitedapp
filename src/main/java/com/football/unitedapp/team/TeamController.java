@@ -33,7 +33,7 @@ public class TeamController {
 
     @PostMapping("/team")
     @ResponseStatus(HttpStatus.CREATED)
-    public TeamEntity createPlayer(@RequestBody TeamRequest teamRequest)
+    public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
     {
        TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
        return teamServiceImpl.createPlayer(teamEntity);

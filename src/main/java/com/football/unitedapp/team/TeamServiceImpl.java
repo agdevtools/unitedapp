@@ -30,9 +30,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamEntity createPlayer(TeamEntity teamEntity) {
+    public TeamResponse createPlayer(TeamEntity teamEntity) {
       teamRepository.save(teamEntity);
-      return teamEntity;
+      return TeamResponse.builder()
+              .status(HttpStatus.CREATED.toString())
+              .playerId((teamEntity.playerId))
+              .playerName(teamEntity.playerName)
+              .build();
     }
 
     @Override

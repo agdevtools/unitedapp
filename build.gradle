@@ -27,9 +27,9 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		compile 'io.springfox:springfox-swagger2:2.9.2'
 		compile 'io.springfox:springfox-swagger-ui:2.9.2'
+		compile 'org.hamcrest:hamcrest-library:2.1'
 	}
 }
-
 
 
 jar {

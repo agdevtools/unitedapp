@@ -11,7 +11,7 @@ public interface TeamService {
 
     TeamEntity getPlayer(int playerId);
 
-    TeamEntity createPlayer(TeamEntity teamEntity);
+    TeamResponse createPlayer(TeamEntity teamEntity);
 
     ResponseEntity getLeagueTable();
 

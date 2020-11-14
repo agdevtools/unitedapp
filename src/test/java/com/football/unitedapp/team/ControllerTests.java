@@ -1,6 +1,5 @@
 package com.football.unitedapp.team;
 
-
 import com.football.unitedapp.repository.TeamEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -101,16 +99,12 @@ public class ControllerTests {
     }
 
     @Test
-    public void test_whenUpdatePlayerWithInvalidBody_thenreturns405() throws Exception {
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Cantona7");
-
-        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
-                .thenReturn(expectedTeamResponse);
+    public void test_whenUpdatePlayerWithInvalidBody_thenreturns400() throws Exception {
 
         ResultActions resultActions = mockMvc.perform(put("/team")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
-                .andExpect(status().isMethodNotAllowed());
+                .content(""))
+                .andExpect(status().isBadRequest());
     }
 
 
@@ -124,6 +118,14 @@ public class ControllerTests {
 
     }
 
+    @Test
+    public void test_whenDeletePlayer_thenreturnsCorrectResponseBody() throws Exception {
+        HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
+        when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(expectedResponse);
+
+        mockMvc.perform(delete("/team/{playerId}",7))
+                .andExpect(status().isNoContent());
+    }
 
 
 }

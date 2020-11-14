@@ -11,10 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UnitedappApplicationTests {
 
-
 	@Mock
 	private TeamRepository teamRepository;
-
 
 	@InjectMocks
 	private TeamServiceImpl teamService;
@@ -24,12 +22,12 @@ class UnitedappApplicationTests {
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
-		TeamEntity  expectedPlayer = new TeamEntity(11, "Ryan Giggs");
+		TeamEntity expectedTeamEntity = new TeamEntity(11, "Ryan Giggs");
 
-		teamService.createPlayer(expectedPlayer);
+		teamService.createPlayer(expectedTeamEntity);
 		Mockito.verify(teamRepository).save(captor.capture());
 		TeamEntity actualPlayer = captor.getValue();
-		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedPlayer.getPlayerName());
-		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedPlayer.getPlayerId());
+		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedTeamEntity.getPlayerName());
+		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedTeamEntity.getPlayerId());
 	}
 }

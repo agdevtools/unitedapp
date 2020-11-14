@@ -56,11 +56,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_createPlayer_thenreturnsTeamResponse() {
-        TeamResponse expectedTeamResponse = TeamResponse.builder()
-                .status(HttpStatus.CREATED.toString())
-                .playerId(6)
-                .playerName("Paul Pogba")
-                .build();
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,6,"Paul Pogba");
 
         TeamEntity teamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamRepository.save(any(TeamEntity.class))).thenReturn(teamEntity);

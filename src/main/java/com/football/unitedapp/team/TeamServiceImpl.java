@@ -32,11 +32,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamResponse createPlayer(TeamEntity teamEntity) {
       teamRepository.save(teamEntity);
-      return TeamResponse.builder()
-              .status(HttpStatus.CREATED.toString())
-              .playerId((teamEntity.playerId))
-              .playerName(teamEntity.playerName)
-              .build();
+      return new TeamResponse(HttpStatus.CREATED,teamEntity.playerId,teamEntity.playerName);
     }
 
     @Override

@@ -70,11 +70,7 @@ public class ControllerTests {
 
     @Test
     public void test_whenCreatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
-        TeamResponse expectedTeamResponse = TeamResponse.builder()
-                .status(HttpStatus.CREATED.toString())
-                .playerId(7)
-                .playerName("Cantona")
-                .build();
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Cantona");
 
         when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
                 .thenReturn(expectedTeamResponse);
@@ -85,17 +81,13 @@ public class ControllerTests {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.playerName", is("Cantona")))
         .andExpect(jsonPath("$.playerId", is(7)))
-        .andExpect(jsonPath("$.status", is("201 CREATED")));
+        .andExpect(jsonPath("$.status", is("CREATED")));
     }
 
 
     @Test
     public void test_deletePlayer_thenreturnsNullEntity() {
-        TeamResponse expectedTeamResponse = TeamResponse.builder()
-                .status(HttpStatus.CREATED.toString())
-                .playerId(7)
-                .playerName("Test")
-                .build();
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Test");
         TeamRequest teamRequest = new TeamRequest(7,"Test");
         when(teamServiceImpl.createPlayer(any())).thenReturn(expectedTeamResponse);
         TeamResponse actualTeamResponse = teamController.createPlayer(teamRequest);

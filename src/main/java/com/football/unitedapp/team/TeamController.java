@@ -35,7 +35,7 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
     {
-       TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
+       TeamEntity teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
        return teamServiceImpl.createPlayer(teamEntity);
     }
 

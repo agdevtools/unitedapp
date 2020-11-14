@@ -54,11 +54,7 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.deleteByPlayerId(playerId);
     }
 
-    public TeamEntity savePlayer (Integer playerId, String playerName) {
-        TeamEntity teamEntity = TeamEntity.builder()
-                .playerId(playerId)
-                .playerName(playerName)
-                .build();
+    public TeamEntity savePlayer (TeamEntity teamEntity) {
         return  teamRepository.save(teamEntity);
     }
 }

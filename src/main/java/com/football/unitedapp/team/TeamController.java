@@ -35,21 +35,15 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamEntity createPlayer(@RequestBody TeamRequest teamRequest)
     {
-       TeamEntity  teamEntity = TeamEntity.builder()
-               .playerId(teamRequest.getPlayerId())
-               .playerName(teamRequest.getPlayerName())
-               .build();
-
+       TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
        return teamServiceImpl.createPlayer(teamEntity);
     }
 
     @PutMapping("/team/{playerName}/player/{playerId}")
-    public ResponseEntity<TeamEntity> updatePlayer(@PathVariable(value="playerName") String playerName,
-                                                   @PathVariable(value="playerId") Integer playerId
-                                                   )
+    public ResponseEntity<TeamEntity> updatePlayer(@RequestBody TeamRequest teamRequest) {
+        TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
 
-    {
-        TeamEntity playerUpdated = teamServiceImpl.savePlayer(playerId, playerName);
+        TeamEntity playerUpdated = teamServiceImpl.savePlayer(teamEntity);
         return new ResponseEntity<TeamEntity>(playerUpdated, HttpStatus.OK);
     }
 

@@ -30,16 +30,8 @@ public class ServiceImplTests {
 
     @Test
     public void test_serviceImplWhenGetTeam_thenreturnsListOfTeamEntity() {
-        TeamEntity expectedTeamEntity1 = TeamEntity.builder()
-                .playerId(5)
-                .playerName("Harry Maguire")
-                .build();
-
-        TeamEntity expectedTeamEntity2 = TeamEntity.builder()
-                .playerId(6)
-                .playerName("Paul Pogba")
-                .build();
-
+        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
+        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
@@ -53,11 +45,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_serviceImplWhenGetPlayerById_thenreturnsPlayerEntity() {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(6)
-                .playerName("Paul Pogba")
-                .build();
-
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamRepository.findByPlayerId(anyInt())).thenReturn(expectedTeamEntity);
         TeamEntity actualteamEntity = teamServiceImpl.getPlayer(2);
         assertEquals("Paul Pogba", actualteamEntity.getPlayerName());
@@ -66,11 +54,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_createPlayer_thenreturnsPlayerEntity() {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(7)
-                .playerName("Test")
-                .build();
-
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
         when(teamRepository.save(expectedTeamEntity)).thenReturn(expectedTeamEntity);
         TeamEntity actualteamEntity = teamServiceImpl.createPlayer(expectedTeamEntity);
         assertEquals("Test", actualteamEntity.getPlayerName());
@@ -79,11 +63,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_deletePlayer_thenpPlayerNoLongerExists() {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(7)
-                .playerName("Test")
-                .build();
-
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
         teamServiceImpl.createPlayer(expectedTeamEntity);
 
         assertEquals("Test", expectedTeamEntity.getPlayerName());

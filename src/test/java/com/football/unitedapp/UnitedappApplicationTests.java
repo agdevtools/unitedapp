@@ -24,10 +24,7 @@ class UnitedappApplicationTests {
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
-		TeamEntity expectedPlayer = TeamEntity.builder()
-				.playerId(11)
-				.playerName("Ryan Giggs")
-				.build();
+		TeamEntity  expectedPlayer = new TeamEntity(11, "Ryan Giggs");
 
 		teamService.createPlayer(expectedPlayer);
 		Mockito.verify(teamRepository).save(captor.capture());

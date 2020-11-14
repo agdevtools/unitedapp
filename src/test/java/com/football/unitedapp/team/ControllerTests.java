@@ -50,10 +50,7 @@ public class ControllerTests {
 
     @Test
     public void test_whenGetPlayerById_thenreturnsPlayerEntity() {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(6)
-                .playerName("Paul Pogba")
-                .build();
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamServiceImpl.getPlayer(anyInt())).thenReturn(expectedTeamEntity);
         TeamEntity actualteamEntity = teamController.getPlayer(2);
         assertEquals("Paul Pogba", actualteamEntity.getPlayerName());
@@ -62,16 +59,8 @@ public class ControllerTests {
 
     @Test
     public void test_whenGetTeam_thenreturnsListOfTeamEntity() {
-        TeamEntity expectedTeamEntity1 = TeamEntity.builder()
-                .playerId(5)
-                .playerName("Harry Maguire")
-                .build();
-
-        TeamEntity expectedTeamEntity2 = TeamEntity.builder()
-                .playerId(6)
-                .playerName("Paul Pogba")
-                .build();
-
+        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
+        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
@@ -83,32 +72,21 @@ public class ControllerTests {
         assertEquals(expectedTeamEntityList, actualTeamEntityList);
     }
 
-//    @Ignore
-//    @Test
-//    public void test_createPlayer_thenreturnsPlayerEntity() {
-//        TeamEntity expectedTeamEntity = TeamEntity.builder()
-//                .playerId(7)
-//                .playerName("Test")
-//                .build();
-//
-//        TeamRequest teamRequest = new TeamRequest(7,"Test");
-//
-//        when(teamServiceImpl.createPlayer(expectedTeamEntity)).thenReturn(expectedTeamEntity);
-//        TeamEntity actualTeamEntity = teamController.createPlayer(teamRequest);
-//
-//        assertEquals("Test", actualTeamEntity.getPlayerName());
-//        assertEquals(7, actualTeamEntity.getPlayerId());
-//    }
+    @Test
+    public void test_createPlayer_thenreturnsPlayerEntity() {
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
+        TeamRequest teamRequest = new TeamRequest(7,"Test");
+        when(teamServiceImpl.createPlayer(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+        TeamEntity actualTeamEntity = teamController.createPlayer(teamRequest);
+        assertEquals("Test", actualTeamEntity.getPlayerName());
+        assertEquals(7, actualTeamEntity.getPlayerId());
+    }
 
     @Test
     public void test_createPlayer_mvc_thenreturnsPlayerEntity() throws Exception {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(7)
-                .playerName("Test")
-                .build();
-        TeamRequest teamRequest = new TeamRequest(7,"Test");
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
 
-        when(teamServiceImpl.createPlayer(any()))
+        when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
                 .thenReturn(expectedTeamEntity);
 
         mockMvc.perform(post("/team")
@@ -117,7 +95,7 @@ public class ControllerTests {
         .andExpect(status().isCreated());
 
 
-        TeamEntity actualTeamEntity = teamController.createPlayer(teamRequest);
+  //      TeamEntity actualTeamEntity = teamController.createPlayer(teamRequest);
 //        assertEquals("Test", actualTeamEntity.getPlayerName());
 //        assertEquals(7, actualTeamEntity.getPlayerId());
     }
@@ -125,10 +103,7 @@ public class ControllerTests {
 
     @Test
     public void test_deletePlayer_thenreturnsNullEntity() {
-        TeamEntity expectedTeamEntity = TeamEntity.builder()
-                .playerId(7)
-                .playerName("Test")
-                .build();
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
         TeamRequest teamRequest = new TeamRequest(7,"Test");
         when(teamServiceImpl.createPlayer(any())).thenReturn(expectedTeamEntity);
         TeamEntity actualteamEntity = teamController.createPlayer(teamRequest);

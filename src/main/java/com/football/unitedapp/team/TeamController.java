@@ -34,8 +34,12 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
     {
-       TeamEntity teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-       return teamServiceImpl.createPlayer(teamEntity);
+      if (validateTeamRequest(teamRequest)) {
+          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName()));
+      }
+      else {
+          return new TeamResponse(HttpStatus.BAD_REQUEST, teamRequest.getPlayerId(), teamRequest.getPlayerName());
+      }
     }
 
     @PutMapping("/team")
@@ -62,5 +66,17 @@ public class TeamController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public HttpStatus deletePlayer(@PathVariable(value="playerId") Integer playerId) {
         return teamServiceImpl.deleteByPlayerId(playerId);
+    }
+
+    private boolean validateTeamRequest(TeamRequest teamRequest) {
+        return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
+    }
+
+    private boolean validatePlayerId(int playerId) {
+        return playerId >0 && Integer.toString(playerId).matches("^\\d+$");
+    }
+
+    private boolean validatePlayerName(String playerName) {
+        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z]*$"));
     }
 }

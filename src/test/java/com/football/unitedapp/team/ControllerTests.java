@@ -83,6 +83,61 @@ public class ControllerTests {
     }
 
     @Test
+    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(7,"%%%$$$");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerContainingNumbers_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(7,"Player1");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(7,"");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(0,"Player");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerIdWithLetters_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(0,"Player");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
     public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
         TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.OK,7,"Cantona7");
 

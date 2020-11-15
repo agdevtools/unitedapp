@@ -2,25 +2,24 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.AspectConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Objects;
 
 @Import(AspectConfig.class)
-@Lazy
 @RestController
 public class TeamController {
 
+
     final TeamServiceImpl teamServiceImpl;
 
+    @Autowired
     public TeamController(TeamServiceImpl teamServiceImpl) {
         this.teamServiceImpl = teamServiceImpl;
     }
@@ -35,16 +34,20 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
     {
-       TeamEntity teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-       return teamServiceImpl.createPlayer(teamEntity);
+      if (validateTeamRequest(teamRequest)) {
+          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName()));
+      }
+      else {
+          return new TeamResponse(HttpStatus.BAD_REQUEST, teamRequest.getPlayerId(), teamRequest.getPlayerName());
+      }
     }
 
-    @PutMapping("/team/{playerName}/player/{playerId}")
-    public ResponseEntity<TeamEntity> updatePlayer(@RequestBody TeamRequest teamRequest) {
+    @PutMapping("/team")
+    @ResponseStatus(HttpStatus.OK)
+    public TeamResponse updatePlayer(@RequestBody TeamRequest teamRequest) {
         TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
 
-        TeamEntity playerUpdated = teamServiceImpl.savePlayer(teamEntity);
-        return new ResponseEntity<TeamEntity>(playerUpdated, HttpStatus.OK);
+        return teamServiceImpl.savePlayer(teamEntity);
     }
 
     @GetMapping("/team/{playerId}")
@@ -60,17 +63,20 @@ public class TeamController {
     }
 
     @DeleteMapping(value = "/team/{playerId}")
-    public void deletePlayer(Integer playerId) {
-        teamServiceImpl.deleteByPlayerId(playerId);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public HttpStatus deletePlayer(@PathVariable(value="playerId") Integer playerId) {
+        return teamServiceImpl.deleteByPlayerId(playerId);
     }
 
-    @PostConstruct
-    public void writePostConstruct() {
-        System.out.println("****** Post Construct on Controller Bean ******");
+    private boolean validateTeamRequest(TeamRequest teamRequest) {
+        return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
     }
 
-    @PreDestroy
-    public void writePreDestroyMessage() {
-        System.out.println("****** Pre Destroy on Controller Bean ******");
+    private boolean validatePlayerId(int playerId) {
+        return playerId >0 && Integer.toString(playerId).matches("^\\d+$");
+    }
+
+    private boolean validatePlayerName(String playerName) {
+        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z]*$"));
     }
 }

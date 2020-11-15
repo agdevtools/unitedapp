@@ -1,7 +1,6 @@
 package com.football.unitedapp;
 
 import com.football.unitedapp.repository.TeamRepository;
-import com.football.unitedapp.team.TeamController;
 import com.football.unitedapp.team.TeamServiceImpl;
 import com.football.unitedapp.util.AspectConfig;
 import io.micrometer.core.instrument.ImmutableTag;
@@ -28,9 +27,10 @@ public class AppConfig {
         return new TeamServiceImpl(teamRepository);
     }
 
-    public TeamController teamController(TeamServiceImpl teamServiceImpl) {
-        return new TeamController(teamServiceImpl);
-    }
+//    @Bean
+//    public TeamController teamController(TeamServiceImpl teamServiceImpl) {
+//        return new TeamController(teamServiceImpl);
+//    }
 
     @Bean
     public WebMvcTagsProvider webMvcTagsProvider() {

@@ -1,6 +1,5 @@
 package com.football.unitedapp.team;
 
-
 import com.football.unitedapp.repository.TeamEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -77,25 +75,112 @@ public class ControllerTests {
 
          ResultActions resultActions = mockMvc.perform(post("/team")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"playerId\":\"7\",\"playerName\":\"Test\"}"))
+        .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.playerName", is("Cantona")))
         .andExpect(jsonPath("$.playerId", is(7)))
         .andExpect(jsonPath("$.status", is("CREATED")));
     }
 
+    @Test
+    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(7,"%%%$$$");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
 
     @Test
-    public void test_deletePlayer_thenreturnsNullEntity() {
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Test");
-        TeamRequest teamRequest = new TeamRequest(7,"Test");
-        when(teamServiceImpl.createPlayer(any())).thenReturn(expectedTeamResponse);
-        TeamResponse actualTeamResponse = teamController.createPlayer(teamRequest);
-        assertEquals("Test", actualTeamResponse.getPlayerName());
-        assertEquals(7, actualTeamResponse.getPlayerId());
+    public void test_whenCreatePlayerContainingNumbers_thenreturnsBadRequest()  {
 
-        teamController.deletePlayer(actualTeamResponse.getPlayerId());
-        TeamEntity deletedTeamEntity = teamServiceImpl.getPlayer(7);
-        Assert.isNull(deletedTeamEntity);
+        TeamRequest request = new TeamRequest(7,"Player1");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
     }
+
+    @Test
+    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(7,"");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(0,"Player");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerIdWithLetters_thenreturnsBadRequest()  {
+
+        TeamRequest request = new TeamRequest(0,"Player");
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+        TeamResponse actualResponse = teamController.createPlayer(request);
+
+        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+
+    }
+
+    @Test
+    public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
+        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.OK,7,"Cantona7");
+
+        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
+                .thenReturn(expectedTeamResponse);
+
+        ResultActions resultActions = mockMvc.perform(put("/team")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.playerName", is("Cantona7")))
+                .andExpect(jsonPath("$.playerId", is(7)))
+                .andExpect(jsonPath("$.status", is("OK")));
+    }
+
+    @Test
+    public void test_whenUpdatePlayerWithInvalidBody_thenreturns400() throws Exception {
+
+        ResultActions resultActions = mockMvc.perform(put("/team")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void test_deletePlayer_thenreturnsNoContent() {
+        TeamRequest teamRequest = new TeamRequest(7,"Test");
+        HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
+        when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(HttpStatus.NO_CONTENT);
+        HttpStatus actualResponse = teamController.deletePlayer(7);
+        assertEquals(expectedResponse, actualResponse);
+
+    }
+
+    @Test
+    public void test_whenDeletePlayer_thenreturnsCorrectResponseBody() throws Exception {
+        HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
+        when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(expectedResponse);
+
+        mockMvc.perform(delete("/team/{playerId}",7))
+                .andExpect(status().isNoContent());
+    }
+
+
 }

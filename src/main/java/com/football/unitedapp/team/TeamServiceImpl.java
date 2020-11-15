@@ -50,11 +50,13 @@ public class TeamServiceImpl implements TeamService {
 
     }
 
-    public void deleteByPlayerId(int playerId) {
+    public HttpStatus deleteByPlayerId(int playerId) {
         teamRepository.deleteByPlayerId(playerId);
+        return HttpStatus.NO_CONTENT;
     }
 
-    public TeamEntity savePlayer (TeamEntity teamEntity) {
-        return  teamRepository.save(teamEntity);
+    public TeamResponse savePlayer (TeamEntity teamEntity) {
+        teamRepository.save(teamEntity);
+        return new TeamResponse(HttpStatus.OK,teamEntity.playerId,teamEntity.playerName);
     }
 }

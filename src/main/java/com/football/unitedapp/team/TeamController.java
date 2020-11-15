@@ -68,7 +68,7 @@ public class TeamController {
         return teamServiceImpl.deleteByPlayerId(playerId);
     }
 
-    private boolean validateTeamRequest(TeamRequest teamRequest) {
+    public boolean validateTeamRequest(TeamRequest teamRequest) {
         return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
     }
 
@@ -77,6 +77,6 @@ public class TeamController {
     }
 
     private boolean validatePlayerName(String playerName) {
-        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z]*$"));
+        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
     }
 }

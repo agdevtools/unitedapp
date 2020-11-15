@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -113,6 +113,30 @@ public class ControllerTests {
 
         assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
 
+    }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
+        TeamRequest request = new TeamRequest(7,"Name WithSpace");
+        teamController.validateTeamRequest(request);
+
+        assertTrue(teamController.validateTeamRequest(request));
+    }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsHypenAndinertedComma_thenReturnsTrue()  {
+        TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace");
+        teamController.validateTeamRequest(request);
+
+        assertTrue(teamController.validateTeamRequest(request));
+    }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenReturnsFalse()  {
+        TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
+        teamController.validateTeamRequest(request);
+
+        assertFalse(teamController.validateTeamRequest(request));
     }
 
     @Test

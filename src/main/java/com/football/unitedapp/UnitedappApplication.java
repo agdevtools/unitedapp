@@ -14,10 +14,14 @@ import java.util.logging.Logger;
 public class UnitedappApplication {
 	private static final Logger logger = Logger.getLogger(UnitedappApplication.class.getName());
 	public static void main(String[] args) {
-		System.setProperty("spring.profiles.active", "prod");
+		if (getOperatingSystem().toLowerCase().contains("mac")) {
+			System.setProperty("spring.profiles.active", "local");
+		} else {
+			System.setProperty("spring.profiles.active", "prod");
+		}
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
-
+		logger.info("**********     on " + getOperatingSystem() +  " ***********");
 		logger.info(" ____ ___      .__  __             .___ _____                 \n" +
 				"|    |   \\____ |__|/  |_  ____   __| _//  _  \\ ______ ______  \n" +
 				"|    |   /    \\|  \\   __\\/ __ \\ / __ |/  /_\\  \\\\____ \\\\____ \\ \n" +
@@ -33,6 +37,12 @@ public class UnitedappApplication {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static String getOperatingSystem() {
+		String os = System.getProperty("os.name");
+		System.out.println("Using System Property: " + os);
+		return os;
 	}
 
 }

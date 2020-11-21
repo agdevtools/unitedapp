@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class TeamServiceImpl implements TeamService {
 
@@ -23,6 +24,20 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamEntity> getTeam() {
         return teamRepository.findAll();
     }
+
+//    public TeamResponse getTeam2() {
+//        Map<String, List<TeamEntity>> map = convert2(teamRepository.findAll());
+//        return TeamResponse(200, map);
+//    }
+//
+//    private Map<String, List<TeamEntity>> convert2(List<TeamEntity> entitylistIn) {
+//        List<TeamEntity> entitylist = entitylistIn;
+//        List<TeamEntity> mapmodelist = entitylistIn;
+//        for (TeamEntity teamEntity; entitylist;) {
+//            mapmodelist.add()
+//        }
+//    }
+
 
     @Override
     public TeamEntity getPlayer(int playerId) {

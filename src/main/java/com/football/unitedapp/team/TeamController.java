@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Import(AspectConfig.class)
 @RestController
@@ -29,6 +28,18 @@ public class TeamController {
     {
         return  teamServiceImpl.getTeam();
     }
+
+
+    @GetMapping("/team/test")
+    @ResponseBody
+    public TeamResponseTest getTeam2() throws IllegalAccessError
+    {
+        List<TeamEntity> teamEntityList = new ArrayList<TeamEntity>();
+        TeamEntity teamEntity = new TeamEntity(1,"Test");
+        teamEntityList.add(teamEntity);
+        return new TeamResponseTest("200", teamEntityList);
+    }
+
 
     @PostMapping("/team")
     @ResponseStatus(HttpStatus.CREATED)

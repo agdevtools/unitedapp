@@ -30,7 +30,7 @@ public class ServiceImplTests {
     public void test_serviceImplWhenGetTeam_thenreturnsCorrectResponseBody() {
         TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
         TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
+        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
 

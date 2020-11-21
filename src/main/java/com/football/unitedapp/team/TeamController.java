@@ -24,45 +24,33 @@ public class TeamController {
     }
 
     @GetMapping("/team")
-    public List<TeamEntity> getTeam()
+    public TeamResponseTest getTeam()
     {
-        return  teamServiceImpl.getTeam();
+        return teamServiceImpl.getTeam();
     }
-
-
-    @GetMapping("/team/test")
-    @ResponseBody
-    public TeamResponseTest getTeam2() throws IllegalAccessError
-    {
-        List<TeamEntity> teamEntityList = new ArrayList<TeamEntity>();
-        TeamEntity teamEntity = new TeamEntity(1,"Test");
-        teamEntityList.add(teamEntity);
-        return new TeamResponseTest("200", teamEntityList);
-    }
-
 
     @PostMapping("/team")
     @ResponseStatus(HttpStatus.CREATED)
-    public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
+    public TeamResponseTest createPlayer(@RequestBody TeamRequest teamRequest)
     {
-      if (validateTeamRequest(teamRequest)) {
-          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName()));
-      }
-      else {
-          return new TeamResponse(HttpStatus.BAD_REQUEST, teamRequest.getPlayerId(), teamRequest.getPlayerName());
-      }
+//      if (validateTeamRequest(teamRequest)) {
+//          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName()));
+//      }
+//      else {
+//          return new TeamResponse(HttpStatus.BAD_REQUEST, teamRequest.getPlayerId(), teamRequest.getPlayerName());
+//      }
+        return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName()));
     }
 
     @PutMapping("/team")
     @ResponseStatus(HttpStatus.OK)
-    public TeamResponse updatePlayer(@RequestBody TeamRequest teamRequest) {
+    public TeamResponseTest updatePlayer(@RequestBody TeamRequest teamRequest) {
         TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-
         return teamServiceImpl.savePlayer(teamEntity);
     }
 
     @GetMapping("/team/{playerId}")
-    public TeamEntity getPlayer(@PathVariable(value="playerId") Integer playerId)
+    public TeamResponseTest getPlayer(@PathVariable(value="playerId") Integer playerId)
     {
         return teamServiceImpl.getPlayer(playerId);
     }

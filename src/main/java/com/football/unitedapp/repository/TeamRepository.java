@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface TeamRepository extends JpaRepository<TeamEntity, String> {
     List<TeamEntity> findAll();
-    TeamEntity findByPlayerId(int playerId);
+    List<TeamEntity> findByPlayerId(int playerId);
     TeamEntity save(TeamEntity teamEntity);
 
     @Transactional

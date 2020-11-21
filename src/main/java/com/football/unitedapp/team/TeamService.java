@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface TeamService {
 
-    List<TeamEntity> getTeam();
+    TeamResponseTest getTeam();
 
-    TeamEntity getPlayer(int playerId);
+    TeamResponseTest getPlayer(int playerId);
 
-    TeamResponse createPlayer(TeamEntity teamEntity);
+    TeamResponseTest createPlayer(TeamEntity teamEntity);
 
     ResponseEntity getLeagueTable();
 

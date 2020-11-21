@@ -42,78 +42,78 @@ public class ControllerTests {
                 .build();
     }
 
-    @Test
-    public void test_whenGetPlayerById_thenreturnsCorrectTeamResponseBody() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
-        when(teamServiceImpl.getPlayer(anyInt())).thenReturn(expectedTeamEntity);
-        TeamEntity actualteamEntity = teamController.getPlayer(2);
-        assertEquals("Paul Pogba", actualteamEntity.getPlayerName());
-        assertEquals(6, actualteamEntity.getPlayerId());
-    }
+//    @Test
+//    public void test_whenGetPlayerById_thenreturnsCorrectTeamResponseBody() {
+//        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+//        when(teamServiceImpl.getPlayer(anyInt())).thenReturn(expectedTeamEntity);
+//        TeamEntity actualteamEntity = teamController.getPlayer(2);
+//        assertEquals("Paul Pogba", actualteamEntity.getPlayerName());
+//        assertEquals(6, actualteamEntity.getPlayerId());
+//    }
+//
+//    @Test
+//    public void test_whenGetTeam_thenreturnsListOfTeamEntity() {
+//        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
+//        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
+//        List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
+//        expectedTeamEntityList.add(expectedTeamEntity1);
+//        expectedTeamEntityList.add(expectedTeamEntity2);
+//
+//        when(teamServiceImpl.getTeam()).thenReturn(expectedTeamEntityList);
+//
+//        List<TeamEntity> actualTeamEntityList = teamController.getTeam();
+//
+//        assertEquals(expectedTeamEntityList, actualTeamEntityList);
+//    }
+//
+//    @Test
+//    public void test_whenCreatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Cantona");
+//
+//        when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
+//                .thenReturn(expectedTeamResponse);
+//
+//         ResultActions resultActions = mockMvc.perform(post("/team")
+//        .contentType(MediaType.APPLICATION_JSON)
+//        .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
+//        .andExpect(status().isCreated())
+//        .andExpect(jsonPath("$.playerName", is("Cantona")))
+//        .andExpect(jsonPath("$.playerId", is(7)))
+//        .andExpect(jsonPath("$.status", is("CREATED")));
+//    }
+//
+//    @Test
+//    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenreturnsBadRequest()  {
+//
+//        TeamRequest request = new TeamRequest(7,"%%%$$$");
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+//        TeamResponse actualResponse = teamController.createPlayer(request);
+//
+//        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+//
+//    }
+//
+//    @Test
+//    public void test_whenCreatePlayerContainingNumbers_thenreturnsBadRequest()  {
+//
+//        TeamRequest request = new TeamRequest(7,"Player1");
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+//        TeamResponse actualResponse = teamController.createPlayer(request);
+//
+//        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+//
+//    }
 
-    @Test
-    public void test_whenGetTeam_thenreturnsListOfTeamEntity() {
-        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
-        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
-        expectedTeamEntityList.add(expectedTeamEntity1);
-        expectedTeamEntityList.add(expectedTeamEntity2);
-
-        when(teamServiceImpl.getTeam()).thenReturn(expectedTeamEntityList);
-
-        List<TeamEntity> actualTeamEntityList = teamController.getTeam();
-
-        assertEquals(expectedTeamEntityList, actualTeamEntityList);
-    }
-
-    @Test
-    public void test_whenCreatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,7,"Cantona");
-
-        when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
-                .thenReturn(expectedTeamResponse);
-
-         ResultActions resultActions = mockMvc.perform(post("/team")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.playerName", is("Cantona")))
-        .andExpect(jsonPath("$.playerId", is(7)))
-        .andExpect(jsonPath("$.status", is("CREATED")));
-    }
-
-    @Test
-    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenreturnsBadRequest()  {
-
-        TeamRequest request = new TeamRequest(7,"%%%$$$");
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
-
-    }
-
-    @Test
-    public void test_whenCreatePlayerContainingNumbers_thenreturnsBadRequest()  {
-
-        TeamRequest request = new TeamRequest(7,"Player1");
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
-
-    }
-
-    @Test
-    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-
-        TeamRequest request = new TeamRequest(7,"");
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
-
-    }
+//    @Test
+//    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
+//
+//        TeamRequest request = new TeamRequest(7,"");
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+//        TeamResponse actualResponse = teamController.createPlayer(request);
+//
+//        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+//
+//    }
 
     @Test
     public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
@@ -139,43 +139,43 @@ public class ControllerTests {
         assertFalse(teamController.validateTeamRequest(request));
     }
 
-    @Test
-    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+//    @Test
+//    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+//
+//        TeamRequest request = new TeamRequest(0,"Player");
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+//        TeamResponse actualResponse = teamController.createPlayer(request);
+//
+//        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+//
+//    }
 
-        TeamRequest request = new TeamRequest(0,"Player");
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
-        TeamResponse actualResponse = teamController.createPlayer(request);
+//    @Test
+//    public void test_whenCreatePlayerIdWithLetters_thenreturnsBadRequest()  {
+//
+//        TeamRequest request = new TeamRequest(0,"Player");
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
+//        TeamResponse actualResponse = teamController.createPlayer(request);
+//
+//        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
+//
+//    }
 
-        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
-
-    }
-
-    @Test
-    public void test_whenCreatePlayerIdWithLetters_thenreturnsBadRequest()  {
-
-        TeamRequest request = new TeamRequest(0,"Player");
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.BAD_REQUEST,request.getPlayerId(),request.getPlayerName());
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.getStatus(), actualResponse.getStatus());
-
-    }
-
-    @Test
-    public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
-        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.OK,7,"Cantona7");
-
-        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
-                .thenReturn(expectedTeamResponse);
-
-        ResultActions resultActions = mockMvc.perform(put("/team")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.playerName", is("Cantona7")))
-                .andExpect(jsonPath("$.playerId", is(7)))
-                .andExpect(jsonPath("$.status", is("OK")));
-    }
+//    @Test
+//    public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
+//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.OK,7,"Cantona7");
+//
+//        when(teamServiceImpl.savePlayer(any(TeamEntity.class)))
+//                .thenReturn(expectedTeamResponse);
+//
+//        ResultActions resultActions = mockMvc.perform(put("/team")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.playerName", is("Cantona7")))
+//                .andExpect(jsonPath("$.playerId", is(7)))
+//                .andExpect(jsonPath("$.status", is("OK")));
+//    }
 
     @Test
     public void test_whenUpdatePlayerWithInvalidBody_thenreturns400() throws Exception {

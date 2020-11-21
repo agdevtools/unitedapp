@@ -7,15 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 public class ServiceImplTests {
@@ -31,18 +27,18 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_serviceImplWhenGetTeam_thenreturnsListOfTeamEntity() {
+    public void test_serviceImplWhenGetTeam_thenreturnsCorrectResponseBody() {
         TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
         TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<TeamEntity>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("200",expectedTeamEntityList);
 
         when(teamRepository.findAll()).thenReturn(expectedTeamEntityList);
 
         TeamResponseTest actualTeamResponse = teamServiceImpl.getTeam();
 
+        assertEquals("200", actualTeamResponse.status);
         assertEquals(5,actualTeamResponse.team.get(0).playerId);
         assertEquals(6,actualTeamResponse.team.get(1).playerId);
         assertEquals("Harry Maguire",actualTeamResponse.team.get(0).playerName);

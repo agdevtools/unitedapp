@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class TeamServiceImpl implements TeamService {
 
@@ -22,25 +21,25 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamResponseTest getTeam() {
+    public TeamResponse getTeam() {
          List<TeamEntity> teamEntity = teamRepository.findAll();
-         return new TeamResponseTest("200", teamEntity);
+         return new TeamResponse("200", teamEntity);
     }
 
     @Override
-    public TeamResponseTest getPlayer(int playerId) {
+    public TeamResponse getPlayer(int playerId) {
         List<TeamEntity> teamEntity = teamRepository.findByPlayerId(playerId);
         if (!teamEntity.isEmpty()) {
-            return new TeamResponseTest("200", teamEntity);
+            return new TeamResponse("200", teamEntity);
         }
-        else return new TeamResponseTest("404 Not Found",teamEntity);
+        else return new TeamResponse("404 Not Found",teamEntity);
     }
 
     @Override
-    public TeamResponseTest createPlayer(TeamEntity teamEntity) {
+    public TeamResponse createPlayer(TeamEntity teamEntity) {
         List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
         listOfTeamEntity.add(teamRepository.save(teamEntity));
-      return new TeamResponseTest("201",listOfTeamEntity);
+      return new TeamResponse("201",listOfTeamEntity);
     }
 
     @Override
@@ -63,15 +62,15 @@ public class TeamServiceImpl implements TeamService {
         return HttpStatus.NO_CONTENT;
     }
 
-    public TeamResponseTest savePlayer (TeamEntity teamEntity) {
+    public TeamResponse savePlayer (TeamEntity teamEntity) {
         List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
         listOfTeamEntity.add(teamRepository.save(teamEntity));
-        return new TeamResponseTest("201",listOfTeamEntity);
+        return new TeamResponse("201",listOfTeamEntity);
     }
 
-    public TeamResponseTest updatePlayer(TeamEntity teamEntity) {
+    public TeamResponse updatePlayer(TeamEntity teamEntity) {
         List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
         teamRepository.save(teamEntity);
-        return new TeamResponseTest("200",listOfTeamEntity);
+        return new TeamResponse("200",listOfTeamEntity);
     }
 }

@@ -47,10 +47,10 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("200", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("200", expectedTeamEntityList);
         when(teamServiceImpl.getPlayer(anyInt())).thenReturn(expectedTeamResponse);
 
-        TeamResponseTest actualTeamResponse = teamController.getPlayer(2);
+        TeamResponse actualTeamResponse = teamController.getPlayer(2);
 
         assertEquals("200", actualTeamResponse.status);
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
@@ -64,10 +64,10 @@ public class ControllerTests {
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("200", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("200", expectedTeamEntityList);
         when(teamServiceImpl.getTeam()).thenReturn(expectedTeamResponse);
 
-        TeamResponseTest actualTeamResponse = teamController.getTeam();
+        TeamResponse actualTeamResponse = teamController.getTeam();
 
         assertEquals("200", actualTeamResponse.status);
         assertEquals("Harry Maguire", actualTeamResponse.team.get(0).playerName);
@@ -81,7 +81,7 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("201", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("201", expectedTeamEntityList);
         when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
                 .thenReturn(expectedTeamResponse);
 
@@ -101,9 +101,9 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("404 Invalid request", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
 
-        TeamResponseTest actualResponse = teamController.createPlayer(request);
+        TeamResponse actualResponse = teamController.createPlayer(request);
 
         assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
@@ -114,9 +114,9 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("404 Invalid request", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
 
-        TeamResponseTest actualResponse = teamController.createPlayer(request);
+        TeamResponse actualResponse = teamController.createPlayer(request);
 
         assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
@@ -127,9 +127,9 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("404 Invalid request", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
 
-        TeamResponseTest actualResponse = teamController.createPlayer(request);
+        TeamResponse actualResponse = teamController.createPlayer(request);
 
         assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
@@ -164,9 +164,9 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("404 Invalid request", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
 
-        TeamResponseTest actualResponse = teamController.createPlayer(request);
+        TeamResponse actualResponse = teamController.createPlayer(request);
 
         assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
@@ -176,7 +176,7 @@ public class ControllerTests {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponseTest expectedTeamResponse = new TeamResponseTest("200", expectedTeamEntityList);
+        TeamResponse expectedTeamResponse = new TeamResponse("200", expectedTeamEntityList);
         when(teamServiceImpl.updatePlayer(any(TeamEntity.class)))
                 .thenReturn(expectedTeamResponse);
 

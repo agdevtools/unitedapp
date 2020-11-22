@@ -4,17 +4,15 @@ import com.football.unitedapp.repository.TeamEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public interface TeamService {
 
-    TeamResponseTest getTeam();
+    TeamResponse getTeam();
 
-    TeamResponseTest getPlayer(int playerId);
+    TeamResponse getPlayer(int playerId);
 
-    TeamResponseTest createPlayer(TeamEntity teamEntity);
+    TeamResponse createPlayer(TeamEntity teamEntity);
 
-    TeamResponseTest updatePlayer(TeamEntity teamEntity);
+    TeamResponse updatePlayer(TeamEntity teamEntity);
 
     ResponseEntity getLeagueTable();
 

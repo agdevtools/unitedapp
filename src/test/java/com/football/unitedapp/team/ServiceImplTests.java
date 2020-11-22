@@ -38,7 +38,7 @@ public class ServiceImplTests {
 
         when(teamRepository.findAll()).thenReturn(expectedTeamEntityList);
 
-        TeamResponseTest actualTeamResponse = teamServiceImpl.getTeam();
+        TeamResponse actualTeamResponse = teamServiceImpl.getTeam();
 
         assertEquals("200", actualTeamResponse.status);
         assertEquals(5,actualTeamResponse.team.get(0).playerId);
@@ -53,7 +53,7 @@ public class ServiceImplTests {
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         when(teamRepository.findByPlayerId(anyInt())).thenReturn(expectedTeamEntityList);
-        TeamResponseTest actualTeamResponse = teamServiceImpl.getPlayer(2);
+        TeamResponse actualTeamResponse = teamServiceImpl.getPlayer(2);
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("200", actualTeamResponse.status);
     }
@@ -63,7 +63,7 @@ public class ServiceImplTests {
         TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
 
-        TeamResponseTest actualTeamResponse = teamServiceImpl.createPlayer(new TeamEntity(6, "Paul Pogba"));
+        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamEntity(6, "Paul Pogba"));
 
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("201", actualTeamResponse.status);

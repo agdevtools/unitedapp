@@ -10,17 +10,16 @@ import java.util.List;
 
 
 @RestControllerAdvice
-public class ErrorHandler {
+public class UnitedErrorHandler {
 
-    public static class BadRequestException extends RuntimeException{};
+    public static class BadRequestException extends RuntimeException{}
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity badRequestException(){
+    public ResponseEntity<ErrorResponse> badRequestException(){
         List<Error> errorList = new ArrayList<>();
         Error error = new Error("Bad Request", "Please try again");
         errorList.add(error);
         ErrorResponse errorResponse = new ErrorResponse("400",errorList);
-        return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
 }

@@ -1,8 +1,10 @@
 package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.util.UnitedErrorHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -96,42 +98,32 @@ public class ControllerTests {
     }
 
     @Test
-    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenreturnsBadRequest()  {
-        TeamRequest request = new TeamRequest(7,"%%%$$$");
-        TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-        expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
-
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.status, actualResponse.status);
+    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamController.createPlayer(new TeamRequest(7,"%%%$$$"));
+        });
     }
 
     @Test
-    public void test_whenCreatePlayerContainingNumbers_thenreturnsBadRequest()  {
-        TeamRequest request = new TeamRequest(7,"Player1");
-        TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-        expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
+    public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamController.createPlayer(new TeamRequest(7,"Player1"));
+        });
 
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
 
     @Test
     public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-        TeamRequest request = new TeamRequest(7,"");
-        TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-        expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamController.createPlayer(new TeamRequest(7,""));
+        });
+    }
 
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.status, actualResponse.status);
+    @Test
+    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamController.createPlayer(new TeamRequest(0,"Player"));
+        });
     }
 
     @Test
@@ -156,19 +148,6 @@ public class ControllerTests {
         teamController.validateTeamRequest(request);
 
         assertFalse(teamController.validateTeamRequest(request));
-    }
-
-    @Test
-    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
-        TeamRequest request = new TeamRequest(0,"Player");
-        TeamEntity expectedTeamEntity = new TeamEntity(request.getPlayerId(), request.getPlayerName());
-        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-        expectedTeamEntityList.add(expectedTeamEntity);
-        TeamResponse expectedTeamResponse = new TeamResponse("404 Invalid request", expectedTeamEntityList);
-
-        TeamResponse actualResponse = teamController.createPlayer(request);
-
-        assertEquals(expectedTeamResponse.status, actualResponse.status);
     }
 
     @Test

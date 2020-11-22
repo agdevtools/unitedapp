@@ -2,12 +2,14 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.AspectConfig;
+import com.football.unitedapp.util.ErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
@@ -33,15 +35,16 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest)
     {
-      if (validateTeamRequest(teamRequest)) {
+        //          TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
+        //          List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
+        //          expectedTeamEntityList.add(expectedTeamEntity);
+        //          return new TeamResponse("404 Invalid request",expectedTeamEntityList);
+        if (validateTeamRequest(teamRequest)) {
           return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName()));
       }
       else {
-          TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-          List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-          expectedTeamEntityList.add(expectedTeamEntity);
-          return new TeamResponse("404 Invalid request",expectedTeamEntityList);
-      }
+            throw new ErrorHandler.BadRequestException();
+        }
   }
 
     @PutMapping("/team")

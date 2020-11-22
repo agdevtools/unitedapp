@@ -68,4 +68,10 @@ public class TeamServiceImpl implements TeamService {
         listOfTeamEntity.add(teamRepository.save(teamEntity));
         return new TeamResponseTest("201",listOfTeamEntity);
     }
+
+    public TeamResponseTest updatePlayer(TeamEntity teamEntity) {
+        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+        teamRepository.save(teamEntity);
+        return new TeamResponseTest("200",listOfTeamEntity);
+    }
 }

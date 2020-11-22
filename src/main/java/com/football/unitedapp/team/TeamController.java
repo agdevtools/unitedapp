@@ -33,20 +33,22 @@ public class TeamController {
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponseTest createPlayer(@RequestBody TeamRequest teamRequest)
     {
-//      if (validateTeamRequest(teamRequest)) {
-//          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName()));
-//      }
-//      else {
-//          return new TeamResponse(HttpStatus.BAD_REQUEST, teamRequest.getPlayerId(), teamRequest.getPlayerName());
-//      }
-        return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName()));
-    }
+      if (validateTeamRequest(teamRequest)) {
+          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName()));
+      }
+      else {
+          TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
+          List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
+          expectedTeamEntityList.add(expectedTeamEntity);
+          return new TeamResponseTest("404 Invalid request",expectedTeamEntityList);
+      }
+  }
 
     @PutMapping("/team")
     @ResponseStatus(HttpStatus.OK)
     public TeamResponseTest updatePlayer(@RequestBody TeamRequest teamRequest) {
         TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-        return teamServiceImpl.savePlayer(teamEntity);
+        return teamServiceImpl.updatePlayer(teamEntity);
     }
 
     @GetMapping("/team/{playerId}")

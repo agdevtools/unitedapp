@@ -13,6 +13,9 @@ public class TeamResponseTest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     List<TeamEntity> team;
 
+    public TeamResponseTest(String s, int playerId, String playerName) {
+    }
+
     public String getStatus() {
         return status;
     }

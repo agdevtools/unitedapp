@@ -14,6 +14,8 @@ public interface TeamService {
 
     TeamResponseTest createPlayer(TeamEntity teamEntity);
 
+    TeamResponseTest updatePlayer(TeamEntity teamEntity);
+
     ResponseEntity getLeagueTable();
 
     HttpStatus deleteByPlayerId(int playerId);

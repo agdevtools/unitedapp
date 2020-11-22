@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 public class ServiceImplTests {
@@ -27,7 +29,7 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_serviceImplWhenGetTeam_thenreturnsCorrectResponseBody() {
+    public void test_serviceImplWhenGetTeam_thenReturnsCorrectResponseBody() {
         TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
         TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
@@ -45,27 +47,27 @@ public class ServiceImplTests {
         assertEquals("Paul Pogba",actualTeamResponse.team.get(1).playerName);
     }
 
-//    @Test
-//    public void test_serviceImplWhenGetPlayerById_thenreturnsPlayerEntity() {
-//        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
-//        when(teamRepository.findByPlayerId(anyInt())).thenReturn(expectedTeamEntity);
-//        TeamResponseTest actualTeamResponse = teamServiceImpl.getPlayer(2);
-//        assertEquals("Paul Pogba", actualTeamResponse.getTeam());
-//        assertEquals("200", actualTeamResponse.getStatus());
-//    }
+    @Test
+    public void test_serviceImplWhenGetPlayerById_thenReturnsPlayerEntityInCorrectResponseBody() {
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
+        expectedTeamEntityList.add(expectedTeamEntity);
+        when(teamRepository.findByPlayerId(anyInt())).thenReturn(expectedTeamEntityList);
+        TeamResponseTest actualTeamResponse = teamServiceImpl.getPlayer(2);
+        assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
+        assertEquals("200", actualTeamResponse.status);
+    }
 
-//    @Test
-//    public void test_createPlayer_thenreturnsTeamResponse() {
-//        TeamResponse expectedTeamResponse = new TeamResponse(HttpStatus.CREATED,6,"Paul Pogba");
-//
-//        TeamEntity teamEntity = new TeamEntity(6, "Paul Pogba");
-//        when(teamRepository.save(any(TeamEntity.class))).thenReturn(teamEntity);
-//
-//        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(teamEntity);
-//
-//        assertEquals(expectedTeamResponse.getPlayerName(), actualTeamResponse.getPlayerName());
-//        assertEquals(expectedTeamResponse.getPlayerId(), actualTeamResponse.getPlayerId());
-//    }
+    @Test
+    public void test_createPlayer_thenReturnsCorrectTeamResponse() {
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+
+        TeamResponseTest actualTeamResponse = teamServiceImpl.createPlayer(new TeamEntity(6, "Paul Pogba"));
+
+        assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
+        assertEquals("201", actualTeamResponse.status);
+    }
 
 //    @Test
 //    public void test_deletePlayer_thenpPlayerNoLongerExists() {
@@ -77,7 +79,7 @@ public class ServiceImplTests {
 //
 //        teamServiceImpl.deleteByPlayerId(expectedTeamEntity.playerId);
 //
-//        TeamEntity deletedTeamEntity = teamServiceImpl.getPlayer(7);
-//        Assert.isNull(deletedTeamEntity);
+//        TeamResponseTest actualTeamResponse = teamServiceImpl.getPlayer(7);
+//        assertEquals("400", actualTeamResponse.status);
 //        }
 }

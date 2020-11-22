@@ -30,7 +30,10 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamResponseTest getPlayer(int playerId) {
         List<TeamEntity> teamEntity = teamRepository.findByPlayerId(playerId);
-        return new TeamResponseTest("200", teamEntity);
+        if (!teamEntity.isEmpty()) {
+            return new TeamResponseTest("200", teamEntity);
+        }
+        else return new TeamResponseTest("404 Not Found",teamEntity);
     }
 
     @Override

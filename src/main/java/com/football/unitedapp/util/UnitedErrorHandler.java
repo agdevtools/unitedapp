@@ -22,4 +22,13 @@ public class UnitedErrorHandler {
         ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> validationException(ValidationException ex){
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+        errorDetailsList.addAll(ex.error.details);
+        ValidationError error = new ValidationError(ex.error.code, ex.error.message, errorDetailsList);
+        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

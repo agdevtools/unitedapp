@@ -2,7 +2,10 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.util.ErrorDetails;
 import com.football.unitedapp.util.UnitedErrorHandler;
+import com.football.unitedapp.util.ValidationError;
+import com.football.unitedapp.util.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -81,7 +84,26 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public boolean validateTeamRequest(TeamRequest teamRequest) {
-        return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+
+        if(!validatePlayerId(teamRequest.getPlayerId())) {
+            errorDetailsList.add(populateErrorDetails("Player Id","PlayerId must be a number greater than zero"));
+        }
+
+        if(!validatePlayerName(teamRequest.getPlayerName())) {
+            errorDetailsList.add(populateErrorDetails("Player Name", "Player Name cannot contain numbers and certain special characters"));
+        }
+
+        if (errorDetailsList.size() > 0) {
+            ValidationError error = new ValidationError("Validationfailed", "There were valodation errors", errorDetailsList);
+            throw new ValidationException(400, error);
+        }
+
+        return true;
+    }
+
+    private ErrorDetails populateErrorDetails(String target, String message) {
+        return new ErrorDetails("invalid",target,message);
     }
 
     private boolean validatePlayerId(int playerId) {

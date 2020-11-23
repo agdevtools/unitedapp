@@ -19,6 +19,11 @@ public class TeamEntity {
         this.playerName = playerName;
     }
 
+    public TeamEntity() {
+        this.playerId = 0;
+        this.playerName = null;
+    }
+
     public int getPlayerId() {
         return playerId;
     }

@@ -2,6 +2,8 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.util.ErrorDetails;
+import com.football.unitedapp.util.ErrorResponse;
 import com.football.unitedapp.util.UnitedErrorHandler;
 import com.football.unitedapp.util.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +74,26 @@ public class ServiceImplTests {
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("201", actualTeamResponse.status);
     }
+
+//    @Test
+//    public void test_whenCreateInvalidPlayerId_thenReturnsCorrectErrorResponse() {
+//        TeamEntity expectedTeamEntity = new TeamEntity(0, "Paul Pogba");
+//        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+//
+//        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
+//        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+//
+//        ResponseEntity<ErrorResponse> responseResponseEntity = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
+//
+//
+//        try {
+//            TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
+//        } catch (ValidationException ex){
+//            assertEquals();
+//        }
+//        assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
+//        assertEquals("201", actualTeamResponse.status);
+//    }
 
     @Test
     public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {

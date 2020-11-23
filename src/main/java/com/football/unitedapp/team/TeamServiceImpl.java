@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class TeamServiceImpl implements TeamService {
 
@@ -41,6 +42,10 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponse createPlayer(TeamRequest teamRequest) {
+            TeamResponse teamResponse = getPlayer(teamRequest.getPlayerId());
+            if (teamResponse.status.equals("200")) {
+                throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
+            }
             validateTeamRequest(teamRequest);
             List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
             listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));

@@ -13,11 +13,21 @@ import java.util.List;
 public class UnitedErrorHandler {
 
     public static class BadRequestException extends RuntimeException{}
+    public static class BadRequestExceptionPlayerIdAlreadyExists extends RuntimeException{}
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> badRequestException(){
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
         ErrorDetails errorDetails = new ErrorDetails("Bad Request", "Player","Please try again");
+        errorDetailsList.add(errorDetails);
+        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadRequestExceptionPlayerIdAlreadyExists.class)
+    public ResponseEntity<ErrorResponse> badRequestExceptionPlayerIdAlreadyExists(){
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+        ErrorDetails errorDetails = new ErrorDetails("Bad Request", "PlayerId","Player ID already exists.");
         errorDetailsList.add(errorDetails);
         ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

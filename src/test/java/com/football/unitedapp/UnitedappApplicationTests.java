@@ -2,6 +2,7 @@ package com.football.unitedapp;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.team.TeamRequest;
 import com.football.unitedapp.team.TeamServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,12 +23,12 @@ class UnitedappApplicationTests {
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
-		TeamEntity expectedTeamEntity = new TeamEntity(11, "Ryan Giggs");
+		TeamRequest expectedTeamRequest = new TeamRequest(11, "Ryan Giggs");
 
-		teamService.createPlayer(expectedTeamEntity);
+		teamService.createPlayer(expectedTeamRequest);
 		Mockito.verify(teamRepository).save(captor.capture());
 		TeamEntity actualPlayer = captor.getValue();
-		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedTeamEntity.getPlayerName());
-		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedTeamEntity.getPlayerId());
+		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedTeamRequest.getPlayerName());
+		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedTeamRequest.getPlayerId());
 	}
 }

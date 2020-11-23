@@ -2,6 +2,7 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.util.UnitedErrorHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -63,11 +64,66 @@ public class ServiceImplTests {
         TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
         when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
 
-        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamEntity(6, "Paul Pogba"));
+        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
 
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("201", actualTeamResponse.status);
     }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
+        TeamRequest request = new TeamRequest(7,"Name WithSpace");
+        teamServiceImpl.validateTeamRequest(request);
+
+        assertTrue(teamServiceImpl.validateTeamRequest(request));
+    }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsHypenAndinertedComma_thenReturnsTrue()  {
+        TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace");
+        teamServiceImpl.validateTeamRequest(request);
+
+        assertTrue(teamServiceImpl.validateTeamRequest(request));
+    }
+
+    @Test
+    public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenReturnsFalse()  {
+        TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
+        teamServiceImpl.validateTeamRequest(request);
+
+        assertFalse(teamServiceImpl.validateTeamRequest(request));
+    }
+
+    @Test
+    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$"));
+        });
+    }
+
+    @Test
+    public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamServiceImpl.createPlayer(new TeamRequest(7,"Player1"));
+        });
+
+    }
+
+    @Test
+    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamServiceImpl.createPlayer(new TeamRequest(7,""));
+        });
+    }
+
+    @Test
+    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
+        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+            teamServiceImpl.createPlayer(new TeamRequest(0,"Player"));
+        });
+    }
+
+
 
 //    @Test
 //    public void test_deletePlayer_thenpPlayerNoLongerExists() {

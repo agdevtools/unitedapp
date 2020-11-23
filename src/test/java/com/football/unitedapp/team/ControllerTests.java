@@ -84,7 +84,7 @@ public class ControllerTests {
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         TeamResponse expectedTeamResponse = new TeamResponse("201", expectedTeamEntityList);
-        when(teamServiceImpl.createPlayer(any(TeamEntity.class)))
+        when(teamServiceImpl.createPlayer(any(TeamRequest.class)))
                 .thenReturn(expectedTeamResponse);
 
          ResultActions resultActions = mockMvc.perform(post("/team")
@@ -97,58 +97,7 @@ public class ControllerTests {
 
     }
 
-    @Test
-    public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
-            teamController.createPlayer(new TeamRequest(7,"%%%$$$"));
-        });
-    }
 
-    @Test
-    public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
-            teamController.createPlayer(new TeamRequest(7,"Player1"));
-        });
-
-    }
-
-    @Test
-    public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
-            teamController.createPlayer(new TeamRequest(7,""));
-        });
-    }
-
-    @Test
-    public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
-            teamController.createPlayer(new TeamRequest(0,"Player"));
-        });
-    }
-
-    @Test
-    public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
-        TeamRequest request = new TeamRequest(7,"Name WithSpace");
-        teamController.validateTeamRequest(request);
-
-        assertTrue(teamController.validateTeamRequest(request));
-    }
-
-    @Test
-    public void test_whenValidateRequestPlayerNameContainsHypenAndinertedComma_thenReturnsTrue()  {
-        TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace");
-        teamController.validateTeamRequest(request);
-
-        assertTrue(teamController.validateTeamRequest(request));
-    }
-
-    @Test
-    public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenReturnsFalse()  {
-        TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
-        teamController.validateTeamRequest(request);
-
-        assertFalse(teamController.validateTeamRequest(request));
-    }
 
     @Test
     public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {

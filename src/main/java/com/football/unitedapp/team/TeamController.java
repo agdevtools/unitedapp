@@ -2,7 +2,6 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.AspectConfig;
-import com.football.unitedapp.util.UnitedErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Objects;
 
 @Import(AspectConfig.class)
 @RestController
@@ -32,19 +31,9 @@ public class TeamController {
 
     @PostMapping("/team")
     @ResponseStatus(HttpStatus.CREATED)
-    public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest) throws UnitedErrorHandler.BadRequestException
-    {
-        //          TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
-        //          List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
-        //          expectedTeamEntityList.add(expectedTeamEntity);
-        //          return new TeamResponse("404 Invalid request",expectedTeamEntityList);
-        if (validateTeamRequest(teamRequest)) {
-          return teamServiceImpl.createPlayer(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName()));
-      }
-      else {
-            throw new UnitedErrorHandler.BadRequestException();
-        }
-  }
+    public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest) {
+          return teamServiceImpl.createPlayer(teamRequest);
+    }
 
     @PutMapping("/team")
     @ResponseStatus(HttpStatus.OK)
@@ -71,15 +60,4 @@ public class TeamController {
         return teamServiceImpl.deleteByPlayerId(playerId);
     }
 
-    public boolean validateTeamRequest(TeamRequest teamRequest) {
-        return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
-    }
-
-    private boolean validatePlayerId(int playerId) {
-        return playerId >0 && Integer.toString(playerId).matches("^\\d+$");
-    }
-
-    private boolean validatePlayerName(String playerName) {
-        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
-    }
 }

@@ -10,7 +10,7 @@ public interface TeamService {
 
     TeamResponse getPlayer(int playerId);
 
-    TeamResponse createPlayer(TeamEntity teamEntity);
+    TeamResponse createPlayer(TeamRequest teamRequest);
 
     TeamResponse updatePlayer(TeamEntity teamEntity);
 

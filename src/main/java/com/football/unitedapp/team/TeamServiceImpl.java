@@ -2,6 +2,7 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
+import com.football.unitedapp.util.UnitedErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -36,10 +37,15 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamResponse createPlayer(TeamEntity teamEntity) {
-        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
-        listOfTeamEntity.add(teamRepository.save(teamEntity));
-      return new TeamResponse("201",listOfTeamEntity);
+    public TeamResponse createPlayer(TeamRequest teamRequest) {
+        if (validateTeamRequest(teamRequest)) {
+            List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+            listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
+            return new TeamResponse("201",listOfTeamEntity);
+        }
+        else {
+            throw new UnitedErrorHandler.BadRequestException();
+        }
     }
 
     @Override
@@ -72,5 +78,17 @@ public class TeamServiceImpl implements TeamService {
         List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
         teamRepository.save(teamEntity);
         return new TeamResponse("200",listOfTeamEntity);
+    }
+
+    public boolean validateTeamRequest(TeamRequest teamRequest) {
+        return validatePlayerId(teamRequest.getPlayerId()) && validatePlayerName(teamRequest.getPlayerName());
+    }
+
+    private boolean validatePlayerId(int playerId) {
+        return playerId >0 && Integer.toString(playerId).matches("^\\d+$");
+    }
+
+    private boolean validatePlayerName(String playerName) {
+        return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
     }
 }

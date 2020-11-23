@@ -12,6 +12,12 @@ public class ErrorDetails {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String message;
 
+    public ErrorDetails(String code, String target, String message) {
+        this.code = code;
+        this.target = target;
+        this.message = message;
+    }
+
     public String getCode() {
         return code;
     }
@@ -33,17 +39,6 @@ public class ErrorDetails {
     }
 
     public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public ErrorDetails(String code, String target, String message) {
-        this.code = code;
-        this.code = target;
-        this.message = message;
-    }
-
-    public ErrorDetails(String code, String message) {
-        this.code = code;
         this.message = message;
     }
 }

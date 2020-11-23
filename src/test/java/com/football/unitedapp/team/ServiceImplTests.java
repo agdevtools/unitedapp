@@ -91,36 +91,28 @@ public class ServiceImplTests {
     public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenThrowsValidationException()  {
         TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
 
-        assertThrows(ValidationException.class, () -> { teamServiceImpl.validateTeamRequest(request);});
+        assertThrows(ValidationException.class, () -> teamServiceImpl.validateTeamRequest(request));
     }
 
     @Test
     public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> {
-            teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$"));
-        });
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$")));
     }
 
     @Test
     public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
-        assertThrows(ValidationException.class, () -> {
-            teamServiceImpl.createPlayer(new TeamRequest(7,"Player1"));
-        });
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"Player1")));
 
     }
 
     @Test
     public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> {
-            teamServiceImpl.createPlayer(new TeamRequest(7,""));
-        });
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"")));
     }
 
     @Test
     public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> {
-            teamServiceImpl.createPlayer(new TeamRequest(0,"Player"));
-        });
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(0,"Player")));
     }
 
 

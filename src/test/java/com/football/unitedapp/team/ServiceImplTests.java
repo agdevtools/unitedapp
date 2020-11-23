@@ -3,6 +3,7 @@ package com.football.unitedapp.team;
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
 import com.football.unitedapp.util.UnitedErrorHandler;
+import com.football.unitedapp.util.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -87,23 +88,22 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenReturnsFalse()  {
+    public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenThrowsValidationException()  {
         TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
-        teamServiceImpl.validateTeamRequest(request);
 
-        assertFalse(teamServiceImpl.validateTeamRequest(request));
+        assertThrows(ValidationException.class, () -> { teamServiceImpl.validateTeamRequest(request);});
     }
 
     @Test
     public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+        assertThrows(ValidationException.class, () -> {
             teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$"));
         });
     }
 
     @Test
     public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+        assertThrows(ValidationException.class, () -> {
             teamServiceImpl.createPlayer(new TeamRequest(7,"Player1"));
         });
 
@@ -111,14 +111,14 @@ public class ServiceImplTests {
 
     @Test
     public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+        assertThrows(ValidationException.class, () -> {
             teamServiceImpl.createPlayer(new TeamRequest(7,""));
         });
     }
 
     @Test
     public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
-        assertThrows(UnitedErrorHandler.BadRequestException.class, () -> {
+        assertThrows(ValidationException.class, () -> {
             teamServiceImpl.createPlayer(new TeamRequest(0,"Player"));
         });
     }

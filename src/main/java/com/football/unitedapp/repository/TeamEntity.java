@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name ="team")
 public class TeamEntity {
     @Id
-    @Column(name="player_id")
+    @Column(name="player_id", unique = true)
     public int playerId;
     @Column(name = "player_name")
     public String playerName;
@@ -17,9 +17,6 @@ public class TeamEntity {
     public TeamEntity(int playerId, String playerName) {
         this.playerId = playerId;
         this.playerName = playerName;
-    }
-
-    public TeamEntity() {
     }
 
     public int getPlayerId() {

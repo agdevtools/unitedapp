@@ -41,14 +41,10 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponse createPlayer(TeamRequest teamRequest) {
-        if (validateTeamRequest(teamRequest)) {
+            validateTeamRequest(teamRequest);
             List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
             listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
             return new TeamResponse("201",listOfTeamEntity);
-        }
-        else {
-            throw new UnitedErrorHandler.BadRequestException();
-        }
     }
 
     @Override

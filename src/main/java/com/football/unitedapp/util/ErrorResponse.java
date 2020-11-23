@@ -1,7 +1,6 @@
 package com.football.unitedapp.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.football.unitedapp.repository.TeamEntity;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public class ErrorResponse {
     String status;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    List<Error> errorDetails;
+    List<ErrorDetails> errorDetails;
 
-    public ErrorResponse(String status, List<Error> errorDetails) {
+    public ErrorResponse(String status, List<ErrorDetails> errorDetails) {
         this.status = status;
         this.errorDetails = errorDetails;
     }
@@ -25,11 +24,11 @@ public class ErrorResponse {
         this.status = status;
     }
 
-    public List<Error> getErrorDetails() {
+    public List<ErrorDetails> getErrorDetails() {
         return errorDetails;
     }
 
-    public void setErrorDetails(List<Error> errorDetails) {
+    public void setErrorDetails(List<ErrorDetails> errorDetails) {
         this.errorDetails = errorDetails;
     }
 }

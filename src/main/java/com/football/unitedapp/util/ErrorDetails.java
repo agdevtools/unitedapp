@@ -2,9 +2,12 @@ package com.football.unitedapp.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class Error {
+public class ErrorDetails {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String code;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    String target;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String message;
@@ -17,6 +20,14 @@ public class Error {
         this.code = code;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -25,7 +36,13 @@ public class Error {
         this.message = message;
     }
 
-    public Error(String code, String message) {
+    public ErrorDetails(String code, String target, String message) {
+        this.code = code;
+        this.code = target;
+        this.message = message;
+    }
+
+    public ErrorDetails(String code, String message) {
         this.code = code;
         this.message = message;
     }

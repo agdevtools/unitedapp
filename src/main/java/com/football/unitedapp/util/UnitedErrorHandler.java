@@ -16,10 +16,10 @@ public class UnitedErrorHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> badRequestException(){
-        List<Error> errorList = new ArrayList<>();
-        Error error = new Error("Bad Request", "Please try again");
-        errorList.add(error);
-        ErrorResponse errorResponse = new ErrorResponse("400",errorList);
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+        ErrorDetails errorDetails = new ErrorDetails("Bad Request", "Player","Please try again");
+        errorDetailsList.add(errorDetails);
+        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

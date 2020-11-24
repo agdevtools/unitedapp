@@ -42,11 +42,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponse createPlayer(TeamRequest teamRequest) {
-            TeamResponse teamResponse = getPlayer(teamRequest.getPlayerId());
-            if (teamResponse.status.equals("200")) {
-                throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
-            }
-            validateTeamRequest(teamRequest);
+        validateTeamRequest(teamRequest);
+        Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
+        teamEntity.ifPresent(player -> {
+            throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
+        });
             List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
             listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
             return new TeamResponse("201",listOfTeamEntity);

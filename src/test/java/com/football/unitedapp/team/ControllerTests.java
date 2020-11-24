@@ -2,9 +2,9 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.UnitedErrorHandler;
+import com.football.unitedapp.util.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -143,6 +143,17 @@ public class ControllerTests {
         mockMvc.perform(delete("/team/{playerId}",7))
                 .andExpect(status().isNoContent());
     }
+
+//    @Test
+//    public void test_whenCreatePlayerIdAlreadyExists_thenreturnsBadRequestAlreadyExists()  {
+//        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(1,"Player"));
+//        teamServiceImpl.createPlayer(new TeamRequest(0,"Player"));
+//
+//       when(teamServiceImpl.createPlayer(any(TeamRequest.class)))
+//                .thenThrow(UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists.class);
+//        TeamResponse actualTeamResponse2 = teamServiceImpl.createPlayer(new TeamRequest(1,"Player"));
+//        assertThrows(UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists.class, () -> teamServiceImpl.createPlayer(new TeamRequest(1,"Player")));
+//    }
 
 
 }

@@ -43,13 +43,10 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamResponse createPlayer(TeamRequest teamRequest) {
         validateTeamRequest(teamRequest);
-        Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
-        teamEntity.ifPresent(player -> {
-            throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
-        });
-            List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
-            listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
-            return new TeamResponse("201",listOfTeamEntity);
+        checkIfPlayerAlreadyExists(teamRequest);
+        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+        listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
+        return new TeamResponse("201",listOfTeamEntity);
     }
 
     @Override
@@ -113,5 +110,12 @@ public class TeamServiceImpl implements TeamService {
 
     private boolean validatePlayerName(String playerName) {
         return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
+    }
+
+    private void checkIfPlayerAlreadyExists(TeamRequest teamRequest) {
+        Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
+        teamEntity.ifPresent(player -> {
+            throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
+        });
     }
 }

@@ -32,4 +32,20 @@ public class ValidationException extends RuntimeException{
         this.status = status;
         this.error = error;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public ValidationError getError() {
+        return error;
+    }
+
+    public void setError(ValidationError error) {
+        this.error = error;
+    }
 }

@@ -11,11 +11,6 @@ public class ErrorResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     List<ErrorDetails> errorDetails;
 
-    public ErrorResponse(String status, List<ErrorDetails> errorDetails) {
-        this.status = status;
-        this.errorDetails = errorDetails;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -29,6 +24,11 @@ public class ErrorResponse {
     }
 
     public void setErrorDetails(List<ErrorDetails> errorDetails) {
+        this.errorDetails = errorDetails;
+    }
+
+    public ErrorResponse(String status, List<ErrorDetails> errorDetails) {
+        this.status = status;
         this.errorDetails = errorDetails;
     }
 }

@@ -2,11 +2,9 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
-import com.football.unitedapp.util.ErrorDetails;
-import com.football.unitedapp.util.ErrorResponse;
-import com.football.unitedapp.util.UnitedErrorHandler;
-import com.football.unitedapp.util.ValidationException;
+import com.football.unitedapp.util.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -75,26 +73,6 @@ public class ServiceImplTests {
         assertEquals("201", actualTeamResponse.status);
     }
 
-//    @Test
-//    public void test_whenCreateInvalidPlayerId_thenReturnsCorrectErrorResponse() {
-//        TeamEntity expectedTeamEntity = new TeamEntity(0, "Paul Pogba");
-//        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
-//
-//        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
-//        List<ErrorDetails> errorDetailsList = new ArrayList<>();
-//
-//        ResponseEntity<ErrorResponse> responseResponseEntity = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
-//
-//
-//        try {
-//            TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
-//        } catch (ValidationException ex){
-//            assertEquals();
-//        }
-//        assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
-//        assertEquals("201", actualTeamResponse.status);
-//    }
-
     @Test
     public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
         TeamRequest request = new TeamRequest(7,"Name WithSpace");
@@ -104,7 +82,7 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_whenValidateRequestPlayerNameContainsHypenAndinertedComma_thenReturnsTrue()  {
+    public void test_whenValidateRequestPlayerNameContainsHypenAndinvertedComma_thenReturnsTrue()  {
         TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace");
         teamServiceImpl.validateTeamRequest(request);
 
@@ -138,6 +116,55 @@ public class ServiceImplTests {
     public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
         assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(0,"Player")));
     }
+
+
+    @Nested
+    class TeamRequestTests {
+
+        @Test
+        public void test_givenInvalidPlayerId_thenReturnsErrorDetailswithCorrectResponse() {
+            try {
+                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"Test"));
+            } catch (ValidationException ex) {
+                List<ErrorDetails> expectedErrorList = new ArrayList<>();
+                expectedErrorList.addAll(ex.getError().getDetails());
+                assertEquals(1,expectedErrorList.size());
+                assertEquals("PlayerId must be a number greater than zero",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Id",expectedErrorList.get(0).getTarget());
+            }
+        }
+
+        @Test
+        public void test_givenInvalidPlayerName_thenReturnsErrorDetailswithCorrectResponse() {
+            try {
+                teamServiceImpl.validateTeamRequest(new TeamRequest(1,"££££££6776767%%%"));
+            } catch (ValidationException ex) {
+                List<ErrorDetails> expectedErrorList = new ArrayList<>();
+                expectedErrorList.addAll(ex.getError().getDetails());
+                assertEquals(1,expectedErrorList.size());
+                assertEquals("Player Name cannot contain numbers and certain special characters",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Name",expectedErrorList.get(0).getTarget());
+            }
+        }
+
+        @Test
+        public void test_givenInvalidPlayerNameAndPlayerId_thenReturnsErrorDetailswithCorrectResponse() {
+            try {
+                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"££££££6776767%%%"));
+            } catch (ValidationException ex) {
+                List<ErrorDetails> expectedErrorList = new ArrayList<>();
+                expectedErrorList.addAll(ex.getError().getDetails());
+                assertEquals(2,expectedErrorList.size());
+                assertEquals("PlayerId must be a number greater than zero",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Id",expectedErrorList.get(0).getTarget());
+                assertEquals("Player Name cannot contain numbers and certain special characters",expectedErrorList.get(1).getMessage());
+                assertEquals("Player Name",expectedErrorList.get(1).getTarget());
+            }
+        }
+
+    }
+
+
 
 
 

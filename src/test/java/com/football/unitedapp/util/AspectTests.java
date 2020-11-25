@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.logging.Logger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(OutputCaptureExtension.class)
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Import({AspectConfig.class})
 @SpringBootTest
 public class AspectTests {
-
 
     @Autowired
     private TeamController teamController;
@@ -37,6 +37,15 @@ public class AspectTests {
 
         assertTrue(consoleOutput.contains("INFO"));
         assertTrue(consoleOutput.contains("com.football.unitedapp.team.TeamController.getTeam()"));
+    }
+
+    @Test
+    @CaptureSystemOutput
+    public void test_aspectWorks_player(CaptureSystemOutput.OutputCapture capture) {
+        teamController.getPlayer(1);
+        String consoleOutput = capture.toString();
+        assertTrue(consoleOutput.contains("INFO"));
+        assertTrue(consoleOutput.contains("com.football.unitedapp.team.TeamController.getPlayer"));
     }
 
 }

@@ -2,13 +2,14 @@ package com.football.unitedapp.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 @RestControllerAdvice
 public class UnitedErrorHandler {
 
@@ -29,7 +30,7 @@ public class UnitedErrorHandler {
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
         ErrorDetails errorDetails = new ErrorDetails("Bad Request", "PlayerId","Player ID already exists.");
         errorDetailsList.add(errorDetails);
-        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
+        ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

@@ -27,11 +27,6 @@ public class AppConfig {
         return new TeamServiceImpl(teamRepository);
     }
 
-//    @Bean
-//    public TeamController teamController(TeamServiceImpl teamServiceImpl) {
-//        return new TeamController(teamServiceImpl);
-//    }
-
     @Bean
     public WebMvcTagsProvider webMvcTagsProvider() {
         return new WebMvcTagsProvider() {

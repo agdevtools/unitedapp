@@ -15,17 +15,11 @@ public class ErrorResponse {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public List<ErrorDetails> getErrorDetails() {
         return errorDetails;
     }
 
-    public void setErrorDetails(List<ErrorDetails> errorDetails) {
-        this.errorDetails = errorDetails;
-    }
 
     public ErrorResponse(String status, List<ErrorDetails> errorDetails) {
         this.status = status;

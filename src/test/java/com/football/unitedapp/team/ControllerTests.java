@@ -1,25 +1,35 @@
 package com.football.unitedapp.team;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.unitedapp.repository.TeamEntity;
-import com.football.unitedapp.util.UnitedErrorHandler;
-import com.football.unitedapp.util.ValidationError;
+import com.football.unitedapp.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,6 +41,9 @@ public class ControllerTests {
 
     @Mock
     private TeamServiceImpl teamServiceImpl;
+
+    @Autowired
+    UnitedErrorHandler unitedErrorHandler;
 
     @InjectMocks
     private TeamController teamController;
@@ -78,6 +91,7 @@ public class ControllerTests {
         assertEquals(6, actualTeamResponse.team.get(1).playerId);
     }
 
+
     @Test
     public void test_whenCreatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
         TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona");
@@ -87,16 +101,15 @@ public class ControllerTests {
         when(teamServiceImpl.createPlayer(any(TeamRequest.class)))
                 .thenReturn(expectedTeamResponse);
 
-         ResultActions resultActions = mockMvc.perform(post("/team")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.status", is("201")))
-        .andExpect(jsonPath("$.team[0].playerName", is("Cantona")))
-        .andExpect(jsonPath("$.team[0].playerId", is(7)));
+        ResultActions resultActions = mockMvc.perform(post("/team")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.status", is("201")))
+                .andExpect(jsonPath("$.team[0].playerName", is("Cantona")))
+                .andExpect(jsonPath("$.team[0].playerId", is(7)));
 
     }
-
 
 
     @Test
@@ -116,6 +129,16 @@ public class ControllerTests {
     }
 
     @Test
+    public void test_whengetLeague_thenreturnsCorrectResponse() throws Exception {
+        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Football",HttpStatus.OK);
+        when(teamServiceImpl.getLeagueTable()).thenReturn(expectedResponse);
+
+        String actualTeamResponse = teamController.getLeagueTable();
+
+        assertEquals("Football", actualTeamResponse);
+    }
+
+    @Test
     public void test_whenUpdatePlayerWithInvalidBody_thenreturns400() throws Exception {
 
         ResultActions resultActions = mockMvc.perform(put("/team")
@@ -127,7 +150,7 @@ public class ControllerTests {
 
     @Test
     public void test_deletePlayer_thenreturnsNoContent() {
-        TeamRequest teamRequest = new TeamRequest(7,"Test");
+        TeamRequest teamRequest = new TeamRequest(7, "Test");
         HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
         when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(HttpStatus.NO_CONTENT);
         HttpStatus actualResponse = teamController.deletePlayer(7);
@@ -140,20 +163,28 @@ public class ControllerTests {
         HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
         when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(expectedResponse);
 
-        mockMvc.perform(delete("/team/{playerId}",7))
+        mockMvc.perform(delete("/team/{playerId}", 7))
                 .andExpect(status().isNoContent());
     }
 
-//    @Test
-//    public void test_whenCreatePlayerIdAlreadyExists_thenreturnsBadRequestAlreadyExists()  {
-//        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(1,"Player"));
-//        teamServiceImpl.createPlayer(new TeamRequest(0,"Player"));
-//
-//       when(teamServiceImpl.createPlayer(any(TeamRequest.class)))
-//                .thenThrow(UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists.class);
-//        TeamResponse actualTeamResponse2 = teamServiceImpl.createPlayer(new TeamRequest(1,"Player"));
-//        assertThrows(UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists.class, () -> teamServiceImpl.createPlayer(new TeamRequest(1,"Player")));
-//    }
+    @Test
+    public void test_whenCreatePlayerIdWithZero_thenreturnsValidationExceptionError() {
+        List<ErrorDetails> expectedErrorList = new ArrayList<>();
+        ErrorDetails expectedErrorDetails = new ErrorDetails("404", "Player Id", "PlayerId must be a number greater than zero");
+        expectedErrorList.add(expectedErrorDetails);
+        ValidationError expectedValidationError = new ValidationError("test code", "test message", expectedErrorList);
+        ValidationException expectedValidationException = new ValidationException(404, expectedValidationError);
+        when(teamServiceImpl.createPlayer(any(TeamRequest.class))).thenThrow(expectedValidationException);
 
-
+        try {
+            teamServiceImpl.createPlayer(new TeamRequest(1, "Test"));
+        } catch (ValidationException ex) {
+            assertEquals(404, ex.getStatus());
+            assertEquals("test code", ex.getError().getCode());
+            assertEquals("test message", ex.getError().getMessage());
+            assertEquals("404", ex.getError().getDetails().get(0).getCode());
+            assertEquals("Player Id", ex.getError().getDetails().get(0).getTarget());
+            assertEquals("PlayerId must be a number greater than zero", ex.getError().getDetails().get(0).getMessage());
+        }
+    }
 }

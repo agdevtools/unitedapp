@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 class UnitedappApplicationTests {
 
@@ -16,19 +18,36 @@ class UnitedappApplicationTests {
 	private TeamRepository teamRepository;
 
 	@InjectMocks
-	private TeamServiceImpl teamService;
+	private TeamServiceImpl teamServiceImpl;
 
 	@Captor
 	private ArgumentCaptor<TeamEntity> captor;
+
+	UnitedappApplication unitedappApplication;
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
 		TeamRequest expectedTeamRequest = new TeamRequest(11, "Ryan Giggs");
 
-		teamService.createPlayer(expectedTeamRequest);
+		teamServiceImpl.createPlayer(expectedTeamRequest);
 		Mockito.verify(teamRepository).save(captor.capture());
 		TeamEntity actualPlayer = captor.getValue();
 		Assertions.assertThat(actualPlayer.getPlayerName()).isEqualTo(expectedTeamRequest.getPlayerName());
 		Assertions.assertThat(actualPlayer.getPlayerId()).isEqualTo(expectedTeamRequest.getPlayerId());
 	}
+
+	@Test
+	public void test_getOperatingSystem() {
+
+		String os = unitedappApplication.getOperatingSystem().toLowerCase();
+
+		if (os.contains("mac")) {
+			System.setProperty("spring.profiles.active", "local");
+		} else {
+			System.setProperty("spring.profiles.active", "prod");
+		}
+
+		assertEquals("local", System.getProperty("spring.profiles.active"));
+	}
 }
+

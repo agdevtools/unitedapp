@@ -2,7 +2,9 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
-import com.football.unitedapp.util.*;
+import com.football.unitedapp.util.ErrorDetails;
+import com.football.unitedapp.util.UnitedErrorHandler;
+import com.football.unitedapp.util.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -71,6 +73,41 @@ public class ServiceImplTests {
 
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("201", actualTeamResponse.status);
+    }
+
+    @Test
+    public void test_savePlayer_thenReturnsCorrectTeamResponse() {
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+
+        TeamResponse actualTeamResponse = teamServiceImpl.savePlayer(expectedTeamEntity);
+
+        assertEquals("201", actualTeamResponse.status);
+    }
+
+    @Test
+    public void test_updatePlayer_thenReturnsCorrectTeamResponse() {
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+
+        TeamResponse actualTeamResponse = teamServiceImpl.updatePlayer(new TeamEntity(6, "Paul Pogba"));
+
+        assertEquals("200", actualTeamResponse.status);
+    }
+
+    @Test
+    public void test_getLeagueTable_thenReturnsCorrectTeamResponse() {
+        ResponseEntity<String> expectedResponse = teamServiceImpl.getLeagueTable();
+        assert (expectedResponse.toString().contains("name\":\"Premier League"));
+    }
+
+    @Test
+    public void test_deletePlayer_thenReturnsNoContent() {
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+        teamServiceImpl.createPlayer(new TeamRequest(1,"Test"));
+        HttpStatus actualTeamResponse = teamServiceImpl.deleteByPlayerId(1);
+
+        assertEquals(HttpStatus.NO_CONTENT, actualTeamResponse);
     }
 
     @Test
@@ -165,9 +202,6 @@ public class ServiceImplTests {
     }
 
 
-
-
-
 //    @Test
 //    public void test_deletePlayer_thenpPlayerNoLongerExists() {
 //        TeamEntity expectedTeamEntity = new TeamEntity(7, "Test");
@@ -181,4 +215,5 @@ public class ServiceImplTests {
 //        TeamResponseTest actualTeamResponse = teamServiceImpl.getPlayer(7);
 //        assertEquals("400", actualTeamResponse.status);
 //        }
+
 }

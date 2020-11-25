@@ -19,6 +19,9 @@ public class TeamEntity {
         this.playerName = playerName;
     }
 
+    public TeamEntity() {
+    }
+
     public int getPlayerId() {
         return playerId;
     }

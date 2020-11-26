@@ -61,7 +61,6 @@ public class TeamServiceImpl implements TeamService {
             HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
             return restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-
     }
 
     public HttpStatus deleteByPlayerId(int playerId) {

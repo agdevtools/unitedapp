@@ -28,10 +28,10 @@ public class UnitedErrorHandler {
     @ExceptionHandler(BadRequestExceptionPlayerIdAlreadyExists.class)
     public ResponseEntity<ErrorResponse> badRequestExceptionPlayerIdAlreadyExists(){
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
-        ErrorDetails errorDetails = new ErrorDetails("Bad Request", "PlayerId","Player ID already exists.");
+        ErrorDetails errorDetails = new ErrorDetails("Conflict", "PlayerId","Player ID already exists.");
         errorDetailsList.add(errorDetails);
         ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ValidationException.class)

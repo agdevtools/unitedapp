@@ -14,11 +14,7 @@ import java.util.logging.Logger;
 public class UnitedappApplication {
 	private static final Logger logger = Logger.getLogger(UnitedappApplication.class.getName());
 	public static void main(String[] args) {
-		if (getOperatingSystem().toLowerCase().contains("mac")) {
-			System.setProperty("spring.profiles.active", "local");
-		} else {
-			System.setProperty("spring.profiles.active", "prod");
-		}
+		setOperatingSystem();
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 		logger.info("**********     on " + getOperatingSystem() +  " ***********");
@@ -28,6 +24,26 @@ public class UnitedappApplication {
 				"|    |  /   |  \\  ||  | \\  ___// /_/ /    |    \\  |_> >  |_> >\n" +
 				"|______/|___|  /__||__|  \\___  >____ \\____|__  /   __/|   __/ \n" +
 				"             \\/              \\/     \\/       \\/|__|   |__|    ");
+
+		printStack();
+
+	}
+
+	public static String getOperatingSystem() {
+		String os = System.getProperty("os.name");
+		System.out.println("Using System Property: " + os);
+		return os;
+	}
+
+	public static void setOperatingSystem() {
+		if (getOperatingSystem().toLowerCase().contains("mac")) {
+			System.setProperty("spring.profiles.active", "local");
+		} else {
+			System.setProperty("spring.profiles.active", "prod");
+		}
+	}
+
+	public static void printStack() {
 		try {
 			while (true) {
 				System.out.println("********  Still Up at " + new Date() + "  **********");
@@ -36,13 +52,6 @@ public class UnitedappApplication {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	public static String getOperatingSystem() {
-		String os = System.getProperty("os.name");
-		System.out.println("Using System Property: " + os);
-		return os;
 	}
 
 }

@@ -187,4 +187,23 @@ public class ControllerTests {
             assertEquals("PlayerId must be a number greater than zero", ex.getError().getDetails().get(0).getMessage());
         }
     }
+
+    @Test
+    public void test_whenCreatePlayerIdAlresdy_thenreturnsValidationExceptionError() {
+        List<ErrorDetails> expectedErrorList = new ArrayList<>();
+        ErrorDetails expectedErrorDetails = new ErrorDetails("Conflict", "PlayerId", "Player ID already exists.");
+        expectedErrorList.add(expectedErrorDetails);
+        ValidationError expectedValidationError = new ValidationError("Conflict", "Player ID already exists.", expectedErrorList);
+        ValidationException expectedValidationException = new ValidationException(409, expectedValidationError);
+        when(teamServiceImpl.createPlayer(any(TeamRequest.class))).thenThrow(expectedValidationException);
+
+        try {
+            teamServiceImpl.createPlayer(new TeamRequest(1, "Test"));
+        } catch(ValidationException ex) {
+            assertEquals(409, ex.getStatus());
+            assertEquals("Conflict", ex.getError().getCode());
+            assertEquals("Player ID already exists.", ex.getError().getMessage());
+            assertEquals("PlayerId", ex.getError().getDetails().get(0).getTarget());
+        }
+    }
 }

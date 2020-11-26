@@ -2,10 +2,7 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
-import com.football.unitedapp.util.ErrorDetails;
-import com.football.unitedapp.util.UnitedErrorHandler;
-import com.football.unitedapp.util.ValidationError;
-import com.football.unitedapp.util.ValidationException;
+import com.football.unitedapp.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -114,7 +111,11 @@ public class TeamServiceImpl implements TeamService {
     private void checkIfPlayerAlreadyExists(TeamRequest teamRequest) {
         Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
         teamEntity.ifPresent(player -> {
-            throw new UnitedErrorHandler.BadRequestExceptionPlayerIdAlreadyExists();
+            List<ErrorDetails> expectedErrorList = new ArrayList<>();
+            ErrorDetails expectedErrorDetails = new ErrorDetails("Conflict", "PlayerId", "Player ID already exists.");
+            expectedErrorList.add(expectedErrorDetails);
+            ValidationError expectedValidationError = new ValidationError("Conflict", "Player ID already exists.", expectedErrorList);
+            throw new ValidationException(409,expectedValidationError);
         });
     }
 }

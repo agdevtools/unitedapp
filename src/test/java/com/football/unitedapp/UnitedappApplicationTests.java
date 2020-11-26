@@ -40,7 +40,6 @@ class UnitedappApplicationTests {
 	public void test_getOperatingSystem() {
 
 		String os = unitedappApplication.getOperatingSystem().toLowerCase();
-
 		if (os.contains("mac")) {
 			System.setProperty("spring.profiles.active", "local");
 		} else {
@@ -49,5 +48,6 @@ class UnitedappApplicationTests {
 
 		assertEquals("local", System.getProperty("spring.profiles.active"));
 	}
+
 }
 

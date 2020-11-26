@@ -13,33 +13,18 @@ import java.util.List;
 @RestControllerAdvice
 public class UnitedErrorHandler {
 
-    public static class BadRequestException extends RuntimeException{}
-    public static class BadRequestExceptionPlayerIdAlreadyExists extends RuntimeException{}
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> badRequestException(){
-        List<ErrorDetails> errorDetailsList = new ArrayList<>();
-        ErrorDetails errorDetails = new ErrorDetails("Bad Request", "Player","Please try again");
-        errorDetailsList.add(errorDetails);
-        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(BadRequestExceptionPlayerIdAlreadyExists.class)
-    public ResponseEntity<ErrorResponse> badRequestExceptionPlayerIdAlreadyExists(){
-        List<ErrorDetails> errorDetailsList = new ArrayList<>();
-        ErrorDetails errorDetails = new ErrorDetails("Conflict", "PlayerId","Player ID already exists.");
-        errorDetailsList.add(errorDetails);
-        ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> validationException(ValidationException ex){
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
         errorDetailsList.addAll(ex.error.details);
         ValidationError error = new ValidationError(ex.error.code, ex.error.message, errorDetailsList);
-        ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        if(ex.status == 409) {
+            ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
+            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        }
+        else {
+            ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -139,7 +139,7 @@ public class ServiceImplTests {
     }
 
     @Test
-    public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws UnitedErrorHandler.BadRequestException {
+    public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws ValidationException {
         assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"Player1")));
 
     }

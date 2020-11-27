@@ -84,15 +84,15 @@ public class ServiceImplTests {
         assertEquals("201", actualTeamResponse.status);
     }
 
-    @Test
-    public void test_updatePlayer_thenReturnsCorrectTeamResponse() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
-        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
-
-        TeamResponse actualTeamResponse = teamServiceImpl.updatePlayer(new TeamEntity(6, "Paul Pogba"));
-
-        assertEquals("200", actualTeamResponse.status);
-    }
+//    @Test
+//    public void test_updatePlayer_thenReturnsCorrectTeamResponse() {
+//        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+//        when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
+//
+//        TeamResponse actualTeamResponse = teamServiceImpl.updatePlayer(new TeamEntity(6, "Paul Pogba"));
+//
+//        assertEquals("200", actualTeamResponse.status);
+//    }
 
     @Test
     public void test_getLeagueTable_thenReturnsCorrectTeamResponse() {

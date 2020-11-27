@@ -39,11 +39,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponse createPlayer(TeamRequest teamRequest) {
-        validateTeamRequest(teamRequest);
-        checkIfPlayerAlreadyExists(teamRequest);
-        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
-        listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(),teamRequest.getPlayerName())));
-        return new TeamResponse("201",listOfTeamEntity);
+
+            validateTeamRequest(teamRequest);
+            checkIfPlayerExists(teamRequest, "create");
+            List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+            listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName())));
+            return new TeamResponse("201", listOfTeamEntity);
     }
 
     @Override
@@ -72,6 +73,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public TeamResponse updatePlayer(TeamEntity teamEntity) {
+        TeamRequest teamRequest = new TeamRequest(teamEntity.playerId,teamEntity.playerName);
+        validateTeamRequest(teamRequest);
+        checkIfPlayerExists(teamRequest,"update");
         List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
         teamRepository.save(teamEntity);
         return new TeamResponse("200",listOfTeamEntity);
@@ -108,14 +112,29 @@ public class TeamServiceImpl implements TeamService {
         return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
     }
 
-    private void checkIfPlayerAlreadyExists(TeamRequest teamRequest) {
+    private void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{
         Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
-        teamEntity.ifPresent(player -> {
-            List<ErrorDetails> expectedErrorList = new ArrayList<>();
+        if (teamEntity.isPresent() && mode=="create") {
+            handleError(409);
+        }
+        else if (!teamEntity.isPresent() && mode=="update") {
+          handleError(404);
+        }
+    }
+
+    private void handleError(int status) {
+        List<ErrorDetails> errorDetailsList = new ArrayList<>();
+            if(status == 409) {
             ErrorDetails expectedErrorDetails = new ErrorDetails("Conflict", "PlayerId", "Player ID already exists.");
-            expectedErrorList.add(expectedErrorDetails);
-            ValidationError expectedValidationError = new ValidationError("Conflict", "Player ID already exists.", expectedErrorList);
-            throw new ValidationException(409,expectedValidationError);
-        });
+            errorDetailsList.add(expectedErrorDetails);
+            ValidationError expectedValidationError = new ValidationError("Conflict", "Player ID already exists.", errorDetailsList);
+            throw new ValidationException(409, expectedValidationError);
+        }
+            else {
+            ErrorDetails expectedErrorDetails = new ErrorDetails("Not Found", "PlayerId", "Player ID Not found.");
+            errorDetailsList.add(expectedErrorDetails);
+            ValidationError expectedValidationError = new ValidationError("Not Found", "Player ID Not found.", errorDetailsList);
+            throw new ValidationException(404, expectedValidationError);
+        }
     }
 }

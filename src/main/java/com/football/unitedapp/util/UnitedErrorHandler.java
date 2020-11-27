@@ -22,6 +22,10 @@ public class UnitedErrorHandler {
             ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
             return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
         }
+        else if (ex.status == 404) {
+            ErrorResponse errorResponse = new ErrorResponse("404", errorDetailsList);
+            return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        }
         else {
             ErrorResponse errorResponse = new ErrorResponse("400", errorDetailsList);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

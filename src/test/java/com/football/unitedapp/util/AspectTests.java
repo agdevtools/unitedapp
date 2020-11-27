@@ -1,6 +1,5 @@
 package com.football.unitedapp.util;
 
-
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.repository.TeamRepository;
 import com.football.unitedapp.team.*;
@@ -11,13 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import java.util.logging.Logger;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(OutputCaptureExtension.class)
 @Configuration
@@ -39,7 +34,7 @@ public class AspectTests {
 
     @Test
     @CaptureSystemOutput
-    public void test_aspectWorks(CaptureSystemOutput.OutputCapture capture) {
+    public void test_whenControllerGetTeam_thenAspectInterceptsandLogsOut(CaptureSystemOutput.OutputCapture capture) {
         teamController.getTeam();
 
         String consoleOutput = capture.toString();
@@ -50,7 +45,7 @@ public class AspectTests {
 
     @Test
     @CaptureSystemOutput
-    public void test_aspectWorks_player(CaptureSystemOutput.OutputCapture capture) {
+    public void test_whenControllerGetPlayer_thenAspectInterceptsandLogsOut(CaptureSystemOutput.OutputCapture capture) {
         teamController.getPlayer(1);
         String consoleOutput = capture.toString();
         assertTrue(consoleOutput.contains("INFO"));
@@ -58,7 +53,7 @@ public class AspectTests {
     }
 
     @Test
-    public void test_updatePlayer_thenReturnsCorrectTeamResponse() {
+    public void test_whenUpdatePlayerThatDoesNotExist_thenReturn404Error() {
         try {
             teamServiceImpl.updatePlayer(new TeamEntity(7, "Paul Pogbab"));
         } catch (ValidationException ex) {
@@ -69,7 +64,7 @@ public class AspectTests {
     }
 
     @Test
-    public void test_createPlayer_thenReturnsCorrectTeamResponse() {
+    public void test_whenCreatePlayerThatAlreadyExists_thenReturn409Error() {
         TeamRequest teamRequest = new TeamRequest(6,"Test Player");
         teamServiceImpl.createPlayer(teamRequest);
 
@@ -80,6 +75,18 @@ public class AspectTests {
             assertEquals("Player ID already exists.",ex.getError().getMessage());
             assertEquals("Conflict",ex.getError().getCode());
         }
+    }
+
+    @Test
+    public void test_whenUpdatePlayer_thenReturns200andEmptyTeamEntity() {
+        TeamRequest teamRequest = new TeamRequest(6,"Test Player");
+        teamServiceImpl.createPlayer(teamRequest);
+        TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), "Updated Player");
+
+        TeamResponse actualTeamResponse = teamServiceImpl.updatePlayer(expectedTeamEntity);
+
+        assertEquals("200",actualTeamResponse.getStatus());
+        assertTrue(actualTeamResponse.getTeam().isEmpty());
     }
 
 }

@@ -65,7 +65,7 @@ public class AspectTests {
 
     @Test
     public void test_whenCreatePlayerThatAlreadyExists_thenReturn409Error() {
-        TeamRequest teamRequest = new TeamRequest(6,"Test Player");
+        TeamRequest teamRequest = new TeamRequest(7,"Test Player");
         teamServiceImpl.createPlayer(teamRequest);
 
         try {

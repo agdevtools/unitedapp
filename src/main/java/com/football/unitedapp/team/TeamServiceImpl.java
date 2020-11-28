@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class TeamServiceImpl implements TeamService {
 
@@ -42,7 +39,7 @@ public class TeamServiceImpl implements TeamService {
 
             validateTeamRequest(teamRequest);
             checkIfPlayerExists(teamRequest, "create");
-            List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+            List<TeamEntity> listOfTeamEntity = new ArrayList<>();
             listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName())));
             return new TeamResponse("201", listOfTeamEntity);
     }
@@ -54,7 +51,7 @@ public class TeamServiceImpl implements TeamService {
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
             headers.add("X-Auth-Token","2a88122678894952829ef98dd6e898f6");
             HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
@@ -67,7 +64,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public TeamResponse savePlayer (TeamEntity teamEntity) {
-        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+        List<TeamEntity> listOfTeamEntity = new ArrayList<>();
         listOfTeamEntity.add(teamRepository.save(teamEntity));
         return new TeamResponse("201",listOfTeamEntity);
     }
@@ -76,7 +73,7 @@ public class TeamServiceImpl implements TeamService {
         TeamRequest teamRequest = new TeamRequest(teamEntity.playerId,teamEntity.playerName);
         validateTeamRequest(teamRequest);
         checkIfPlayerExists(teamRequest,"update");
-        List<TeamEntity> listOfTeamEntity = new ArrayList<TeamEntity>();
+        List<TeamEntity> listOfTeamEntity = new ArrayList<>();
         teamRepository.save(teamEntity);
         return new TeamResponse("200",listOfTeamEntity);
     }
@@ -93,7 +90,7 @@ public class TeamServiceImpl implements TeamService {
         }
 
         if (errorDetailsList.size() > 0) {
-            ValidationError error = new ValidationError("Validationfailed", "There were valodation errors", errorDetailsList);
+            ValidationError error = new ValidationError("Validationfailed", "There were validation errors", errorDetailsList);
             throw new ValidationException(400, error);
         }
 
@@ -112,12 +109,12 @@ public class TeamServiceImpl implements TeamService {
         return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
     }
 
-    private void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{
+    public void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{
         Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
-        if (teamEntity.isPresent() && mode=="create") {
+        if (teamEntity.isPresent() && mode.equals("create")) {
             handleError(409);
         }
-        else if (!teamEntity.isPresent() && mode=="update") {
+        else if (!teamEntity.isPresent() && mode.equals("update")) {
           handleError(404);
         }
     }
@@ -125,13 +122,13 @@ public class TeamServiceImpl implements TeamService {
     private void handleError(int status) {
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
             if(status == 409) {
-            ErrorDetails expectedErrorDetails = new ErrorDetails("Conflict", "PlayerId", "Player ID already exists.");
+            ErrorDetails expectedErrorDetails = new ErrorDetails("Conflict", "Player Id", "Player ID already exists.");
             errorDetailsList.add(expectedErrorDetails);
             ValidationError expectedValidationError = new ValidationError("Conflict", "Player ID already exists.", errorDetailsList);
             throw new ValidationException(409, expectedValidationError);
         }
             else {
-            ErrorDetails expectedErrorDetails = new ErrorDetails("Not Found", "PlayerId", "Player ID Not found.");
+            ErrorDetails expectedErrorDetails = new ErrorDetails("Not Found", "Player Id", "Player ID Not found.");
             errorDetailsList.add(expectedErrorDetails);
             ValidationError expectedValidationError = new ValidationError("Not Found", "Player ID Not found.", errorDetailsList);
             throw new ValidationException(404, expectedValidationError);

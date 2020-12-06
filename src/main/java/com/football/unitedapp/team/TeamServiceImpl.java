@@ -82,11 +82,11 @@ public class TeamServiceImpl implements TeamService {
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
 
         if(!validatePlayerId(teamRequest.getPlayerId())) {
-            errorDetailsList.add(populateErrorDetails("Player Id","PlayerId must be a number greater than zero"));
+            errorDetailsList.add(populateErrorDetails("Player Id","PlayerId cannot be empty and must be a number greater than zero"));
         }
 
         if(!validatePlayerName(teamRequest.getPlayerName())) {
-            errorDetailsList.add(populateErrorDetails("Player Name", "Player Name cannot contain numbers and certain special characters"));
+            errorDetailsList.add(populateErrorDetails("Player Name", "Player Name cannot be empty or contain numbers and certain special characters"));
         }
 
         if (errorDetailsList.size() > 0) {

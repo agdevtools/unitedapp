@@ -171,7 +171,7 @@ public class ServiceImplTests {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());
                 assertEquals(1,expectedErrorList.size());
-                assertEquals("PlayerId must be a number greater than zero",expectedErrorList.get(0).getMessage());
+                assertEquals("PlayerId cannot be empty and must be a number greater than zero",expectedErrorList.get(0).getMessage());
                 assertEquals("Player Id",expectedErrorList.get(0).getTarget());
             }
         }
@@ -184,7 +184,7 @@ public class ServiceImplTests {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());
                 assertEquals(1,expectedErrorList.size());
-                assertEquals("Player Name cannot contain numbers and certain special characters",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Name cannot be empty or contain numbers and certain special characters",expectedErrorList.get(0).getMessage());
                 assertEquals("Player Name",expectedErrorList.get(0).getTarget());
             }
         }
@@ -197,9 +197,9 @@ public class ServiceImplTests {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());
                 assertEquals(2,expectedErrorList.size());
-                assertEquals("PlayerId must be a number greater than zero",expectedErrorList.get(0).getMessage());
+                assertEquals("PlayerId cannot be empty and must be a number greater than zero",expectedErrorList.get(0).getMessage());
                 assertEquals("Player Id",expectedErrorList.get(0).getTarget());
-                assertEquals("Player Name cannot contain numbers and certain special characters",expectedErrorList.get(1).getMessage());
+                assertEquals("Player Name cannot be empty or contain numbers and certain special characters",expectedErrorList.get(1).getMessage());
                 assertEquals("Player Name",expectedErrorList.get(1).getTarget());
             }
         }

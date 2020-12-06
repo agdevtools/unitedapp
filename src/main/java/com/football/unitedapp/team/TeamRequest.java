@@ -27,6 +27,8 @@ public class TeamRequest {
     }
 
     public TeamRequest() {
+        this.playerId = 0;
+        this.playerName = "";
     }
 
 }

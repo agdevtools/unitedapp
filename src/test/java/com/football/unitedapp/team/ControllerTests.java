@@ -1,35 +1,26 @@
 package com.football.unitedapp.team;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.unitedapp.repository.TeamEntity;
-import com.football.unitedapp.util.*;
+import com.football.unitedapp.util.ErrorDetails;
+import com.football.unitedapp.util.ValidationError;
+import com.football.unitedapp.util.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,9 +32,6 @@ public class ControllerTests {
 
     @Mock
     private TeamServiceImpl teamServiceImpl;
-
-    @Autowired
-    UnitedErrorHandler unitedErrorHandler;
 
     @InjectMocks
     private TeamController teamController;
@@ -101,7 +89,7 @@ public class ControllerTests {
         when(teamServiceImpl.createPlayer(any(TeamRequest.class)))
                 .thenReturn(expectedTeamResponse);
 
-        ResultActions resultActions = mockMvc.perform(post("/team")
+         mockMvc.perform(post("/team")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"playerId\":\"7\",\"playerName\":\"Cantona\"}"))
                 .andExpect(status().isCreated())
@@ -121,7 +109,7 @@ public class ControllerTests {
         when(teamServiceImpl.updatePlayer(any(TeamEntity.class)))
                 .thenReturn(expectedTeamResponse);
 
-        ResultActions resultActions = mockMvc.perform(put("/team")
+        mockMvc.perform(put("/team")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"playerId\":\"7\",\"playerName\":\"Cantona7\"}"))
                 .andExpect(status().isOk())
@@ -129,7 +117,7 @@ public class ControllerTests {
     }
 
     @Test
-    public void test_whengetLeague_thenreturnsCorrectResponse() throws Exception {
+    public void test_whengetLeague_thenreturnsCorrectResponse() {
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Football",HttpStatus.OK);
         when(teamServiceImpl.getLeagueTable()).thenReturn(expectedResponse);
 
@@ -141,7 +129,7 @@ public class ControllerTests {
     @Test
     public void test_whenUpdatePlayerWithInvalidBody_thenreturns400() throws Exception {
 
-        ResultActions resultActions = mockMvc.perform(put("/team")
+         mockMvc.perform(put("/team")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(""))
                 .andExpect(status().isBadRequest());
@@ -150,12 +138,10 @@ public class ControllerTests {
 
     @Test
     public void test_deletePlayer_thenreturnsNoContent() {
-        TeamRequest teamRequest = new TeamRequest(7, "Test");
         HttpStatus expectedResponse = HttpStatus.NO_CONTENT;
         when(teamServiceImpl.deleteByPlayerId(anyInt())).thenReturn(HttpStatus.NO_CONTENT);
         HttpStatus actualResponse = teamController.deletePlayer(7);
         assertEquals(expectedResponse, actualResponse);
-
     }
 
     @Test

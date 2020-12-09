@@ -3,11 +3,13 @@ package com.football.unitedapp.team;
 public class TeamRequest {
     private int playerId;
     private String playerName;
+    private String playerPosition;
 
 
-    public TeamRequest(int playerId, String playerName) {
+    public TeamRequest(int playerId, String playerName, String playerPosition) {
         this.playerId = playerId;
         this.playerName = playerName;
+        this.playerPosition = playerPosition;
     }
 
     public int getPlayerId() {
@@ -22,6 +24,14 @@ public class TeamRequest {
         return playerName;
     }
 
+    public String getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public void setPlayerPosition(String playerPosition) {
+        this.playerPosition = playerPosition;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
@@ -29,6 +39,7 @@ public class TeamRequest {
     public TeamRequest() {
         this.playerId = 0;
         this.playerName = "";
+        this.playerPosition = "";
     }
 
 }

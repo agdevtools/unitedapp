@@ -13,10 +13,13 @@ public class TeamEntity {
     public int playerId;
     @Column(name = "player_name")
     public String playerName;
+    @Column(name = "player_position")
+    public String playerPosition;
 
-    public TeamEntity(int playerId, String playerName) {
+    public TeamEntity(int playerId, String playerName, String playerPosition) {
         this.playerId = playerId;
         this.playerName = playerName;
+        this.playerPosition = playerPosition;
     }
 
     public TeamEntity() {
@@ -28,5 +31,9 @@ public class TeamEntity {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public String getPlayerPosition() {
+        return playerPosition;
     }
 }

@@ -40,7 +40,7 @@ public class TeamServiceImpl implements TeamService {
             validateTeamRequest(teamRequest);
             checkIfPlayerExists(teamRequest, "create");
             List<TeamEntity> listOfTeamEntity = new ArrayList<>();
-            listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName())));
+            listOfTeamEntity.add(teamRepository.save(new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName(),teamRequest.getPlayerPosition())));
             return new TeamResponse("201", listOfTeamEntity);
     }
 
@@ -70,7 +70,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public TeamResponse updatePlayer(TeamEntity teamEntity) {
-        TeamRequest teamRequest = new TeamRequest(teamEntity.playerId,teamEntity.playerName);
+        TeamRequest teamRequest = new TeamRequest(teamEntity.playerId,teamEntity.playerName, teamEntity.playerPosition);
         validateTeamRequest(teamRequest);
         checkIfPlayerExists(teamRequest,"update");
         List<TeamEntity> listOfTeamEntity = new ArrayList<>();
@@ -87,6 +87,10 @@ public class TeamServiceImpl implements TeamService {
 
         if(!validatePlayerName(teamRequest.getPlayerName())) {
             errorDetailsList.add(populateErrorDetails("Player Name", "Player Name cannot be empty or contain numbers and certain special characters"));
+        }
+
+        if(!validatePlayerPosition(teamRequest.getPlayerPosition())) {
+            errorDetailsList.add(populateErrorDetails("Player Position", "Player Position cannot be empty or contain numbers and certain special characters"));
         }
 
         if (errorDetailsList.size() > 0) {
@@ -107,6 +111,10 @@ public class TeamServiceImpl implements TeamService {
 
     private boolean validatePlayerName(String playerName) {
         return !playerName.isEmpty() && playerName.matches(("^[a-zA-Z .'-]*$"));
+    }
+
+    private boolean validatePlayerPosition(String playerPosition) {
+        return !playerPosition.isEmpty() && playerPosition.matches(("^[a-zA-Z .'-]*$"));
     }
 
     public void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{

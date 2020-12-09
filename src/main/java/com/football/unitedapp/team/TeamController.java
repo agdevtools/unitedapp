@@ -38,7 +38,7 @@ public class TeamController {
     @PutMapping("/team")
     @ResponseStatus(HttpStatus.OK)
     public TeamResponse updatePlayer(@RequestBody TeamRequest teamRequest) {
-        TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName());
+        TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName(), teamRequest.getPlayerPosition());
         return teamServiceImpl.updatePlayer(teamEntity);
     }
 

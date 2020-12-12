@@ -47,7 +47,7 @@ public class ControllerTests {
 
     @Test
     public void test_whenGetPlayerById_thenreturnsCorrectTeamResponseBody() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba", "Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         TeamResponse expectedTeamResponse = new TeamResponse("200", expectedTeamEntityList);
@@ -62,8 +62,8 @@ public class ControllerTests {
 
     @Test
     public void test_whenGetTeam_thenreturnsListOfTeamEntity() {
-        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
-        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire","Defender");
+        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba", "Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
@@ -82,7 +82,7 @@ public class ControllerTests {
 
     @Test
     public void test_whenCreatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
-        TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona");
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona","Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         TeamResponse expectedTeamResponse = new TeamResponse("201", expectedTeamEntityList);
@@ -102,7 +102,7 @@ public class ControllerTests {
 
     @Test
     public void test_whenUpdatePlayer_thenreturnsCorrectTeamResponseBody() throws Exception {
-        TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona");
+        TeamEntity expectedTeamEntity = new TeamEntity(7, "Cantona","Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         TeamResponse expectedTeamResponse = new TeamResponse("200", expectedTeamEntityList);
@@ -163,7 +163,7 @@ public class ControllerTests {
         when(teamServiceImpl.createPlayer(any(TeamRequest.class))).thenThrow(expectedValidationException);
 
         try {
-            teamServiceImpl.createPlayer(new TeamRequest(1, "Test"));
+            teamServiceImpl.createPlayer(new TeamRequest(1, "Test","Test"));
         } catch (ValidationException ex) {
             assertEquals(404, ex.getStatus());
             assertEquals("test code", ex.getError().getCode());
@@ -184,7 +184,7 @@ public class ControllerTests {
         when(teamServiceImpl.createPlayer(any(TeamRequest.class))).thenThrow(expectedValidationException);
 
         try {
-            teamServiceImpl.createPlayer(new TeamRequest(1, "Test"));
+            teamServiceImpl.createPlayer(new TeamRequest(1, "Test","Test"));
         } catch(ValidationException ex) {
             assertEquals(409, ex.getStatus());
             assertEquals("Conflict", ex.getError().getCode());

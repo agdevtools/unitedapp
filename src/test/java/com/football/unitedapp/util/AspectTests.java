@@ -55,7 +55,7 @@ public class AspectTests {
     @Test
     public void test_whenUpdatePlayerThatDoesNotExist_thenReturn404Error() {
         try {
-            teamServiceImpl.updatePlayer(new TeamEntity(7, "Paul Pogbab"));
+            teamServiceImpl.updatePlayer(new TeamEntity(7, "Paul Pogbab","Midfielder"));
         } catch (ValidationException ex) {
             assertEquals(404, ex.getStatus());
             assertEquals("Player ID Not found.",ex.getError().getMessage());
@@ -65,7 +65,7 @@ public class AspectTests {
 
     @Test
     public void test_whenCreatePlayerThatAlreadyExists_thenReturn409Error() {
-        TeamRequest teamRequest = new TeamRequest(7,"Test Player");
+        TeamRequest teamRequest = new TeamRequest(7,"Test Player","Test");
         teamServiceImpl.createPlayer(teamRequest);
 
         try {
@@ -79,9 +79,9 @@ public class AspectTests {
 
     @Test
     public void test_whenUpdatePlayer_thenReturns200andEmptyTeamEntity() {
-        TeamRequest teamRequest = new TeamRequest(6,"Test Player");
+        TeamRequest teamRequest = new TeamRequest(6,"Test Player","Test");
         teamServiceImpl.createPlayer(teamRequest);
-        TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), "Updated Player");
+        TeamEntity expectedTeamEntity = new TeamEntity(teamRequest.getPlayerId(), "Updated Player","Test");
 
         TeamResponse actualTeamResponse = teamServiceImpl.updatePlayer(expectedTeamEntity);
 

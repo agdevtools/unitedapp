@@ -27,7 +27,7 @@ class UnitedappApplicationTests {
 
 	@Test
 	public void test_whenCreatePlayer_thenWriteToRepository() {
-		TeamRequest expectedTeamRequest = new TeamRequest(11, "Ryan Giggs");
+		TeamRequest expectedTeamRequest = new TeamRequest(11, "Ryan Giggs","Midfielder");
 
 		teamServiceImpl.createPlayer(expectedTeamRequest);
 		Mockito.verify(teamRepository).save(captor.capture());

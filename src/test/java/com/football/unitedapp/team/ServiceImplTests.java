@@ -36,8 +36,8 @@ public class ServiceImplTests {
 
     @Test
     public void test_serviceImplWhenGetTeam_thenReturnsCorrectResponseBody() {
-        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire");
-        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity1 = new TeamEntity(5, "Harry Maguire","Midfielder");
+        TeamEntity expectedTeamEntity2 = new TeamEntity(6, "Paul Pogba","Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity1);
         expectedTeamEntityList.add(expectedTeamEntity2);
@@ -55,7 +55,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_serviceImplWhenGetPlayerById_thenReturnsPlayerEntityInCorrectResponseBody() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba","Midfielder");
         List<TeamEntity> expectedTeamEntityList = new ArrayList<>();
         expectedTeamEntityList.add(expectedTeamEntity);
         when(teamRepository.findByPlayerId(anyInt())).thenReturn(expectedTeamEntityList);
@@ -66,10 +66,10 @@ public class ServiceImplTests {
 
     @Test
     public void test_createPlayer_thenReturnsCorrectTeamResponse() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba","Midfielder");
         when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
 
-        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba"));
+        TeamResponse actualTeamResponse = teamServiceImpl.createPlayer(new TeamRequest(6, "Paul Pogba","Midfielder"));
 
         assertEquals("Paul Pogba", actualTeamResponse.team.get(0).playerName);
         assertEquals("201", actualTeamResponse.status);
@@ -77,7 +77,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_savePlayer_thenReturnsCorrectTeamResponse() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba","Midfielder");
 
         TeamResponse actualTeamResponse = teamServiceImpl.savePlayer(expectedTeamEntity);
 
@@ -86,7 +86,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_whenCheckIfPlayerExistsUpdate_thenReturns404() {
-        TeamRequest teamRequest = new TeamRequest(6,"Updated Player");
+        TeamRequest teamRequest = new TeamRequest(6,"Updated Player","Midfielder");
 
         try {
             teamServiceImpl.checkIfPlayerExists(teamRequest,"update");
@@ -107,9 +107,9 @@ public class ServiceImplTests {
 
     @Test
     public void test_deletePlayer_thenReturnsNoContent() {
-        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba");
+        TeamEntity expectedTeamEntity = new TeamEntity(6, "Paul Pogba","Midfielder");
         when(teamRepository.save(any(TeamEntity.class))).thenReturn(expectedTeamEntity);
-        teamServiceImpl.createPlayer(new TeamRequest(1,"Test"));
+        teamServiceImpl.createPlayer(new TeamRequest(1,"Test","Test"));
         HttpStatus actualTeamResponse = teamServiceImpl.deleteByPlayerId(1);
 
         assertEquals(HttpStatus.NO_CONTENT, actualTeamResponse);
@@ -117,7 +117,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_whenValidateRequestPlayerNameContainsSpace_thenReturnsTrue()  {
-        TeamRequest request = new TeamRequest(7,"Name WithSpace");
+        TeamRequest request = new TeamRequest(7,"Name WithSpace","Test");
         teamServiceImpl.validateTeamRequest(request);
 
         assertTrue(teamServiceImpl.validateTeamRequest(request));
@@ -125,7 +125,7 @@ public class ServiceImplTests {
 
     @Test
     public void test_whenValidateRequestPlayerNameContainsHypenAndinvertedComma_thenReturnsTrue()  {
-        TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace");
+        TeamRequest request = new TeamRequest(7,"Name-With'InvertedComma andSpace","Test");
         teamServiceImpl.validateTeamRequest(request);
 
         assertTrue(teamServiceImpl.validateTeamRequest(request));
@@ -133,30 +133,30 @@ public class ServiceImplTests {
 
     @Test
     public void test_whenValidateRequestPlayerNameContainsSpecialCharacters_thenThrowsValidationException()  {
-        TeamRequest request = new TeamRequest(7,"Name WithSpecial%");
+        TeamRequest request = new TeamRequest(7,"Name WithSpecial%","Test");
 
         assertThrows(ValidationException.class, () -> teamServiceImpl.validateTeamRequest(request));
     }
 
     @Test
     public void test_whenCreatePlayerNameWithNonAlphabeticCharacters_thenReturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$")));
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"%%%$$$","Test")));
     }
 
     @Test
     public void test_whenCreatePlayerContainingNumbers_thenReturnsBadRequest() throws ValidationException {
-        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"Player1")));
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"Player1","Test")));
 
     }
 
     @Test
     public void test_whenCreatePlayerWithEmptyPlayerName_thenreturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"")));
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(7,"","Test")));
     }
 
     @Test
     public void test_whenCreatePlayerIdWithZero_thenreturnsBadRequest()  {
-        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(0,"Player")));
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(0,"Player","Test")));
     }
 
 
@@ -166,7 +166,7 @@ public class ServiceImplTests {
         @Test
         public void test_givenInvalidPlayerId_thenReturnsErrorDetailswithCorrectResponse() {
             try {
-                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"Test"));
+                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"Test","Test"));
             } catch (ValidationException ex) {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());
@@ -179,7 +179,7 @@ public class ServiceImplTests {
         @Test
         public void test_givenInvalidPlayerName_thenReturnsErrorDetailswithCorrectResponse() {
             try {
-                teamServiceImpl.validateTeamRequest(new TeamRequest(1,"££££££6776767%%%"));
+                teamServiceImpl.validateTeamRequest(new TeamRequest(1,"££££££6776767%%%","Test"));
             } catch (ValidationException ex) {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());
@@ -192,7 +192,7 @@ public class ServiceImplTests {
         @Test
         public void test_givenInvalidPlayerNameAndPlayerId_thenReturnsErrorDetailswithCorrectResponse() {
             try {
-                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"££££££6776767%%%"));
+                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"££££££6776767%%%","Test"));
             } catch (ValidationException ex) {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
                 expectedErrorList.addAll(ex.getError().getDetails());

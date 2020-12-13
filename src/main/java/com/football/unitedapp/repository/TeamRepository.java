@@ -20,6 +20,6 @@ public interface TeamRepository extends JpaRepository<TeamEntity, String> {
     TeamEntity save(TeamEntity teamEntity);
 
     @Transactional
-    HttpStatus deleteByPlayerId(int playerId);
+    void deleteByPlayerId(int playerId);
 }
 

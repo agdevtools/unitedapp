@@ -28,10 +28,6 @@ public class TeamRequest {
         return playerPosition;
     }
 
-    public void setPlayerPosition(String playerPosition) {
-        this.playerPosition = playerPosition;
-    }
-
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }

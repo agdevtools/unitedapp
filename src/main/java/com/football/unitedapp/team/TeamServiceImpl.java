@@ -90,7 +90,7 @@ public class TeamServiceImpl implements TeamService {
         }
 
         if(!validatePlayerPosition(teamRequest.getPlayerPosition())) {
-            errorDetailsList.add(populateErrorDetails("Player Position", "Player Position cannot be empty or contain numbers and certain special characters"));
+            errorDetailsList.add(populateErrorDetails("Player Position", "You must select a player position."));
         }
 
         if (errorDetailsList.size() > 0) {

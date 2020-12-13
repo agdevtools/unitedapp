@@ -47,10 +47,15 @@ public class ServiceImplTests {
         TeamResponse actualTeamResponse = teamServiceImpl.getTeam();
 
         assertEquals("200", actualTeamResponse.status);
+
         assertEquals(5,actualTeamResponse.team.get(0).playerId);
         assertEquals(6,actualTeamResponse.team.get(1).playerId);
+
         assertEquals("Harry Maguire",actualTeamResponse.team.get(0).playerName);
         assertEquals("Paul Pogba",actualTeamResponse.team.get(1).playerName);
+
+        assertEquals("Midfielder",actualTeamResponse.team.get(0).playerPosition);
+        assertEquals("Midfielder",actualTeamResponse.team.get(1).playerPosition);
     }
 
     @Test
@@ -159,6 +164,10 @@ public class ServiceImplTests {
         assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(0,"Player","Test")));
     }
 
+    @Test
+    public void test_whenCreateEmptyPlayerPosition_thenreturnsBadRequest()  {
+        assertThrows(ValidationException.class, () -> teamServiceImpl.createPlayer(new TeamRequest(99,"Player","")));
+    }
 
     @Nested
     class TeamRequestTests {
@@ -190,6 +199,19 @@ public class ServiceImplTests {
         }
 
         @Test
+        public void test_givenInvalidPlayerPosition_thenReturnsErrorDetailswithCorrectResponse() {
+            try {
+                teamServiceImpl.validateTeamRequest(new TeamRequest(1,"Test Player","%%$$$"));
+            } catch (ValidationException ex) {
+                List<ErrorDetails> expectedErrorList = new ArrayList<>();
+                expectedErrorList.addAll(ex.getError().getDetails());
+                assertEquals(1,expectedErrorList.size());
+                assertEquals("You must select a player position.",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Position",expectedErrorList.get(0).getTarget());
+            }
+        }
+
+        @Test
         public void test_givenInvalidPlayerNameAndPlayerId_thenReturnsErrorDetailswithCorrectResponse() {
             try {
                 teamServiceImpl.validateTeamRequest(new TeamRequest(0,"££££££6776767%%%","Test"));
@@ -201,6 +223,23 @@ public class ServiceImplTests {
                 assertEquals("Player Id",expectedErrorList.get(0).getTarget());
                 assertEquals("Player Name cannot be empty or contain numbers and certain special characters",expectedErrorList.get(1).getMessage());
                 assertEquals("Player Name",expectedErrorList.get(1).getTarget());
+            }
+        }
+
+        @Test
+        public void test_givenInvalidPlayerNamePlayerIdandPosition_thenReturnsErrorDetailswithCorrectResponse() {
+            try {
+                teamServiceImpl.validateTeamRequest(new TeamRequest(0,"££££££6776767%%%",""));
+            } catch (ValidationException ex) {
+                List<ErrorDetails> expectedErrorList = new ArrayList<>();
+                expectedErrorList.addAll(ex.getError().getDetails());
+                assertEquals(3,expectedErrorList.size());
+                assertEquals("PlayerId cannot be empty and must be a number greater than zero",expectedErrorList.get(0).getMessage());
+                assertEquals("Player Id",expectedErrorList.get(0).getTarget());
+                assertEquals("Player Name cannot be empty or contain numbers and certain special characters",expectedErrorList.get(1).getMessage());
+                assertEquals("Player Name",expectedErrorList.get(1).getTarget());
+                assertEquals("Player Position",expectedErrorList.get(2).getTarget());
+                assertEquals("You must select a player position.",expectedErrorList.get(2).getMessage());
             }
         }
 

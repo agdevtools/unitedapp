@@ -48,7 +48,7 @@ public class TeamController {
         return teamServiceImpl.getPlayer(playerId);
     }
 
-    @RequestMapping(value = "/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
+    @RequestMapping(value = "/team/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
     public String getLeagueTable() {
         ResponseEntity<String> responseEntity =  teamServiceImpl.getLeagueTable();
         return Objects.requireNonNull(responseEntity.getBody());

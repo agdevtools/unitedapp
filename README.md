@@ -30,5 +30,12 @@ You can try out the UnitedAppReact here: https://unitedappfrontend.herokuapp.com
 
 ![Screenshot](unitedappArc.png)
 
-to run locally in docker download latest potgres image and run :
+## How to run this app:
+
+git clone https://github.com/agdevtools/unitedapp.git
+
+cd unitedapp
+
+docker: 
+
 docker run --name postgres -e POSTGRES_HOST_AUTH_METHOD=trust  -d postgres

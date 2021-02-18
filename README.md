@@ -22,6 +22,8 @@ You can try out the footiestats app at : https://footiestats.herokuapp.com (Swag
 
 UnitedAppReact is one of my first forays into react web applications. Again it was a learning tool but it incorporates some useful functionality such as, Auth0 authentication and nginx. Most, if not all, of the validation is carried out on the backed (unitedapp). UnitedAppReact also uses the footiestats app to get some of its content.
 
+You can try out the UnitedAppReact here: https://unitedappfrontend.herokuapp.com
+
 ## Architecture
 
 ![Screenshot](unitedappArc.png)

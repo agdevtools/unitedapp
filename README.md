@@ -24,6 +24,8 @@ UnitedAppReact is one of my first forays into react web applications. Again it w
 
 You can try out the UnitedAppReact here: https://unitedappfrontend.herokuapp.com
 
+## -----------------------------------------------------------------------
+
 ## Architecture
 
 ![Screenshot](unitedappArc.png)

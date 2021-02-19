@@ -1,5 +1,6 @@
 package com.football.unitedapp.team;
 
+import com.football.unitedapp.dblogger.DBLoggingServiceImpl;
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.ErrorDetails;
 import com.football.unitedapp.util.ValidationError;
@@ -33,6 +34,9 @@ public class ControllerTests {
     @Mock
     private TeamServiceImpl teamServiceImpl;
 
+    @Mock
+    DBLoggingServiceImpl dbLoggingService;
+
     @InjectMocks
     private TeamController teamController;
 
@@ -41,7 +45,7 @@ public class ControllerTests {
     @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
-        mockMvc = standaloneSetup(new TeamController(teamServiceImpl))
+        mockMvc = standaloneSetup(new TeamController(teamServiceImpl,dbLoggingService))
                 .build();
     }
 

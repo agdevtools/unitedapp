@@ -27,8 +27,9 @@ public class TeamController {
     final TeamServiceImpl teamServiceImpl;
 
     @Autowired
-    public TeamController(TeamServiceImpl teamServiceImpl) {
+    public TeamController(TeamServiceImpl teamServiceImpl, DBLoggingServiceImpl dbLoggingService) {
         this.teamServiceImpl = teamServiceImpl;
+        this.dbLoggingService = dbLoggingService;
     }
 
     @GetMapping("/team")

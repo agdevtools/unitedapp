@@ -1,2 +1,8 @@
-package com.football.unitedapp.repository;public class LogsRepository {
+package com.football.unitedapp.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface LogsRepository extends JpaRepository<LogsEntity, String> {
 }

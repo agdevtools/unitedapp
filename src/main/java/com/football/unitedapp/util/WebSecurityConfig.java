@@ -34,6 +34,8 @@ public class WebSecurityConfig
                 .httpBasic()
                 .and()
                 .csrf().disable();
+
+        http.headers().frameOptions().disable();
     }
 
     @Bean

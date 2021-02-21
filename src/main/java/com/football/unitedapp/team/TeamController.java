@@ -19,7 +19,6 @@ import java.util.Objects;
 public class TeamController {
 
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-    Date requestDate = new Date(System.currentTimeMillis());
 
     @Autowired
     private DBLoggingServiceImpl dbLoggingService;

@@ -18,13 +18,6 @@ public class UnitedappApplication {
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 		logger.info("**********     on " + getOperatingSystem() +  " ***********");
-		logger.info(" ____ ___      .__  __             .___ _____                 \n" +
-				"|    |   \\____ |__|/  |_  ____   __| _//  _  \\ ______ ______  \n" +
-				"|    |   /    \\|  \\   __\\/ __ \\ / __ |/  /_\\  \\\\____ \\\\____ \\ \n" +
-				"|    |  /   |  \\  ||  | \\  ___// /_/ /    |    \\  |_> >  |_> >\n" +
-				"|______/|___|  /__||__|  \\___  >____ \\____|__  /   __/|   __/ \n" +
-				"             \\/              \\/     \\/       \\/|__|   |__|    ");
-
 		printStack();
 
 	}

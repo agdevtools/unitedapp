@@ -21,10 +21,10 @@ public class KafkaConsumer {
 
     private final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
-    @KafkaListener(topics = "footie23", groupId = "jacek-japila-pl")
+    @KafkaListener(topics = "footiestats", groupId = "unitedapp")
     public void consume(String message){
 
-        logger.info(String.format("$$$ -> Consumed Message -> %s",message));
+        logger.info(String.format("$$$ -> Consumed footiestats Message -> %s",message));
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),getEndPoint(message), "GET","");
 
     }

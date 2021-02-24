@@ -23,11 +23,11 @@ public class TeamController {
     @Autowired
     private DBLoggingServiceImpl dbLoggingService;
 
-    final TeamServiceImpl teamServiceImpl;
+    final TeamService teamService;
 
     @Autowired
-    public TeamController(TeamServiceImpl teamServiceImpl, DBLoggingServiceImpl dbLoggingService) {
-        this.teamServiceImpl = teamServiceImpl;
+    public TeamController(TeamServiceImpl teamService, DBLoggingServiceImpl dbLoggingService) {
+        this.teamService = teamService;
         this.dbLoggingService = dbLoggingService;
     }
 
@@ -35,14 +35,14 @@ public class TeamController {
     public TeamResponse getTeam()
     {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team","GET","");
-        return teamServiceImpl.getTeam();
+        return teamService.getTeam();
     }
 
     @PostMapping("/team")
     @ResponseStatus(HttpStatus.CREATED)
     public TeamResponse createPlayer(@RequestBody TeamRequest teamRequest) {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team","POST",formatRequestForLogs(teamRequest));
-          return teamServiceImpl.createPlayer(teamRequest);
+        return teamService.createPlayer(teamRequest);
     }
 
     @PutMapping("/team")
@@ -50,20 +50,20 @@ public class TeamController {
     public TeamResponse updatePlayer(@RequestBody TeamRequest teamRequest) {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team","PUT",formatRequestForLogs(teamRequest));
         TeamEntity  teamEntity = new TeamEntity(teamRequest.getPlayerId(), teamRequest.getPlayerName(), teamRequest.getPlayerPosition());
-        return teamServiceImpl.updatePlayer(teamEntity);
+        return teamService.updatePlayer(teamEntity);
     }
 
     @GetMapping("/team/{playerId}")
     public TeamResponse getPlayer(@PathVariable(value="playerId") Integer playerId)
     {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team{"+playerId+"}","GET","");
-        return teamServiceImpl.getPlayer(playerId);
+        return teamService.getPlayer(playerId);
     }
 
     @RequestMapping(value = "/team/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
     public String getLeagueTable() {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team/league","GET","");
-        ResponseEntity<String> responseEntity =  teamServiceImpl.getLeagueTable();
+        ResponseEntity<String> responseEntity =  teamService.getLeagueTable();
         return Objects.requireNonNull(responseEntity.getBody());
     }
 
@@ -71,7 +71,7 @@ public class TeamController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public HttpStatus deletePlayer(@PathVariable(value="playerId") Integer playerId) {
         dbLoggingService.logToDatabase(new Date(System.currentTimeMillis()),"/unitedapp/team{"+playerId+"}","DELETE","");
-        return teamServiceImpl.deleteByPlayerId(playerId);
+        return teamService.deleteByPlayerId(playerId);
     }
 
     private String formatRequestForLogs(TeamRequest teamRequest) {

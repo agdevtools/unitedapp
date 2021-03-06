@@ -12,6 +12,15 @@ public class TeamRequest {
         this.playerPosition = playerPosition;
     }
 
+    @Override
+    public String toString() {
+        return "TeamRequest{" +
+                "\"playerId\":" + playerId +
+                ", \"playerName\": " + "\"" + playerName + "\" "  +
+                ", \"playerPosition\": " +  "\"" + playerPosition + "\" "  +
+                '}';
+    }
+
     public int getPlayerId() {
         return playerId;
     }

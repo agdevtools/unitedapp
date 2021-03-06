@@ -99,30 +99,14 @@ public class AspectConfig {
 
         @After("postAction()")
         public void logAction(JoinPoint joinPoint) {
-            logger.info("******** Starting Request Proxy************");
-
-            String payload = getPayload(joinPoint);
-            logger.info("Payload =  " + payload);
+            logger.info("******** Starting Request Proxy ************");
 
             final String uri = "https://unitedappapi.herokuapp.com/team";
-
             RestTemplate restTemplate = new RestTemplate();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            restTemplate.exchange(uri, HttpMethod.POST, getHttpEntity(getPayload(joinPoint)), String.class);
 
-            String[] parts = payload.split("\\{");
-            String part1 = parts[0]; // 004-
-            String part2 = parts[1]; // 034556
-            String part3 = "{" + part2;
-
-            TeamRequest teamRequest1 = new Gson().fromJson(part3, TeamRequest.class);
-            HttpEntity<TeamRequest> entity = new HttpEntity<>(teamRequest1, headers);
-
-
-            restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
-
-            logger.info("*******  Finishing REST CALL **********");
+            logger.info("*******   Finishing Request Proxy ***********");
         }
 
         private String getPayload(JoinPoint joinPoint) {
@@ -135,6 +119,18 @@ public class AspectConfig {
                 builder.append(joinPoint.getArgs()[i].toString());
             }
             return builder.toString();
+        }
+
+        private HttpEntity getHttpEntity(String requestPayload) {
+            logger.info("Payload =  " + requestPayload);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            String requestBody = requestPayload.substring(requestPayload.indexOf("{"));
+            logger.info("Calling External API with Request Body " + requestBody);
+            TeamRequest teamRequest = new Gson().fromJson(requestBody, TeamRequest.class);
+            HttpEntity<TeamRequest> httpEntity = new HttpEntity<>(teamRequest, headers);
+
+            return httpEntity;
         }
 
     }

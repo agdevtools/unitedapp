@@ -17,7 +17,6 @@ public class UnitedErrorHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> validationException(ValidationException ex){
         List<ErrorDetails> errorDetailsList = new ArrayList<>(ex.error.details);
-        //ValidationError error = new ValidationError(ex.error.code, ex.error.message, errorDetailsList);
         if(ex.status == 409) {
             ErrorResponse errorResponse = new ErrorResponse("409", errorDetailsList);
             return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);

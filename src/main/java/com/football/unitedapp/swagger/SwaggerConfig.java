@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(new ApiInfoBuilder()
-                .title("The Man United Team App")
+                .title("The UnitedApp Backend Service")
                 .description("A minimalist rest API app to demonstrate how easy it " +
                         "is to get Spring applications up and running.  ")
                 .build());

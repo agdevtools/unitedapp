@@ -78,7 +78,7 @@ public class TeamServiceImpl implements TeamService {
         return new TeamResponse("200",listOfTeamEntity);
     }
 
-    public boolean validateTeamRequest(TeamRequest teamRequest) {
+    boolean validateTeamRequest(TeamRequest teamRequest) {
         List<ErrorDetails> errorDetailsList = new ArrayList<>();
 
         if(!validatePlayerId(teamRequest.getPlayerId())) {
@@ -117,7 +117,7 @@ public class TeamServiceImpl implements TeamService {
         return !playerPosition.isEmpty() && playerPosition.matches(("^[a-zA-Z .'-]*$"));
     }
 
-    public void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{
+    void checkIfPlayerExists(TeamRequest teamRequest, String mode) throws ValidationException{
         Optional<TeamEntity> teamEntity = teamRepository.getOnePlayerRecordByPlayerId(teamRequest.getPlayerId());
         if (teamEntity.isPresent() && mode.equals("create")) {
             handleError(409);

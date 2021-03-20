@@ -45,7 +45,6 @@ class UnitedappApplicationTests {
 		} else {
 			System.setProperty("spring.profiles.active", "prod");
 		}
-
 		assertEquals("local", System.getProperty("spring.profiles.active"));
 	}
 

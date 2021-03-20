@@ -11,10 +11,9 @@ import java.util.*;
 
 public class TeamServiceImpl implements TeamService {
 
-    @Autowired
     final TeamRepository teamRepository;
 
-
+    @Autowired
     public TeamServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }

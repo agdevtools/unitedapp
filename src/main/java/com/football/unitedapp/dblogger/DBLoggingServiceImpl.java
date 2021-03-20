@@ -10,8 +10,12 @@ import java.util.Date;
 @Service
 public class DBLoggingServiceImpl implements DBLoggingService{
 
-    @Autowired
     private LogsRepository logsRepository;
+
+    @Autowired
+    public DBLoggingServiceImpl(LogsRepository logsRepository) {
+        this.logsRepository = logsRepository;
+    }
 
     public void logToDatabase(Date datestamp, String endpoint, String method, String request_body) {
         LogsEntity logsEntity = new LogsEntity(datestamp,endpoint,method,request_body);

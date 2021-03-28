@@ -1,23 +1,22 @@
 package com.football.unitedapp.util;
 
-import com.football.unitedapp.dblogger.DBLoggingServiceImpl;
+import com.football.unitedapp.dblogger.DBLoggingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
 public class KafkaConsumer {
 
-    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+    private DBLoggingService dbLoggingService;
 
     @Autowired
-    private DBLoggingServiceImpl dbLoggingService;
+    public KafkaConsumer(DBLoggingService dbLoggingService) {
+        this.dbLoggingService = dbLoggingService;
+    }
 
     private final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 

@@ -39,7 +39,7 @@ public class UnitedappApplication {
 	public static void printStack() {
 		try {
 			while (true) {
-				System.out.println("********  Still Up at " + new Date() + "  **********");
+				System.out.println("********  Still Up at heroku" + new Date() + "  **********");
 				Thread.sleep(3 * 50000);
 			}
 		} catch (InterruptedException e) {

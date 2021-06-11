@@ -6,7 +6,10 @@ plugins {
 }
 heroku {
 	appName = "unitedappapi"
+	includes = ["build/libs/unitedappapi-0.0.1-SNAPSHOT.jar"]
+	includeBuildDir = false
 }
+
 group = 'com.football'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -19,6 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation group: 'com.heroku.sdk', name: 'heroku-deploy', version: '3.0.3'
 	compile 'io.netty:netty-all:4.0.36.Final'
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile'org.springframework.boot:spring-boot-starter-security'

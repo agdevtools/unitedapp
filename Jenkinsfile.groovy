@@ -8,8 +8,11 @@ node {
             passwordVariable : 'GIT_PASS'
     ]
 
-    cleanWs()
-    stage('Build') {
+    stage('Clean Workspace') {
+        cleanWs()
+    }
+
+    stage('Checkout Build') {
         withCredentials([githubcreds]){
             checkout([
                     $class      : 'GitSCM',
@@ -23,8 +26,14 @@ node {
             ])
 
         }
-        sh './gradlew clean assemble'
     }
+
+    stage('Build') {
+
+        sh './gradlew clean build -x test'
+
+    }
+
     stage('Test') {
 
         sh './gradlew clean test --info'

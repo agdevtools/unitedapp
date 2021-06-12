@@ -12,7 +12,7 @@ node {
         cleanWs()
     }
 
-    stage('Checkout Build') {
+    stage('Git Checkout') {
         withCredentials([githubcreds]){
             checkout([
                     $class      : 'GitSCM',

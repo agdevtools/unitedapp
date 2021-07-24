@@ -2,6 +2,13 @@
 
 The unitedapp started as a Basic Spring Boot Rest Application as a means for me to learn and practice. Where possible, and where time has permitted, I have tried to adhere to good programming practices and maintained code coverage of around 80%. I have also tried to provide consistent api responses and response bodies.
 
+**Technologies used**
+
+- Java
+- Kotlin
+- React
+- Javascript
+
 Over time I have added various additional microservices and components so that the unitedapp is no longer an app but a collection of apps and ideas. You can try out the original unitedapp on its swagger page below:
 
 https://unitedappapi.herokuapp.com/swagger-ui.html#

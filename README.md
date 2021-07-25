@@ -88,5 +88,49 @@ In Highlander. There can be only one. Similarly in runbooks, **there should be o
 
 ## Adaptable
 
-The unfortunate truth about runbooks is that the minute you create them you create technical debt so teams must be encouraged to use them, update them and most of all celebrate them when they work!
+The unfortunate truth about runbooks is that the minute you create them you create technical debt. Some ways to avoid this is to:
+
+- make sure there is a clear owner of a runbook.  
+- treat a broken runbook like broken code. Fix it!
+- Encourage people to use runbooks
+- and most of all...celebrate them when they work!
+
+
+# Runbook Template
+
+What sort of information should a runbook contain?
+
+## General
+A quick description of the services.  1 to 2 sentences max.  Why does this service matter?  What is it's core functionality?  What Features does it provide users?
+
+## Dashboards and monitoring
+Links to the Dashboards for this service
+
+## Alerts
+Links to the Alerts for this service
+
+## Github
+Links to github for the repo.
+
+## Jenkins
+Links to jenkins pipeline for the repo.
+
+For Every Alert there should be a corresponding section in alphabetical order
+### Alert Title
+Alert Description:  Why do we have this alert?  What does it mean?  What is typically the cause of this alert?
+
+#### Remediation Steps:
+Checklist manifesto style steps for how to resolve this alert.  A person who has never worked on our stack should be able to follow these steps and remediate the incident.  If it cannot be remediated, include escalation steps here.
+ 1. Do this
+ 2. Check this graph
+ 3. Do this thing 
+ 4. Do this other thing
+ 5. Verify service has recovered
+ 
+## Contact Info
+Team contact info.  Potentially contact info for who to escalate to.  What services do we have dependencies on?  How do we escalate to them?  Define this information here.  
+
+## Latest Deployments
+Consider using PagerDuty's new Recent Changes functionality whicg provides contect around a service. i.e. Has there been a deployment rceently that could have caused this outage/disruption? More on this soon.
+
 

@@ -72,7 +72,7 @@ Lets take each of the abover points.
 
 ## Actionable
 
-The runbook should attempt to address specific things. For example, to respond to an Iris Alert, to Respond to a specific Grafana Alert. In the case of both there should be a runbook step with a title that maps directly to the alert is is trying to resolve.
+The runbook should attempt to address specific things. For example, to respond to an Iris Alert, to Respond to a specific Grafana Alert. In the case of both there should be a runbook step with a title that maps directly to the alert it is trying to resolve.
 
 ## Accessible
 

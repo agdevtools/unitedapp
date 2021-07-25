@@ -80,7 +80,7 @@ If you can't find the runbook or it is not accessible then it doesnt matter how 
 
 ## Accurate
 
-Needless to say if it doesnt contain truthful information thenit is worse then no runbook at all.
+Needless to say if it doesnt contain truthful information then it is worse then no runbook at all.
 
 ## Authoritative and Non Assuming
 

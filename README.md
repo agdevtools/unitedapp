@@ -58,15 +58,15 @@ No one likes writing documentation. Right? This could be because there is a lack
 
 There are five attributes of any good runbook; the five A's. They must be:
 
-- actionable. 
+- Actionable. 
 
-- accessible. 
+- Accessible. 
 
-- accurate. 
+- Accurate. 
 
-- authoritative. 
+- Authoritative & non Assuming. 
 
-- adaptable. 
+- Adaptable. 
 
 Lets take each of the abover points.
 

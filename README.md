@@ -58,28 +58,35 @@ No one likes writing documentation. Right? Mostly this is because there is a lac
 
 There are five attributes of any good runbook; the five A's. They must be:
 
-- actionable. It's nice to know the big picture and architecture of a system, but when you are looking for a runbook, you're looking to take action based on a particular situation.
+- actionable. 
 
-- accessible. If you can't find the runbook, it doesn't matter how well it is written.
+- accessible. 
 
-- accurate. If it doesn't contain truthful information, it's worse than nothing at all.
+- accurate. 
 
-- authoritative. It is confusing to have more than one runbook for any given process.
+- authoritative. 
 
-- adaptable. Systems evolve over time, and if you can't change your runbook, the drift will make it unusable.
+- adaptable. 
 
+Lets take each of the abover points.
 
+## Actionable
 
+The runbook should attempt to address specific things. For example, to respond to an Iris Alert, to Respond to a specific Grafana Alert. In the case of both there should be a runbook step with a title that maps directly to the alert is is trying to resolve.
 
+## Accessible
 
+If you can't find the runbook or it is not accessible then it doesnt matter how well it is written. It is **highly recommended** to provide a link the thr runbook in the Grafana/PagerDuty Alert. That way when a person is paged they have the runbook open right away and can begin to resolve the incident.
 
-The unitedapp started as a Basic Spring Boot Rest Application as a means for me to learn and practice. Where possible, and where time has permitted, I have tried to adhere to good programming practices and maintained code coverage of around 80%. I have also tried to provide consistent api responses and response bodies.
+## Accurate
 
-**Technologies used**
+Needless to say if it doesnt contain truthful information thenit is worse then no runbook at all.
 
-- Java
-- Kotlin
-- React
-- Javascript
+## Authoritative and Non Assuming
 
-Over time I have added various additional microservices and components so that the unitedapp is no longer an app but a collection of apps and ideas. You can try out the original unitedapp on its swagger page below:
+There should only be one runbook for each process (alert) and it should not assume prior knowledge. Include helpful links to other documentaion on how to perform tasks. This allows the experienceed engineers to quickly get to the main points whilst allowing those less familiar with the services to recive the contect they need.
+
+## Adaptable
+
+The unfortunate truth about runbooks is that the minute you create them you create technical debt so teams must be encouraged to use them, update them and most of all celebrate them when they work!
+

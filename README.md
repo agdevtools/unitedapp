@@ -95,6 +95,7 @@ The unfortunate truth about runbooks is that the minute you create them you crea
 - Encourage people to use runbooks
 - and most of all...celebrate them when they work!
 
+## -----------------------------------------------------------------------
 
 # Runbook Template
 
@@ -115,11 +116,13 @@ Links to github for the repo.
 ## Jenkins
 Links to jenkins pipeline for the repo.
 
+## List of Alerts
+
 For Every Alert there should be a corresponding section in alphabetical order
 ### Alert Title
 Alert Description:  Why do we have this alert?  What does it mean?  What is typically the cause of this alert?
 
-#### Remediation Steps:
+### Remediation Steps:
 Checklist manifesto style steps for how to resolve this alert.  A person who has never worked on our stack should be able to follow these steps and remediate the incident.  If it cannot be remediated, include escalation steps here.
  1. Do this
  2. Check this graph
@@ -127,10 +130,10 @@ Checklist manifesto style steps for how to resolve this alert.  A person who has
  4. Do this other thing
  5. Verify service has recovered
  
-## Contact Info
+### Contact Info
 Team contact info.  Potentially contact info for who to escalate to.  What services do we have dependencies on?  How do we escalate to them?  Define this information here.  
 
-## Latest Deployments
+### Latest Deployments
 Consider using PagerDuty's new Recent Changes functionality whicg provides contect around a service. i.e. Has there been a deployment rceently that could have caused this outage/disruption? More on this soon.
 
 

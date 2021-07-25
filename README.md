@@ -84,7 +84,7 @@ Needless to say if it doesnt contain truthful information then it is worse then 
 
 ## Authoritative and Non Assuming
 
-There should only be one runbook for each process (alert) and it should not assume prior knowledge. Include helpful links to other documentaion on how to perform tasks. This allows the experienceed engineers to quickly get to the main points whilst allowing those less familiar with the services to recive the contect they need.
+In Highlander. There can be only one. Similarly in runbooks, **there should be only one** runbook for each process (alert) and it should not assume prior knowledge. Include helpful links to other documentaion on how to perform tasks. This allows the experienceed engineers to quickly get to the main points whilst allowing those less familiar with the services to receive the context they need.
 
 ## Adaptable
 

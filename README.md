@@ -52,7 +52,7 @@ docker run --name postgres -e POSTGRES_HOST_AUTH_METHOD=trust  -d postgres
 
 # Why do we need them?
 
-No one likes writing documentation. Right? This could be because there is a lack of incentive of structure or engineers may be unsure of how to write good documentation. This guide will attempt to address both of these issues by explaining why we need runbooks and provide some templates and helpful tips on how to go about creating them.
+No one likes writing documentation. Right? This could be because there is a lack of incentive, structure or engineers may be unsure of how to write good documentation. This guide will attempt to address both of these issues by explaining why we need runbooks and provide some templates and helpful tips on how to go about creating them.
 
 # So what makes a good runbook?
 

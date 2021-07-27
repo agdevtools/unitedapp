@@ -25,6 +25,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'com.rabbitmq:amqp-client:5.9.0'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation group: 'com.heroku.sdk', name: 'heroku-deploy', version: '3.0.3'
 	compile 'io.netty:netty-all:4.0.36.Final'
 	compile 'org.springframework.boot:spring-boot-starter-actuator'

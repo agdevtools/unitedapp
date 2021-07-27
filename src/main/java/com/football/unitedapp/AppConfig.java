@@ -5,6 +5,8 @@ import com.football.unitedapp.team.TeamServiceImpl;
 import com.football.unitedapp.util.AspectConfig;
 import io.micrometer.core.instrument.ImmutableTag;
 import io.micrometer.core.instrument.Tag;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.boot.actuate.metrics.web.servlet.WebMvcTagsProvider;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +27,13 @@ public class AppConfig {
     @Bean
     public TeamServiceImpl teamServiceImpl(TeamRepository teamRepository) {
         return new TeamServiceImpl(teamRepository);
+    }
+
+    @Bean
+    ConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("squid.rmq.cloudamqp.com");
+        connectionFactory.setUri("amqps://cvofxaso:bh2MdB29UtcNXf7b2rwEB4gXGbmho9fV@squid.rmq.cloudamqp.com/cvofxaso");
+        return connectionFactory;
     }
 
     @Bean

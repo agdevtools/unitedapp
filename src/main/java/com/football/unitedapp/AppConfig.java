@@ -33,7 +33,7 @@ public class AppConfig {
     ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory("squid.rmq.cloudamqp.com");
         connectionFactory.setUri(System.getenv("RABBIT_URI"));
-        connectionFactory.setUri("amqps://cvofxaso:bh2MdB29UtcNXf7b2rwEB4gXGbmho9fV@squid.rmq.cloudamqp.com/cvofxaso");
+       // connectionFactory.setUri("amqps://cvofxaso:bh2MdB29UtcNXf7b2rwEB4gXGbmho9fV@squid.rmq.cloudamqp.com/cvofxaso");
         return connectionFactory;
     }
 

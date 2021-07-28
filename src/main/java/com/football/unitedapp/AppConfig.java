@@ -32,7 +32,7 @@ public class AppConfig {
     @Bean
     ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory("squid.rmq.cloudamqp.com");
-        connectionFactory.setUri("amqps://cvofxaso:bh2MdB29UtcNXf7b2rwEB4gXGbmho9fV@squid.rmq.cloudamqp.com/cvofxaso");
+        connectionFactory.setUri("${spring.rabbitmq.uri}");
         return connectionFactory;
     }
 

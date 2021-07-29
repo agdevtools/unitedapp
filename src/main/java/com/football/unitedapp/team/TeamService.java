@@ -14,7 +14,7 @@ public interface TeamService {
 
     TeamResponse updatePlayer(TeamEntity teamEntity);
 
-    ResponseEntity getLeagueTable();
+    ResponseEntity<String> getLeagueTable();
 
     HttpStatus deleteByPlayerId(int playerId);
 }

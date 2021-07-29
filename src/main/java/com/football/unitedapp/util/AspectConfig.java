@@ -69,9 +69,6 @@ public class AspectConfig {
            // @Before("execution(* com.football.unitedapp.*Controller.*(..))")
             @Before("execution(public * com.football.unitedapp.team.*Controller.get*(..))")
             public void logController2(JoinPoint joinPoint) {
-              //  Object[] args = joinPoint.getArgs();
-              //  Object arg = args[0];
-
                 logger.info("Logging controller  " + joinPoint.toString() + "  with no arg ");
 
             }

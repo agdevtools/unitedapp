@@ -22,7 +22,6 @@ public class WebSecurityConfig
     @Autowired
     private Environment env;
 
-
     @Value("${unitedPassword}")
     String password;
 

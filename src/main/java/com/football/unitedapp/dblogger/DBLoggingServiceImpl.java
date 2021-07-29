@@ -17,8 +17,8 @@ public class DBLoggingServiceImpl implements DBLoggingService{
         this.logsRepository = logsRepository;
     }
 
-    public void logToDatabase(Date datestamp, String endpoint, String method, String request_body) {
-        LogsEntity logsEntity = new LogsEntity(datestamp,endpoint,method,request_body);
+    public void logToDatabase(Date datestamp, String endpoint, String method, String requestBody) {
+        LogsEntity logsEntity = new LogsEntity(datestamp,endpoint,method,requestBody);
 
         logsRepository.save(logsEntity);
     }

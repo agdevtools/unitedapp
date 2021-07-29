@@ -92,7 +92,7 @@ public class TeamServiceImpl implements TeamService {
             errorDetailsList.add(populateErrorDetails("Player Position", "You must select a player position."));
         }
 
-        if (errorDetailsList.size() > 0) {
+        if (!errorDetailsList.isEmpty()) {
             ValidationError error = new ValidationError("Validationfailed", "There were validation errors", errorDetailsList);
             throw new ValidationException(400, error);
         }

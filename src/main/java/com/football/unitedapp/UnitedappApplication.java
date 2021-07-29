@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-
-import java.util.Date;
 import java.util.logging.Logger;
 
 @Import(AppConfig.class)
@@ -18,13 +16,11 @@ public class UnitedappApplication {
 		SpringApplication.run(UnitedappApplication.class, args);
 		logger.info("**********     Starting United Application    ***********");
 		logger.info("**********     on " + getOperatingSystem() +  " ***********");
-		printStack();
-
 	}
 
 	public static String getOperatingSystem() {
 		String os = System.getProperty("os.name");
-		System.out.println("Using System Property: " + os);
+		logger.info("Using System Property: " + os);
 		return os;
 	}
 
@@ -33,17 +29,6 @@ public class UnitedappApplication {
 			System.setProperty("spring.profiles.active", "local");
 		} else {
 			System.setProperty("spring.profiles.active", "prod");
-		}
-	}
-
-	public static void printStack() {
-		try {
-			while (true) {
-				System.out.println("********  Still Up at heroku" + new Date() + "  **********");
-				Thread.sleep(3 * 50000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import static com.football.unitedapp.UnitedappApplication.getOperatingSystem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -37,16 +37,14 @@ class UnitedappApplicationTests {
 	}
 
 	@Test
-	public void test_getOperatingSystem() {
+	public void test_setOperatingSystem_thenSetsCorrectProfile() {
 
-		String os = unitedappApplication.getOperatingSystem().toLowerCase();
-		if (os.contains("mac")) {
-			System.setProperty("spring.profiles.active", "local");
+		unitedappApplication.setOperatingSystem();
+		if (getOperatingSystem().toLowerCase().contains("mac")) {
+			assertEquals("local", System.getProperty("spring.profiles.active"));
 		} else {
-			System.setProperty("spring.profiles.active", "prod");
+			assertEquals("prod", System.getProperty("spring.profiles.active"));
 		}
-		assertEquals("local", System.getProperty("spring.profiles.active"));
 	}
-
 }
 

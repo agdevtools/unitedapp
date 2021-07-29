@@ -46,13 +46,13 @@ public class AppConfig {
 
                 tags.add(new ImmutableTag("club", "man united"));
                 tags.add(new ImmutableTag("method", request.getMethod()));
-                tags.add(new ImmutableTag("endpoint", getRequest_mapping(request)));
+                tags.add(new ImmutableTag("endpoint", getRequestMapping(request)));
                 tags.add(new ImmutableTag("status", String.valueOf(response.getStatus())));
 
                 return tags;
             }
 
-            private String getRequest_mapping(HttpServletRequest request) {
+            private String getRequestMapping(HttpServletRequest request) {
                 String reqMapping = (String) request.getAttribute("bestMatchingPattern");
                 return reqMapping == null ? "no route" : reqMapping;
             }

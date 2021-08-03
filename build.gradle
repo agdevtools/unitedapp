@@ -35,7 +35,8 @@ dependencies {
 	compile 'org.projectlombok:lombok:1.16.+'
 	compile 'io.micrometer:micrometer-core'
 	compile 'io.micrometer:micrometer-registry-prometheus'
-	implementation('com.h2database:h2')
+	testCompile "org.testcontainers:postgresql:1.10.6"
+	compile "org.postgresql:postgresql:42.2.5"
 	implementation 'org.postgresql:postgresql'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

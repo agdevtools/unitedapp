@@ -1,6 +1,6 @@
 node {
     def gitRepository = 'https://github.com/agdevtools/unitedapp.git/'
-    def gitBranch = '*/master'
+    def gitBranch = '*/add-docker-test-container'
     def githubcreds = [
             $class      : 'UsernamePasswordMultiBinding',
             credentialsId : 'githubcreds',

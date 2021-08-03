@@ -5,6 +5,7 @@ import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.ErrorDetails;
 import com.football.unitedapp.util.ValidationError;
 import com.football.unitedapp.util.ValidationException;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,7 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +52,26 @@ public class ControllerTests {
         MockitoAnnotations.initMocks(this);
         mockMvc = standaloneSetup(new TeamController(teamServiceImpl,dbLoggingService))
                 .build();
+    }
+
+
+    @Rule
+    public PostgreSQLContainer postgresContainer = new PostgreSQLContainer();
+
+    @Test
+    public void whenSelectQueryExecuted_thenResulstsReturned()
+            throws Exception {
+        String jdbcUrl = postgresContainer.getJdbcUrl();
+        String username = postgresContainer.getUsername();
+        String password = postgresContainer.getPassword();
+        Connection conn = DriverManager
+                .getConnection(jdbcUrl, username, password);
+        ResultSet resultSet =
+                conn.createStatement().executeQuery("SELECT 1");
+        resultSet.next();
+        int result = resultSet.getInt(1);
+
+        assertEquals(1, result);
     }
 
     @Test

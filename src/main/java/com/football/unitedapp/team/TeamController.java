@@ -21,7 +21,7 @@ public class TeamController {
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
     @Autowired
-    private DBLoggingServiceImpl dbLoggingService;
+    private final DBLoggingServiceImpl dbLoggingService;
 
     final TeamService teamService;
 

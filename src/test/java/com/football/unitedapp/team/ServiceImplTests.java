@@ -178,6 +178,7 @@ public class ServiceImplTests {
                 teamServiceImpl.validateTeamRequest(new TeamRequest(0,"Test","Test"));
             } catch (ValidationException ex) {
                 List<ErrorDetails> expectedErrorList = new ArrayList<>();
+
                 expectedErrorList.addAll(ex.getError().getDetails());
                 assertEquals(1,expectedErrorList.size());
                 assertEquals("PlayerId cannot be empty and must be a number greater than zero",expectedErrorList.get(0).getMessage());

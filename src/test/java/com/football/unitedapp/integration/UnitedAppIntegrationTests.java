@@ -1,12 +1,19 @@
 package com.football.unitedapp.integration;
 
 import com.football.unitedapp.UnitedappApplication;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.sql.Connection;
@@ -15,11 +22,11 @@ import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ActiveProfiles("test")
-@SpringBootTest(classes = {UnitedappApplication.class})
-@WebAppConfiguration
-@ContextConfiguration
-public class UnitedAppIntegrationTests {
+//@ActiveProfiles("test")
+//@SpringBootTest(classes = {UnitedappApplication.class})
+//@WebAppConfiguration
+//@ContextConfiguration
+//public class UnitedAppIntegrationTests {
 
 //    @Autowired
 //    private WebApplicationContext webApplicationContext;
@@ -54,23 +61,50 @@ public class UnitedAppIntegrationTests {
 //
 //    }
 
-    @Rule
-    public PostgreSQLContainer postgresContainer = new PostgreSQLContainer();
+    @RunWith(SpringRunner.class)
+    @SpringBootTest
+    @ContextConfiguration(initializers = {UnitedAppIntegrationTests.Initializer.class})
+    public class UnitedAppIntegrationTests  {
 
-    @Test
-    public void whenSelectQueryExecuted_thenResulstsReturned()
-            throws Exception {
-        String jdbcUrl = postgresContainer.getJdbcUrl();
-        String username = postgresContainer.getUsername();
-        String password = postgresContainer.getPassword();
-        Connection conn = DriverManager
-                .getConnection(jdbcUrl, username, password);
-        ResultSet resultSet =
-                conn.createStatement().executeQuery("SELECT 1");
-        resultSet.next();
-        int result = resultSet.getInt(1);
+        @ClassRule
+        public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
+                .withDatabaseName("integration-tests-db")
+                .withUsername("sa")
+                .withPassword("sa");
 
-        assertEquals(1, result);
+        static class Initializer
+                implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+            public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+                TestPropertyValues.of(
+                        "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                        "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                        "spring.datasource.password=" + postgreSQLContainer.getPassword()
+                ).applyTo(configurableApplicationContext.getEnvironment());
+            }
+        }
+
+        @Test
+        @Transactional
+        public void givenUsersInDB_WhenUpdateStatusForNameModifyingQueryAnnotationJPQL_ThenModifyMatchingUsers(){
+            insertUsers();
+            int updatedUsersSize = userRepository.updateUserSetStatusForName(0, "SAMPLE");
+            assertThat(updatedUsersSize).isEqualTo(2);
+        }
+
+        @Test
+        @Transactional
+        public void givenUsersInDB_WhenUpdateStatusForNameModifyingQueryAnnotationNative_ThenModifyMatchingUsers(){
+            insertUsers();
+            int updatedUsersSize = userRepository.updateUserSetStatusForNameNative(0, "SAMPLE");
+            assertThat(updatedUsersSize).isEqualTo(2);
+        }
+
+        private void insertUsers() {
+            userRepository.save(new User("SAMPLE", "email@example.com", 1));
+            userRepository.save(new User("SAMPLE1", "email2@example.com", 1));
+            userRepository.save(new User("SAMPLE", "email3@example.com", 1));
+            userRepository.save(new User("SAMPLE3", "email4@example.com", 1));
+            userRepository.flush();
+        }
     }
 
-}

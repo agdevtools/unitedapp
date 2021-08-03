@@ -1,6 +1,6 @@
 node {
     def gitRepository = 'https://github.com/agdevtools/unitedapp.git/'
-    def gitBranch = '*/master'
+    def gitBranch = '*/add-embedded-h2'
     def githubcreds = [
             $class      : 'UsernamePasswordMultiBinding',
             credentialsId : 'githubcreds',

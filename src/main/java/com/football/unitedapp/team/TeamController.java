@@ -2,7 +2,6 @@ package com.football.unitedapp.team;
 
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.AspectConfig;
-import com.football.unitedapp.util.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,11 +16,7 @@ import java.util.Objects;
 @RestController
 public class TeamController {
 
-
     final TeamServiceImpl teamServiceImpl;
-
-    @Autowired
-    private S3Service s3Service;
 
     @Autowired
     public TeamController(TeamServiceImpl teamServiceImpl) {
@@ -61,22 +55,6 @@ public class TeamController {
         return teamServiceImpl.getPlayer(playerId);
     }
 
-    @GetMapping("/s3/buckets")
-    public String getBuckets()
-    {
-        return s3Service.getBuckets();
-    }
-
-    @GetMapping("/s3/download")
-    public String downloadFile() throws IOException {
-        return s3Service.downloadFile();
-    }
-
-    @GetMapping("/s3/details")
-    public  List<TeamEntity>getFileDetails() throws IOException {
-        return s3Service.getFileDetails();
-    }
-
     @RequestMapping(value = "/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)
     public String getLeagueTable() {
         ResponseEntity<String> responseEntity =  teamServiceImpl.getLeagueTable();
@@ -87,6 +65,12 @@ public class TeamController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public HttpStatus deletePlayer(@PathVariable(value="playerId") Integer playerId) {
         return teamServiceImpl.deleteByPlayerId(playerId);
+    }
+
+    @GetMapping("/team/copy")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void copyTable() {
+        teamServiceImpl.copyTable();
     }
 
     public boolean validateTeamRequest(TeamRequest teamRequest) {

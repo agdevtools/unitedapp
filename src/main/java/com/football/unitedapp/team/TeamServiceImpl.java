@@ -59,4 +59,8 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.save(teamEntity);
         return new TeamResponse(HttpStatus.OK,teamEntity.playerId,teamEntity.playerName);
     }
+
+    public void copyTable() { teamRepository.copyTable();
+    }
+
 }

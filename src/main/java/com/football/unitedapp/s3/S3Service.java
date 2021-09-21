@@ -1,4 +1,4 @@
-package com.football.unitedapp.util;
+package com.football.unitedapp.s3;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -10,9 +10,11 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.football.unitedapp.repository.TeamEntity;
+import com.football.unitedapp.team.TeamService;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -29,8 +31,11 @@ public class S3Service {
             "HHvrrPZrGdgVbFI+UApMjVNZCJwKiRop57Rw4c+Z"
     );
 
+    @Autowired
+    final TeamService teamService;
+
     private static final String bucketName = "united-bucket";
-    private static final String pathName = "/Users/armandgaillard/united.csv";
+    private static final String pathName = "/Users/armandgaillard/united3.csv";
     public static final String PREFIX = "stream2file";
     public static final String SUFFIX = ".tmp";
 
@@ -39,6 +44,11 @@ public class S3Service {
             .withCredentials(new AWSStaticCredentialsProvider(credentials))
             .withRegion(Regions.US_EAST_1)
             .build();
+
+    @Autowired
+    public S3Service(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
 
     public String getBuckets() {
@@ -52,7 +62,7 @@ public class S3Service {
     }
 
     public String downloadFile() throws IOException {
-        S3Object s3object = s3client.getObject(bucketName, "united.csv");
+        S3Object s3object = s3client.getObject(bucketName, "united3.csv");
         S3ObjectInputStream inputStream = s3object.getObjectContent();
         FileUtils.copyInputStreamToFile(inputStream, new File(pathName));
 
@@ -60,16 +70,24 @@ public class S3Service {
     }
 
     public List getFileDetails() throws IOException {
-    //    beans.forEach(System.out::println);
-
         return new CsvToBeanBuilder(new FileReader(getFile()))
                 .withType(TeamEntity.class)
                 .build()
                 .parse();
     }
 
+
+    public void processFile() throws IOException {
+        List<TeamEntity> players = new CsvToBeanBuilder(new FileReader(getFile()))
+                .withType(TeamEntity.class)
+                .build()
+                .parse();
+
+        players.forEach(player -> teamService.createPlayer(player));
+    }
+
     private File getFile() throws IOException {
-        S3Object s3object = s3client.getObject(bucketName, "united.csv");
+        S3Object s3object = s3client.getObject(bucketName, "united3.csv");
         S3ObjectInputStream inputStream = s3object.getObjectContent();
 
         final File tempFile = File.createTempFile(PREFIX, SUFFIX);

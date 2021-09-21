@@ -28,7 +28,7 @@ public class WebSecurityConfig
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/actuator/**","/team/**","/s3/**","/s3File/**","/delete/**","/newplayer/**","/team").permitAll()
+                .antMatchers("/actuator/**","/team/**","/s3/**","/delete/**","/newplayer/**","/team").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

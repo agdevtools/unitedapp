@@ -1,11 +1,8 @@
 package com.football.unitedapp.team;
 
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.football.unitedapp.repository.TeamEntity;
 import com.football.unitedapp.util.AspectConfig;
 import com.football.unitedapp.util.S3Service;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -13,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -65,15 +61,20 @@ public class TeamController {
         return teamServiceImpl.getPlayer(playerId);
     }
 
-    @GetMapping("/s3")
+    @GetMapping("/s3/buckets")
     public String getBuckets()
     {
         return s3Service.getBuckets();
     }
 
-    @GetMapping("/s3File")
-    public String getFile() throws IOException {
-        return s3Service.getFile();
+    @GetMapping("/s3/download")
+    public String downloadFile() throws IOException {
+        return s3Service.downloadFile();
+    }
+
+    @GetMapping("/s3/details")
+    public  List<TeamEntity>getFileDetails() throws IOException {
+        return s3Service.getFileDetails();
     }
 
     @RequestMapping(value = "/league", produces = MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.GET)

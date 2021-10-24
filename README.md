@@ -50,90 +50,21 @@ docker run --name postgres -e POSTGRES_HOST_AUTH_METHOD=trust  -d postgres
 
 ## -----------------------------------------------------------------------
 
-# Why do we need them?
 
-No one likes writing documentation. Right? This could be because there is a lack of incentive, structure or engineers may be unsure of how to write good documentation. This guide will attempt to address both of these issues by explaining why we need runbooks and provide some templates and helpful tips on how to go about creating them.
+# Table of contents
+1. [Introduction](#introduction)
+2. [Some paragraph](#paragraph1)
+    1. [Sub paragraph](#subparagraph1)
+3. [Another paragraph](#paragraph2)
 
-# So what makes a good runbook?
+## This is the introduction <a name="introduction"></a>
+Some introduction text, formatted in heading 2 style
 
-There are five attributes of any good runbook; the five A's. They must be:
+## Some paragraph <a name="paragraph1"></a>
+The first paragraph text
 
-- Actionable. 
+### Sub paragraph <a name="subparagraph1"></a>
+This is a sub paragraph, formatted in heading 3 style
 
-- Accessible. 
-
-- Accurate. 
-
-- Authoritative & non Assuming. 
-
-- Adaptable. 
-
-Lets take each of the abover points.
-
-## Actionable
-
-The runbook should attempt to address specific things. For example, to respond to an Iris Alert, to Respond to a specific Grafana Alert. In the case of both there should be a runbook step with a title that maps directly to the alert it is trying to resolve.
-
-## Accessible
-
-If you can't find the runbook or it is not accessible then it doesnt matter how well it is written. It is **highly recommended** to provide a link the thr runbook in the Grafana/PagerDuty Alert. That way when a person is paged they have the runbook open right away and can begin to resolve the incident.
-
-## Accurate
-
-Needless to say if it doesnt contain truthful information then it is worse then no runbook at all.
-
-## Authoritative and Non Assuming
-
-In Highlander. There can be only one. Similarly in runbooks, **there should be only one** runbook for each process (alert) and it should not assume prior knowledge. Include helpful links to other documentaion on how to perform tasks. This allows the experienceed engineers to quickly get to the main points whilst allowing those less familiar with the services to receive the context they need.
-
-## Adaptable
-
-The unfortunate truth about runbooks is that the minute you create them you create technical debt. Some ways to avoid this is to:
-
-- make sure there is a clear owner of a runbook.  
-- treat a broken runbook like broken code. Fix it!
-- Encourage people to use runbooks
-- and most of all...celebrate them when they work!
-
-## -----------------------------------------------------------------------
-
-# Runbook Template
-
-What sort of information should a runbook contain?
-
-## General
-A quick description of the services.  1 to 2 sentences max.  Why does this service matter?  What is it's core functionality?  What Features does it provide users?
-
-## Dashboards and monitoring
-Links to the Dashboards for this service
-
-## Alerts
-Links to the Alerts for this service
-
-## Github
-Links to github for the repo.
-
-## Jenkins
-Links to jenkins pipeline for the repo.
-
-## List of Alerts
-
-For Every Alert there should be a corresponding section in alphabetical order
-#### Alert Title
-Alert Description:  Why do we have this alert?  What does it mean?  What is typically the cause of this alert?
-
-#### Remediation Steps:
-Checklist manifesto style steps for how to resolve this alert.  A person who has never worked on our stack should be able to follow these steps and remediate the incident.  If it cannot be remediated, include escalation steps here.
- 1. Do this
- 2. Check this graph
- 3. Do this thing 
- 4. Do this other thing
- 5. Verify service has recovered
- 
-#### Contact Info
-Team contact info.  Potentially contact info for who to escalate to.  What services do we have dependencies on?  How do we escalate to them?  Define this information here.  
-
-#### Latest Deployments
-Consider using PagerDuty's new Recent Changes functionality whicg provides contect around a service. i.e. Has there been a deployment rceently that could have caused this outage/disruption? More on this soon.
-
-
+## Another paragraph <a name="paragraph2"></a>
+The second paragraph text
